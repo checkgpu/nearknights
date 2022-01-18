@@ -1,6 +1,8 @@
 # NEAR Knights
 
-A NEAR Progressive Battler RPG with NFTs.
+A NEAR Progressive Battler RPG with NFTs.  
+  
+https://nearknights.com/
 
 ## Contracts
 Contains the NFT marketplace built on NEAR  
