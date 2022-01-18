@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="theme-color" content="#000000">
+    <title>NEAR Knights</title>
+	<!--
+      manifest.json provides metadata used when your web app is added to the
+      homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/
+    -->
+	<link rel="manifest" href="%PUBLIC_URL%/manifest.json">
+	<link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+	<!--
+      Notice the use of %PUBLIC_URL% in the tags above.
+      It will be replaced with the URL of the `public` folder during the build.
+      Only files inside the `public` folder can be referenced from the HTML.
+
+      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
+      work correctly both with client-side routing and a non-root public URL.
+      Learn how to configure a non-root public URL by running `npm run build`.
+    -->
+      <link rel="stylesheet" href="/assets/ui/ingame.css">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+      <link rel="stylesheet" href="/assets/ui/reset.css">
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+      <script src="https://unpkg.com/deepmerge@4.2.2/dist/umd.js" crossorigin="anonymous"></script>
+      
+</head>
+
+<body style="margin: 30px;  overflow-y: hidden;  overflow-x: hidden;  height: 100vh; ">
+	<noscript>
+		You need to enable JavaScript to run this app.
+	</noscript>
+	<div id="root"></div>
+
+
+    <div id="overlay" style="display: none">
+      <section class="header">
+        <div class="main-header">
+          <div class="left-head">
+            <div class="exp-bars">
+              <div class="red-bar">
+                <p>1278/1278</p>
+              </div>
+              <div class="blue-bar">
+                <p>731/731</p>
+              </div>
+            </div>
+            <div class="skills">
+              <div class="green-skills">
+                <div>
+                  <img src="/assets/ui/active2.png" alt="">
+                </div>
+                <div>
+                  <img src="/assets/ui/active3.png" alt="">
+                </div>
+                <div>
+                  <img src="/assets/ui/active4.png" alt="">
+                </div>
+                <div>
+                  <img src="/assets/ui/active10.png" alt="">
+                </div>
+                
+              </div>
+              <div class="blue-skills">
+                <div>
+                  <img src="/assets/ui/passive1.png" alt="">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="mid-head">
+            <div>
+              <img class="diamond-icon" src="/assets/ui/near_icon_wht.png" alt="">
+            </div>
+            <div>
+              <p>0</p>
+            </div>
+            <div>
+              <img src="/assets/ui/close.png" class="head-plus" alt="">
+            </div>
+            <div>
+              <img src="/assets/ui/coin.png" alt="">
+            </div>
+            <div>
+              <p>228,786</p>
+            </div>
+          </div>
+          <div class="right-head">
+            <div>
+              <i class="fas fa-globe-americas"></i>
+            </div>
+            <div>
+              <p class="head-market">World Market</p>
+            </div>
+              <span class="head-divider"> | </span>
+              <div>
+                <img src="/assets/ui/balance.png" alt="">
+              </div>
+              <div>
+                <p>Server Market</p>
+              </div>
+              <div>
+                <img src="/assets/ui/exit.png" alt="">
+              </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div id="overlay" style="display: none">
+      <section class="header">
+        <div class="main-header">
+          <div class="left-head">
+            <div class="exp-bars">
+              <div class="red-bar">
+                <p>1278/1278</p>
+              </div>
+              <div class="blue-bar">
+                <p>731/731</p>
+              </div>
+            </div>
+            <div class="skills">
+              <div class="green-skills">
+                <div>
+                  <img src="/assets/ui/active2.png" alt="">
+                </div>
+                <div>
+                  <img src="/assets/ui/active3.png" alt="">
+                </div>
+                <div>
+                  <img src="/assets/ui/active4.png" alt="">
+                </div>
+                <div>
+                  <img src="/assets/ui/active10.png" alt="">
+                </div>
+                
+              </div>
+              <div class="blue-skills">
+                <div>
+                  <img src="/assets/ui/passive1.png" alt="">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="mid-head">
+            <div>
+              <img class="diamond-icon" src="/assets/ui/near_icon_wht.png" alt="">
+            </div>
+            <div>
+              <p>0</p>
+            </div>
+            <div>
+              <img src="/assets/ui/close.png" class="head-plus" alt="">
+            </div>
+            <div>
+              <img src="/assets/ui/coin.png" alt="">
+            </div>
+            <div>
+              <p>228,786</p>
+            </div>
+          </div>
+          <div class="right-head">
+            <div>
+              <i class="fas fa-globe-americas"></i>
+            </div>
+            <div>
+              <p class="head-market">World Market</p>
+            </div>
+              <span class="head-divider"> | </span>
+              <div>
+                <img src="/assets/ui/balance.png" alt="">
+              </div>
+              <div>
+                <p>Server Market</p>
+              </div>
+              <div>
+                <img src="/assets/ui/exit.png" alt="">
+              </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="top-navbar">
+        <div class="navbar">
+          <div id="navbarMenu" class="nav-left">
+            <div class="navbar-item navbar-active tablinks" onclick="openTab(event, 'Search')">
+              <p>Search</p>
+            </div>
+            <div class="navbar-item tablinks" onclick="openTab(event, 'Sell')">
+              <p>Sell</p>
+            </div>
+            <div class="navbar-item"><p>Claim Earnings</p></div>
+            <div class="navbar-item"><p>History</p></div>
+          </div>
+          <div class="nav-right">
+            <div><b>Current Tax Rate 8%</b><span> (Castle Tax Rate 5% + Basic Tax Rate 3%)</span></div>
+          </div>
+        </div>
+      </section>
+    <!-- -------------  Search tab start ------------------- -->
+      <section class="search-tab tabcontent" id="Search" style="display: block;">
+          <section class="sidebar">
+            <div id="sidebarMenu" class="main-sidebar">
+              <div class="sidebar-item"><p>Main</p></div>
+              <div class="sidebar-item"><p>All</p></div>
+              <div class="sidebar-item sidebar-active">
+                <p>Weapon</p> 
+                <span>Sword</span>
+              </div>
+              <div class="sidebar-item"><p>Armor</p></div>
+              <div class="sidebar-item"><p>Accessory</p></div>
+              <div class="sidebar-item"><p>Skillbook</p></div>
+              <div class="sidebar-item"><p>Consumable</p></div>
+              <div class="sidebar-item"><p>Other</p></div>
+            </div>
+          </section>
+
+          <section class="filter">
+            <div class="main-filter">
+              <div class="select-div">
+                <select>
+                  <option disabled selected>Filter</option>
+                  <option value="">All</option>
+                  <option value="">Sword</option>
+                  <option value="">Greatsword</option>
+                  <option value="">Chainblade</option>
+                  <option value="">Dual Blades</option>
+                  <option value="">Spear</option>
+                  <option value="">Dagger</option>
+                  <option value="">Bow</option>
+                </select>
+              </div>
+              <div>
+                <input type="text" placeholder="Enter search term.">
+              </div>
+              <div class="refresh-div">
+                <button class="refresh-btn"><i class="fas fa-redo-alt"></i></button>
+              </div>
+            </div>
+          </section>
+
+          <section class="item-container">
+            <div class="items">
+              <table class="customTable">
+                <thead>
+                  <tr>
+                    <th colspan="2">Favorites</th>
+                    <th>Item</th>
+                    <th>Minimum Price</th>
+                    <th>Merchandise List</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="td-fav"><i class="far fa-star"></i></td>
+                    <td><img src="/assets/ui/active1.png" alt=""></td>
+                    <td>
+                      <p class="td-title">Keshanberk</p>
+                      <span class="td-detail">Weapon Damage +17 / Accuracy +4 / Extra Damage +2</span>
+                    </td>
+                    <td class="table-price">
+                      <img src="/assets/ui/near_icon_wht.png" alt=""> 
+                      <p>22</p>
+                    </td>
+                    <td class="merch-list">4</td>
+                  </tr>
+                  <tr>
+                    <td class="td-fav"><i class="far fa-star"></i></td>
+                    <td><img src="/assets/ui/active1.png" alt=""></td>
+                    <td>
+                      <p class="td-title">Keshanberk</p>
+                      <span class="td-detail">Weapon Damage +17 / Accuracy +4 / Extra Damage +2</span>
+                    </td>
+                    <td class="table-price">
+                      <img src="/assets/ui/near_icon_wht.png"    alt="">
+                      <p>22</p>
+                    </td>
+                    <td class="merch-list">4</td>
+                  </tr>
+                  <tr>
+                    <td class="td-fav"><i class="far fa-star"></i></td>
+                    <td><img src="/assets/ui/active1.png" alt=""></td>
+                    <td>
+                      <p class="td-title">Keshanberk</p>
+                      <span class="td-detail">Weapon Damage +17 / Accuracy +4 / Extra Damage +2</span>
+                    </td>
+                    <td class="table-price">
+                      <img src="/assets/ui/near_icon_wht.png"    alt="">
+                      <p>22</p>
+                    </td>
+                    <td class="merch-list">4</td>
+                  </tr>
+                  <tr>
+                    <td class="td-fav"><i class="far fa-star"></i></td>
+                    <td><img src="/assets/ui/active1.png" alt=""></td>
+                    <td>
+                      <p class="td-title">Keshanberk</p>
+                      <span class="td-detail">Weapon Damage +17 / Accuracy +4 / Extra Damage +2</span>
+                    </td>
+                    <td class="table-price">
+                      <img src="/assets/ui/near_icon_wht.png"    alt="">
+                      <p>22</p>
+                    </td>
+                    <td class="merch-list">4</td>
+                  </tr>
+                  <tr>
+                    <td class="td-fav"><i class="far fa-star"></i></td>
+                    <td><img src="/assets/ui/active1.png" alt=""></td>
+                    <td>
+                      <p class="td-title">Keshanberk</p>
+                      <span class="td-detail">Weapon Damage +17 / Accuracy +4 / Extra Damage +2</span>
+                    </td>
+                    <td class="table-price">
+                      <img src="/assets/ui/near_icon_wht.png"    alt="">
+                      <p>22</p>
+                    </td>
+                    <td class="merch-list">4</td>
+                  </tr>
+                  <tr>
+                    <td class="td-fav"><i class="far fa-star"></i></td>
+                    <td><img src="/assets/ui/active1.png" alt=""></td>
+                    <td>
+                      <p class="td-title">Keshanberk</p>
+                      <span class="td-detail">Weapon Damage +17 / Accuracy +4 / Extra Damage +2</span>
+                    </td>
+                    <td class="table-price">
+                      <img src="/assets/ui/near_icon_wht.png"    alt="">
+                      <p>22</p>
+                    </td>
+                    <td class="merch-list">4</td>
+                  </tr>
+                  <tr>
+                    <td class="td-fav"><i class="far fa-star"></i></td>
+                    <td><img src="/assets/ui/active1.png" alt=""></td>
+                    <td>
+                      <p class="td-title">Keshanberk</p>
+                      <span class="td-detail">Weapon Damage +17 / Accuracy +4 / Extra Damage +2</span>
+                    </td>
+                    <td class="table-price">
+                      <img src="/assets/ui/near_icon_wht.png"    alt="">
+                      <p>22</p>
+                    </td>
+                    <td class="merch-list">4</td>
+                  </tr>
+                  <tr>
+                    <td class="td-fav"><i class="far fa-star"></i></td>
+                    <td><img src="/assets/ui/active1.png" alt=""></td>
+                    <td>
+                      <p class="td-title">Keshanberk</p>
+                      <span class="td-detail">Weapon Damage +17 / Accuracy +4 / Extra Damage +2</span>
+                    </td>
+                    <td class="table-price">
+                      <img src="/assets/ui/near_icon_wht.png"    alt="">
+                      <p>22</p>
+                    </td>
+                    <td class="merch-list">4</td>
+                  </tr>
+                  <tr>
+                    <td class="td-fav"><i class="far fa-star"></i></td>
+                    <td><img src="/assets/ui/active1.png" alt=""></td>
+                    <td>
+                      <p class="td-title">Keshanberk</p>
+                      <span class="td-detail">Weapon Damage +17 / Accuracy +4 / Extra Damage +2</span>
+                    </td>
+                    <td class="table-price">
+                      <img src="/assets/ui/near_icon_wht.png"    alt="">
+                      <p>22</p>
+                    </td>
+                    <td class="merch-list">4</td>
+                  </tr>
+                  <tr>
+                    <td class="td-fav"><i class="far fa-star"></i></td>
+                    <td><img src="/assets/ui/active1.png" alt=""></td>
+                    <td>
+                      <p class="td-title">Keshanberk</p>
+                      <span class="td-detail">Weapon Damage +17 / Accuracy +4 / Extra Damage +2</span>
+                    </td>
+                    <td class="table-price">
+                      <img src="/assets/ui/ear_icon_wht.png"    alt="">
+                      <p>22</p>
+                    </td>
+                    <td class="merch-list">4</td>
+                  </tr>
+                  <tr>
+                    <td class="td-fav"><i class="far fa-star"></i></td>
+                    <td><img src="/assets/ui/active1.png" alt=""></td>
+                    <td>
+                      <p class="td-title">Keshanberk</p>
+                      <span class="td-detail">Weapon Damage +17 / Accuracy +4 / Extra Damage +2</span>
+                    </td>
+                    <td class="table-price">
+                      <img src="/assets/ui/near_icon_wht.png"    alt="">
+                      <p>22</p>
+                    </td>
+                    <td class="merch-list">4</td>
+                  </tr>
+                  <tr>
+                    <td class="td-fav"><i class="far fa-star"></i></td>
+                    <td><img src="/assets/ui/active1.png" alt=""></td>
+                    <td>
+                      <p class="td-title">Keshanberk</p>
+                      <span class="td-detail">Weapon Damage +17 / Accuracy +4 / Extra Damage +2</span>
+                    </td>
+                    <td class="table-price">
+                      <img src="/assets/ui/near_icon_wht.png" alt="">
+                      <p>22</p>
+                    </td>
+                    <td class="merch-list">4</td>
+                  </tr>
+                  <tr>
+                    <td class="td-fav"><i class="far fa-star"></i></td>
+                    <td><img src="/assets/ui/active1.png" alt=""></td>
+                    <td>
+                      <p class="td-title">Keshanberk</p>
+                      <span class="td-detail">Weapon Damage +17 / Accuracy +4 / Extra Damage +2</span>
+                    </td>
+                    <td class="table-price">
+                      <img src="/assets/ui/near_icon_wht.png"    alt="">
+                      <p>22</p>
+                    </td>
+                    <td class="merch-list">4</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="footer">
+              <div>
+                <button>Refresh</button>
+              </div>
+            </div>
+          </section>
+      </section>
+    <!-- -------------  Search tab End ------------------- -->
+
+    <!-- -------------  Sell tab start ------------------- -->
+      <section class="sell-tab tabcontent" id="Sell" style="display: none;">
+        <div class="sell-container">
+          <div class="left-sell">
+            <div class="left-sell-header">
+              <ul >
+                <li>Item</li>
+                <li>Reforge Options(s)</li>
+                <li>Price</li>
+                <li>Status</li>
+              </ul>
+            </div>
+            <div class="left-sell-body">  
+                <img src="/assets/ui/balance.png" alt="">
+                <p>No items are on sale. Select an item to sell from your Bag.</p>
+
+            </div>
+          </div>
+          <div class="right-sell">
+            <div id="sellRightMenu" class="right-sell-head">
+              <div class="sell-right-item right-sell-active"><p>ALL</p></div>
+              <div class="sell-right-item"><img src="/assets/ui/helmet.png" alt=""></div>
+              <div class="sell-right-item"><img src="/assets/ui/block.png" alt=""></div>
+              <div class="sell-right-item"><img src="/assets/ui/money-bag.png" alt=""></div>
+            </div>
+            <div class="right-sell-body">
+              <div class="sell-body-row">
+                <div class="sell-body-col">
+                  <img class="myBtn" src="/assets/ui/active2.png" alt="">
+                  <img class="myBtn" src="/assets/ui/active2.png" alt="">
+                  <img class="myBtn"  src="/assets/ui/active2.png" alt="">
+                  <img class="myBtn" src="/assets/ui/active2.png" alt="">
+                </div>
+                <div class="sell-body-col">
+                  <img class="myBtn" src="/assets/ui/active2.png" alt="">
+                  <img class="myBtn" src="/assets/ui/active2.png" alt="">
+                  <img class="myBtn" src="/assets/ui/active2.png" alt="">
+                  <img class="myBtn" src="/assets/ui/active2.png" alt="">
+                </div>
+                <div class="sell-body-col">
+                  <img class="myBtn" src="/assets/ui/active2.png" alt="">
+                  <img class="myBtn" src="/assets/ui/active2.png" alt="">
+                  <img class="myBtn" src="/assets/ui/active2.png" alt="">
+                  <img class="myBtn" src="/assets/ui/active2.png" alt="">
+                </div>
+                <div class="sell-body-col">
+                  <img class="myBtn" src="/assets/ui/active2.png" alt="">
+                  <img class="myBtn" src="/assets/ui/active2.png" alt="">
+                  <img class="myBtn" src="/assets/ui/active2.png" alt="">
+                  <img class="myBtn" src="/assets/ui/active2.png" alt="">
+                </div>
+                <div class="sell-body-col">
+                  <img class="myBtn" src="/assets/ui/active2.png" alt="">
+                  <img class="myBtn" src="/assets/ui/active2.png" alt="">
+                  <img class="myBtn" src="/assets/ui/active2.png" alt="">
+                  <img class="myBtn" src="/assets/ui/active2.png" alt="">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- The Modal -->
+        <div id="myModal" class="modal">
+            <!-- Modal content -->
+            <div class="modal-content">
+              <!-- <span class="close">&times;</span> -->
+              <div class="top-modal-content">
+                <div>
+                  <img src="/assets/ui/passive1.png" alt="">
+                </div>
+                <div class="top-col-modal">
+                  <p>Ol Mahum Warlock's Orb</p>
+                  <b>Current Tax Rate 8%</b><span> (Castle Tax Rate 5% + Basic Tax Rate 3%)</span>
+                </div>
+              </div>
+              <div class="mid-modal-content">
+                <div class="mid-modal-left">
+                  <p class="mid-modal-left-title">Orb</p>
+                  <div class="mid-modal-two-row">
+                    <img src="/assets/ui/spark.png" alt="">
+                    <p>Weapon Damage +6</p>
+                  </div>
+                  <div class="mid-modal-two-row">
+                    <img src=" " alt="" style="opacity: 0;">
+                    <p>Double Chance +10%</p>
+                  </div>
+                  <div class="mid-modal-two-row">
+                    <img src=" " alt="" style="opacity: 0;">
+                    <p>Max MP +30</p>
+                  </div>
+                  <div class="mid-modal-two-row">
+                    <img src="/assets/ui/chess.png" alt="">
+                    <p>Jewelry</p>
+                  </div>
+                  <div class="mid-modal-two-row">
+                    <img src="/assets/ui/bag.png" alt="">
+                    <p>50</p>
+                  </div>
+                  <div class="mid-modal-two-row">
+                    <img src="" alt="" style="opacity: 0;">
+                    <p>1</p>
+                  </div>
+                </div>
+                <div class="mid-modal-right">
+                  <p class="mid-modal-left-title">
+                    Market Price <span><i class="far fa-clock"></i> Last 28 days</span>
+                  </p>
+                  <div class="mid-modal-two-row right-mid-modal">
+                    <p>Minimum Trade Price</p>
+                    <img src="/assets/ui/diamond.png" alt="">
+                    <span>0</span>
+                  </div>
+                  <div class="mid-modal-two-row right-mid-modal">
+                    <p>Maximum Trade Price</p>
+                    <img src="/assets/ui/diamond.png" alt="">
+                    <span>0</span>
+                  </div>
+                  <div class="mid-modal-two-row right-mid-modal">
+                    <p>Average Trade Price</p>
+                    <img src="/assets/ui/diamond.png" alt="">
+                    <span>0</span>
+                  </div>
+                  <div class="mid-modal-two-row right-mid-modal">
+                    <p>Last Trade Price</p>
+                    <img src="/assets/ui/diamond.png" alt="">
+                    <span>0</span>
+                  </div>
+                  <div class="mid-modal-two-row right-mid-modal">
+                    <p>Minimum Trade Price</p>
+                    <img src="/assets/ui/diamond.png" alt="">
+                    <span>0</span>
+                  </div>
+                </div>
+              </div>
+              <div class="bottom-modal-content">
+                <div class="bottom-modal-left">
+                  <div>
+                    <p>Quantity</p>
+                    <input type="text" value="1">
+                  </div>
+                  <div>
+                    <p>Price Per Unit</p>
+                    <div>
+                      <span>10</span>
+                      <img src="/assets/ui/diamond.png" alt="">
+                    </div>
+                  </div>
+                  <hr class="hr-style">
+                  <div class="total-price-div">
+                    <p>Total Price</p>
+                    <input class="total-input" type="text" value="10">
+                    <img src="/assets/ui/diamond.png" alt="">
+                  </div>
+                </div>
+                <div class="bottom-modal-right">
+                  <div class="cal-input">
+                    <button id="cal-minus"><i class="fas fa-minus"></i></button>
+                    <input id="cal-display" type="text" value="10">
+                    <button id="cal-plus"><i class="fas fa-plus"></i></button>
+                  </div>
+                  <div>
+                    <table >
+                      <tbody>
+                      <tr>
+                      <td><button class="cal-btn">7</button></td>
+                      <td><button class="cal-btn">8</button></td>
+                      <td><button class="cal-btn">9</button></td>
+                      <td><button class="cal-btn">←</button></td>
+                      </tr>
+                      <tr>
+                      <td><button class="cal-btn">4</button></td>
+                      <td><button class="cal-btn">5</button></td>
+                      <td><button class="cal-btn">6</button></td>
+                      <td><button class="cal-btn">MAX</button></td>
+                      </tr>
+                      <tr>
+                      <td><button class="cal-btn">1</button></td>
+                      <td><button class="cal-btn">2</button></td>
+                      <td><button class="cal-btn">3</button></td>
+                      <td><button class="cal-btn">0</button></td>
+                      </tr>
+                      </tbody>
+                      </table>
+                  </div>
+                </div>
+              </div>
+              <div class="bottom-modal-bottom">
+                <button class="close">Cancel</button>
+                <button>Confirm</button>
+              </div>
+            </div>
+        </div>
+        <div class="footer">  
+            <div>
+              <p>Sell</p>
+              <span>0/30</span>
+            </div>
+            <div>
+              <p>Total Price</p>
+              <img src="/assets/ui/diamond.png" alt=""> 
+              <span>0</span>
+            </div>
+         
+        </div>
+      </section>
+    </div>
+
+</body>
+<script src="script.js"></script>
+<script>
+    var canvas;
+    window.drag_down = false;
+    window.last_x = null;
+    window.last_y = null;
+        //.addEventListener("click", e=> console.log("aa"))
+    function find_canvas() {
+        canvas = document.getElementsByTagName("canvas")[0]
+        window.canvas = canvas;
+        if (!canvas) {
+            setTimeout(find_canvas, 30);
+        } else {
+            found_canvas();
+        }
+    }
+    setTimeout(find_canvas, 30);
+
+    function zoom(e) {
+        if (!window.scene)
+            return;
+        if (e.deltaY < 0 && window.scene.cameras.main.zoom < 1.3) {
+            window.scene.cameras.main.zoom += 0.1
+        }
+        if (e.deltaY > 0 && window.scene.cameras.main.zoom > 0.9) {
+            window.scene.cameras.main.zoom -= 0.1
+        }
+    }
+
+    function pointer_down(e) {
+        window.drag_down = true;
+        window.last_x = e.offsetX
+        window.last_y = e.offsetY
+    }
+    function pointer_up(e) {
+        window.drag_down = false;
+        window.last_x = null
+        window.last_y = null
+    }
+    function pointer_move(e) {
+        if (!window.drag_down)
+            return;
+        var deltaX = window.last_x - e.offsetX
+        var deltaY = window.last_y - e.offsetY
+        window.last_x = e.offsetX
+        window.last_y = e.offsetY
+        var new_camera_x = window.scene.cameras.main.x - deltaX;
+        if (new_camera_x > 0)
+            new_camera_x = 0
+        var new_camera_y = window.scene.cameras.main.y - deltaY;
+        if (new_camera_y > 0)
+            new_camera_y = 0
+        //if (new_camera_y > 10 || new_camera_x > 10) {
+          window.scene.cameras.main.x = new_camera_x;
+          window.scene.cameras.main.y = new_camera_y;
+        //}
+        //console.log(window.scene.cameras.main.x, window.scene.cameras.main.y)
+    }
+
+    function found_canvas() {
+        window.scene.cameras.main.zoom = 1.2
+        window.scene.cameras.main.y = -100
+        canvas.addEventListener('wheel', zoom);
+        canvas.addEventListener('pointerdown', pointer_down);
+        canvas.addEventListener('pointerup', pointer_up);
+        canvas.addEventListener('pointerleave', pointer_up);
+        canvas.addEventListener('pointermove', pointer_move);
+    }
+
+    function wtf(e) {
+        console.log(e)
+    }
+
+</script>
+</html>

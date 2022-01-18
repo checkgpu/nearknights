@@ -1,0 +1,18 @@
+{
+  "name": "lkr",
+  "version": "0.0.1",
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "build": "asb",
+    "build:debug": "asb --target debug",
+    "test": "asp --nologo"
+  },
+  "dependencies": {
+    "asc": "^2.0.2",
+    "near-sdk-as": "^3.2.3"
+  },
+  "devDependencies": {
+    "shelljs": "^0.8.4"
+  }
+}

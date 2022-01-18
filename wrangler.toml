@@ -1,0 +1,11 @@
+name = "nearknights"
+type = "webpack"
+account_id = "20bf2f5d11d26a322e389687896a6601"
+workers_dev = true
+route = "nearknights.com/*"
+zone_id = "dbb092bc9d3ecb9f9dd163fed2c46436"
+
+[site]
+bucket = "./website/build"
+entry-point = "workers-site"
+include = ["**/*"]
