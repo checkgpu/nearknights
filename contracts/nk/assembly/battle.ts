@@ -1,22 +1,23 @@
 import { context, PersistentMap, PersistentSet, u128, storage, env, util, logging } from "near-sdk-as"
+import { Char, Item } from "./model_game";
+const heroMap = new PersistentMap<string, Char>("heroMap");
 
-/*
-strength
-dexterity
-intelligence
+export function create_knight(): Char {
+    var hero = heroMap.get(context.sender)
+    if (hero == null) {
+        hero = new Char();
+        heroMap.set(context.sender, hero);
+        return hero;
+    } else {
+       return hero; 
+    }
+}
 
-damage
-armorclass
-hit
-*/
+export function equip(id: u64): Char {
 
-/*
-monsters:
-goblin
-*/
+}
 
-export function battle(location: u64): Array<string> {
-  let owner = context.sender;
-  logging.log(`battle ${owner} ${location}`)
+export function battle(location: i32): Array<string> {
+  const hero = heroMap.getSome(context.sender)
   return []
 }

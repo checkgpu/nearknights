@@ -5,7 +5,7 @@ A NEAR Progressive Battler RPG with NFTs.
 https://nearknights.com/
 
 ## Contracts
-Contains the NFT marketplace built on NEAR  
+Contains the NFT (MultiFungible) marketplace built on NEAR  
 Contains the NEAR Knights battle contracts  
 Missing is the battle formulas (these are secret sauce that make the game fun)  
 

@@ -2,10 +2,11 @@ import { u128 } from "near-sdk-as";
 
 @nearBindgen
 export class AuctionItem {
-  token_id: u64 = 0;
+  sale_id: u64 = 0;
   owner_id: string = "";
   index: u64 = 0;
   price: u128 = u128.Zero;
+  amount: u64 = 0;
   block_listed: u64 = 0;
 };
 
