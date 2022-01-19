@@ -1,6 +1,7 @@
 import { context, PersistentMap, PersistentSet, u128, ContractPromise, storage, env, util, logging } from "near-sdk-as"
 import { NFTMetadata, TokenMetadata } from "./model";
 import { Char } from "./model_game";
+import { CombatStep } from "./battle";
 
 import { 
     init as init_i,
@@ -22,15 +23,17 @@ import {
 
 import { 
     battle as battle_i,
-    create_knight as create_knight_i
+    create_knight as create_knight_i,
+    create_knight_override as create_knight_override_i
 }  from './battle';
 
 export function create_knight(): Char {
-  return create_knight_i();
+  return create_knight_override_i();
 }
 
-export function battle(location: i32): Array<string> {
-  return battle_i(location)
+export function battle(location: i32, count: i32): Array<CombatStep> {
+  let battle_steps = battle_i(location, count)
+  return battle_steps;
 }
 
 //NEP-171
