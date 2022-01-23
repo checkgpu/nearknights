@@ -7,7 +7,6 @@ https://nearknights.com/
 ## Contracts
 Contains the NFT (MultiFungible) marketplace built on NEAR  
 Contains the NEAR Knights battle contracts  
-Missing is the battle formulas (these are secret sauce that make the game fun)  
 
 ## Website
 Contains the frontend UX + JS NFT marketplace code  

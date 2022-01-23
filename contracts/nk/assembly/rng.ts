@@ -1,29 +1,5 @@
 import { math } from "near-sdk-as"
 
-/*
-function rng() {
-    int i;
-    seed = seed * 2053 + 13849;
-    i = (seed % max) + 1;
-}
-
-struct xorshift128p_state {
-  uint64_t x[2];
-};
-
-uint64_t xorshift128p(struct xorshift128p_state *state)
-{
-    uint64_t t = state->x[0];
-    uint64_t const s = state->x[1];
-    state->x[0] = s;
-    t ^= t << 23;       // a
-    t ^= t >> 18;       // b -- Again, the shifts and the multipliers are tunable
-    t ^= s ^ (s >> 5);  // c
-    state->x[1] = t;
-    return t + s;
-}
-*/
-
 function uint8ArrayToU64(data: Uint8Array): u64 {
     return (
       ((0xff & data[0]) << 56) |
@@ -45,7 +21,6 @@ export function rng_xorshift128p_seed(): Array<u64> {
     return seed;
 }
 
-//TODO what happens if this goes out of bounds (rollover or becomes bigint)
 function rng_xorshift128p_round(seed: Array<u64>): u64 {
     let t = seed[0]
     let s = seed[1]
