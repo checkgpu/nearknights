@@ -1,6 +1,6 @@
 import { globalState, setGlobalState } from "./state.js"
-import { nk_fight } from "./near.js"
-import { hurt_mob, hurt_char } from "./App.js"
+import { nk_battle, nk_hero, near_login } from "./near.js"
+import { hurt_mob, hurt_char, move_knight } from "./App.js"
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -8,11 +8,30 @@ function sleep(ms) {
 
 export async function api_fight() {
     console.log("fight")
+    if (!window.accountId) {
+        near_login();
+        return;
+    }
     var location = globalState.location;
+    var count = globalState.count;
+    if (window.infight || location == 0)
+        return
+    window.infight = true;
+    var steps = await nk_battle(location, count)
+    var ts_m = Date.now()
+    steps = steps.map(step=> {return {...step, tick: step.tick + ts_m}})
+    await fight_stepper(steps);
+    window.infight = false;
+}
+
+export async function api_fight_simulator() {
+    console.log("fight")
+    var location = globalState.location;
+    var count = globalState.count;
     if (window.infight)
         return
     window.infight = true;
-    //var res = await nk_fight(location)
+    var res = await nk_battle(location)
     var ts_m = Date.now()
     var steps = [
         {action: "appear_mob", "id": 3, "hp": 25, tick: 0},
@@ -28,80 +47,6 @@ export async function api_fight() {
         {action: "gain_item", id: "23", count: 1, tick: 2200},
         {action: "update_stat", stat: {hp_cur: 144, hp_max: 187, level: 3}, tick: 2200},
     ]
-    steps = [
-  { action: 'appear_mob', id: 1, hp: 56, tick: 0 },
-  { action: 'slash_mob', dam: 2, tick: 0 },
-  { action: 'slash_char', dam: 2, tick: 500 },
-  { action: 'slash_mob', dam: 1, tick: 1000 },
-  { action: 'slash_char', dam: 5, tick: 1500 },
-  { action: 'slash_mob', dam: 1, tick: 2000 },
-  { action: 'slash_char', dam: 3, tick: 2500 },
-  { action: 'slash_mob', dam: 0, tick: 3000 },
-  { action: 'slash_char', dam: 4, tick: 3500 },
-  { action: 'slash_mob', dam: 1, tick: 4000 },
-  { action: 'slash_char', dam: 3, tick: 4500 },
-  { action: 'slash_mob', dam: 2, tick: 5000 },
-  { action: 'slash_char', dam: 3, tick: 5500 },
-  { action: 'slash_mob', dam: 1, tick: 6000 },
-  { action: 'slash_char', dam: 0, tick: 6500 },
-  { action: 'slash_mob', dam: 1, tick: 7000 },
-  { action: 'slash_char', dam: 2, tick: 7500 },
-  { action: 'slash_mob', dam: 3, tick: 8000 },
-  { action: 'slash_char', dam: 3, tick: 8500 },
-  { action: 'slash_mob', dam: 2, tick: 9000 },
-  { action: 'slash_char', dam: 2, tick: 9500 },
-  { action: 'slash_mob', dam: 0, tick: 10000 },
-  { action: 'slash_char', dam: 1, tick: 10500 },
-  { action: 'slash_mob', dam: 2, tick: 11000 },
-  { action: 'slash_char', dam: 1, tick: 11500 },
-  { action: 'slash_mob', dam: 1, tick: 12000 },
-  { action: 'slash_char', dam: 4, tick: 12500 },
-  { action: 'slash_mob', dam: 2, tick: 13000 },
-  { action: 'slash_char', dam: 3, tick: 13500 },
-  { action: 'slash_mob', dam: 0, tick: 14000 },
-  { action: 'slash_char', dam: 5, tick: 14500 },
-  { action: 'slash_mob', dam: 2, tick: 15000 },
-  { action: 'slash_char', dam: 1, tick: 15500 },
-  { action: 'slash_mob', dam: 1, tick: 16000 },
-  { action: 'slash_char', dam: 5, tick: 16500 },
-  { action: 'slash_mob', dam: 1, tick: 17000 },
-  { action: 'slash_char', dam: 3, tick: 17500 },
-  { action: 'slash_mob', dam: 2, tick: 18000 },
-  { action: 'slash_char', dam: 3, tick: 18500 },
-  { action: 'slash_mob', dam: 3, tick: 19000 },
-  { action: 'slash_char', dam: 3, tick: 19500 },
-  { action: 'slash_mob', dam: 3, tick: 20000 },
-  { action: 'slash_char', dam: 1, tick: 20500 },
-  { action: 'slash_mob', dam: 3, tick: 21000 },
-  { action: 'slash_char', dam: 3, tick: 21500 },
-  { action: 'slash_mob', dam: 0, tick: 22000 },
-  { action: 'slash_char', dam: 3, tick: 22500 },
-  { action: 'slash_mob', dam: 2, tick: 23000 },
-  { action: 'slash_char', dam: 4, tick: 23500 },
-  { action: 'slash_mob', dam: 0, tick: 24000 },
-  { action: 'slash_char', dam: 1, tick: 24500 },
-  { action: 'slash_mob', dam: 3, tick: 25000 },
-  { action: 'slash_char', dam: 1, tick: 25500 },
-  { action: 'slash_mob', dam: 1, tick: 26000 },
-  { action: 'slash_char', dam: 0, tick: 26500 },
-  { action: 'slash_mob', dam: 2, tick: 27000 },
-  { action: 'slash_char', dam: 1, tick: 27500 },
-  { action: 'slash_mob', dam: 2, tick: 28000 },
-  { action: 'slash_char', dam: 3, tick: 28500 },
-  { action: 'slash_mob', dam: 2, tick: 29000 },
-  { action: 'slash_char', dam: 4, tick: 29500 },
-  { action: 'slash_mob', dam: 2, tick: 30000 },
-  { action: 'slash_char', dam: 1, tick: 30500 },
-  { action: 'slash_mob', dam: 2, tick: 31000 },
-  { action: 'slash_char', dam: 4, tick: 31500 },
-  { action: 'slash_mob', dam: 3, tick: 32000 },
-  { action: 'slash_char', dam: 4, tick: 32500 },
-  { action: 'slash_mob', dam: 3, tick: 33000 },
-  { action: 'dead_mob', tick: 33000 },
-  { action: 'gain_gold', amount: 2, tick: 0 },
-  { action: 'gain_exp', amount: 80, tick: 0 },
-  { action: 'update_stat', stat: { hp_cur: 34 }, tick: 0 }
-]
 
     console.log(steps)
     steps = steps.map(step=> {return {...step, tick: step.tick + ts_m}})
@@ -134,19 +79,103 @@ async function fight_step(step) {
             setGlobalState({mob: {id: step.id, hp_cur: step.hp, hp_max: step.hp}})
             return;
         case "dead_mob":
-            window.health_bar.remove()
+            if (window.health_bar)
+                window.health_bar.remove()
             window.health_bar = null;
             setGlobalState({mob: null})
+            return;
+        case "dead_char":
+            var hero = await nk_hero()
+            if (window.health_bar)
+                window.health_bar.remove()
+            window.health_bar = null;
+            move_knight(0, window.setKnightPoint, true)
+            setGlobalState({mob: null, hero: hero, autohunt: false})
             return;
         case "update_stat":
             setGlobalState({stat: step.stat})
             return;
 
         case "slash_mob":
-            hurt_mob(step.dam);
+            hurt_mob(step.type, step.dam);
             return;
         case "slash_char":
-            hurt_char(step.dam);
+            hurt_char(step.type, step.dam);
             return
+
+        case "gain_gold":
+            setGlobalState({hero: {gold: Number(globalState.hero.gold) + step.amount}})
+            return
+        case "gain_exp":
+            setGlobalState({hero: {exp: Number(globalState.hero.exp) + step.amount}})
+            return
+        case "gain_item":
+            //step.id step.amount
+            //setGlobalState({resources: {exp: globalState.resources.exp + step.amount}})
+            return
+
+        case "level":
+            var hero = await nk_hero()
+            setGlobalState({hero: hero})
+            return
+
+        case "heal":
+            var type = step.type
+            if (type == "r") {
+                setGlobalState({hero: {red_potion: Number(globalState.hero.red_potion) - 1, hp_cur: Number(globalState.hero.hp_cur) + step.amount}})
+            }
+            return
+    }
+}
+
+export function level_table(exp) {
+    switch (true) {
+        case exp >= 1059315: return 21
+        case exp >= 810742: return 20
+        case exp >= 616993: return 19
+        case exp >= 466542: return 18
+        case exp >= 350209: return 17
+        case exp >= 260690: return 16
+        case exp >= 192183: return 15
+        case exp >= 140089: return 14
+        case exp >= 100767: return 13
+        case exp >= 71343: return 12
+        case exp >= 49554: return 11
+        case exp >= 33619: return 10
+        case exp >= 22146: return 9
+        case exp >= 14047: return 8
+        case exp >= 8472: return 7
+        case exp >= 4767: return 6
+        case exp >= 2421: return 5
+        case exp >= 1044: return 4
+        case exp >= 333: return 3
+        case exp >= 50: return 2
+        case exp >= 0: return 1
+    }
+}
+
+export function level_table_perc(exp) {
+    switch (true) {
+        case exp >= 1059315: return 100
+        case exp >= 810742: return ((exp-810742)/(1059315-810742)) * 100
+        case exp >= 616993: return ((exp-616993)/(810742-616993)) * 100
+        case exp >= 466542: return ((exp-466542)/(616993-466542)) * 100
+        case exp >= 350209: return ((exp-350209)/(466542-350209)) * 100
+        case exp >= 260690: return ((exp-260690)/(350209-260690)) * 100
+        case exp >= 192183: return ((exp-192183)/(260690-192183)) * 100
+        case exp >= 140089: return ((exp-140089)/(192183-140089)) * 100
+        case exp >= 100767: return ((exp-100767)/(140089-100767)) * 100
+        case exp >= 71343: return ((exp-71343)/(100767-71343)) * 100
+        case exp >= 49554: return ((exp-49554)/(71343-49554)) * 100
+        case exp >= 33619: return ((exp-33619)/(49554-33619)) * 100
+        case exp >= 22146: return ((exp-22146)/(33619-22146)) * 100
+        case exp >= 14047: return ((exp-14047)/(22146-14047)) * 100
+        case exp >= 8472: return ((exp-8472)/(14047-8472)) * 100
+        case exp >= 4767: return ((exp-4767)/(8472-4767)) * 100
+        case exp >= 2421: return ((exp-2421)/(4767-2421)) * 100
+        case exp >= 1044: return ((exp-1044)/(2421-1044)) * 100
+        case exp >= 333: return ((exp-333)/(1044-333)) * 100
+        case exp >= 50: return ((exp-50)/(333-50)) * 100
+        case exp >= 0: return ((exp-0)/50) * 100
     }
 }

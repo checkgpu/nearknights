@@ -21,17 +21,13 @@ export var initialState = {
       balance: "0",
       orders: [],
     },
-    resources: {
-        gold: 100000,
-        diamond: 80,
-    },
-    stat: {
-        hp_cur: 120,
-        hp_max: 120,
+    hero: {
     },
     x: 1230,
     y: 710,
     location: 0,
+    count: 1,
+    autohunt: false,
     mob: null
 };
 

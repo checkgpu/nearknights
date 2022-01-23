@@ -1,9 +1,10 @@
-import React, { useRef, useState, useLayoutEffect } from "react";
+import React, { useRef, useState, useLayoutEffect, useEffect } from "react";
 import { Game, Scene, Text, useScene, Sprite } from "react-phaser-fiber";
 import { GameOverlay } from "./game_overlay";
 import { FloatingNumbersPlugin } from "./FloatingNumbersPlugin";
 
-import { buildInitialState, wireUpGlobalState, globalState, setGlobalState, doNav} from "./state.js"
+import { initContract } from "./near.js"
+import { buildInitialState, wireUpGlobalState, globalState, setGlobalState, doNav } from "./state.js"
 
 class HealthBar {
     constructor (scene, x, y, max, cur)
@@ -70,13 +71,13 @@ class HealthBar {
 window.HealthBar = HealthBar;
 
 const regions = {
-  1: {name: "Village", x: 1220, y: 790, icon: "worldmap_village"},
-  2: {Name: "Goblin Forest", x: 1020, y: 780, text: {x: 960, y: 830, label: "Goblin Forest"}},
-  3: {name: "Orc Beach", x: 920, y: 930, text: {x: 880, y: 960, label: "Orc Beach"}},
-  4: {name: "Orc Fort", locked: true, x: 880, y: 1260, text: {x: 840, y: 1290, label: "Orc Fort"}},
-  5: {id: 5},
-  6: {id: 6},
-  7: {id: 7},
+  0: {name: "Village", x: 1220, y: 790, icon: "worldmap_village"},
+  1: {Name: "Goblin Forest", x: 1020, y: 780, text: {x: 960, y: 830, label: "Goblin Forest"}},
+  2: {name: "Orc Beach", x: 920, y: 930, text: {x: 880, y: 960, label: "Orc Beach"}},
+  3: {name: "Orc Fort", locked: true, x: 880, y: 1260, text: {x: 840, y: 1290, label: "Orc Fort"}},
+  4: {id: 5},
+  5: {id: 6},
+  6: {id: 7},
 }
 
 const polymorphs = {
@@ -85,10 +86,15 @@ const polymorphs = {
 
 const monsters = {
   1: {texture: "Goblin Grunt", x: 120, y: 10},
-  2: {texture: "Goblin Raider", x: 120, y: 13},
-  3: {texture: "Goblin Archer", x: 120, y: 20},
-  100: {texture: "Goblin Elite", x: 160, y: 15, xhp: 60},
-  1000: {texture: "Boss Continental Turtle Rukkha", x: 160, y: 15, xhp: 20, yhp: -30},
+  2: {texture: "Goblin Archer", x: 120, y: 20},
+  3: {name: "Goblin Spear", texture: "Kobolds Spear Kobold", x: 120, y: 13},
+  4: {texture: "Goblin Elite", x: 160, y: 15, xhp: 60},
+  5: {texture: "Goblin Mage", x: 160, y: 15, xhp: 60},
+
+  10: {texture: "Orc Sword Warrior", x: 120, y: 10},
+  11: {texture: "Orc Axe Warrior", x: 120, y: 10},
+  12: {texture: "Orc Archer", x: 120, y: 10},
+  13: {texture: "Orc Warlock", x: 120, y: 10},
 }
 
 const quests = {
@@ -103,8 +109,8 @@ const quests = {
   100: {name: "Goblin King", desc: "End the rein of the Goblin King", total: 1},
 }
 
-function move_knight(area, setKnightPoint) {
-  if (window.infight)
+export function move_knight(area, setKnightPoint, force) {
+  if (window.infight && !force)
     return
   var x = regions[area].x
   var y = regions[area].y
@@ -162,8 +168,15 @@ export default function App() {
   const [s, hook_setGlobalState0] = useState(buildInitialState());
   wireUpGlobalState(s, hook_setGlobalState0);
 
-  const [count, setCount] = useState(0);
+  useEffect(() => {
+    if (!window.inited) {
+      window.inited = true;
+      initContract();
+    }
+  });
+
   const [[kx,ky], setKnightPoint] = useState([1230, 710]);
+  window.setKnightPoint = setKnightPoint;
 
   var mob = s.mob;
 
@@ -185,9 +198,18 @@ export default function App() {
           scene.load.image('Goblin Grunt', '/assets/battler/front/Goblin Grunt.png')
           scene.load.image('Goblin Raider', '/assets/battler/front/Goblin Raider.png')
           scene.load.image('Goblin Archer', '/assets/battler/front/Goblin Archer.png')
+          scene.load.image('Kobolds Spear Kobold', '/assets/battler/front/Kobolds Spear Kobold.png')
           scene.load.image('Goblin Elite', '/assets/battler/front/Goblin Elite.png')
+          scene.load.image('Goblin Mage', '/assets/battler/front/Goblin Mage.png')
+
+          scene.load.image('Orc Sword Warrior', '/assets/battler/front/Orc Sword Warrior.png')
+          scene.load.image('Orc Axe Warrior', '/assets/battler/front/Orc Axe Warrior.png')
+          scene.load.image('Orc Archer', '/assets/battler/front/Orc Archer.png')
+          scene.load.image('Orc Warlock', '/assets/battler/front/Orc Warlock.png')
+
           scene.load.image('Boss Continental Turtle Rukkha', '/assets/battler/front/Boss Continental Turtle Rukkha.png')
         }}
+
         renderLoading={progress => (
           <Text
             x={100}
@@ -204,12 +226,12 @@ export default function App() {
         <Sprite texture="Elf_Knight_Sword" scale={{x: 0.48, y: 0.48}} x={kx} y={ky} />
         {mob ? <MonsterSprite id={mob.id} scale={{x: 0.48, y: 0.48}} x={kx} y={ky} /> : null}
 
-        <ClickableSprite onClick={()=> move_knight(1, setKnightPoint)} texture="worldmap_village" scale={{x: 0.8, y: 0.8}} x={1220} y={790} />
+        <ClickableSprite onClick={()=> move_knight(0, setKnightPoint)} texture="worldmap_village" scale={{x: 0.8, y: 0.8}} x={1220} y={790} />
 
-        <ClickableSprite onClick={()=> move_knight(2, setKnightPoint)} texture="worldmap_field" scale={{x: 0.8, y: 0.8}} x={1020} y={780} />
+        <ClickableSprite onClick={()=> move_knight(1, setKnightPoint)} texture="worldmap_field" scale={{x: 0.8, y: 0.8}} x={1020} y={780} />
         <Text text="Goblin Forest" x={960} y={820} />
 
-        <ClickableSprite onClick={()=> move_knight(3, setKnightPoint)} texture="worldmap_field" scale={{x: 0.8, y: 0.8}} x={920} y={930} />
+        <ClickableSprite onClick={()=> move_knight(2, setKnightPoint)} texture="worldmap_field" scale={{x: 0.8, y: 0.8}} x={920} y={930} />
         <Text text="Orc Beach" x={880} y={960} />
 
         <Sprite texture="worldmap_question" scale={{x: 0.12, y: 0.12}} x={880} y={1260} />
@@ -220,7 +242,7 @@ export default function App() {
   ]);
 }
 
-export function hurt_mob(dam) {
+export function hurt_mob(type, dam) {
   if (!globalState.mob)
     return;
   var {x, y, xhp, yhp} = monsters[globalState.mob.id]
@@ -231,21 +253,29 @@ export function hurt_mob(dam) {
       window.scene, globalState.x+x-xhp-40, globalState.y-(window.mob.height/3)-yhp, 
       globalState.mob.hp_max, globalState.mob.hp_cur)
   }
-  if (!dam) {
-    proc_npc_damage(globalState.x+x-xhp, globalState.y-(window.mob.height/2)-yhp, "miss")
+  if (type == "m") {
+    proc_char_damage(globalState.x-10-20, globalState.y-90, "miss")
   } else {
     window.health_bar.decrease(dam)
     proc_npc_damage(globalState.x+x-xhp, globalState.y-(window.mob.height/2)-yhp, dam)
   }
 }
 
-export function hurt_char(dam) {
-  if (!dam) {
-    proc_char_damage(globalState.x-10, globalState.y-90, "evade")
-  } else {
-    setGlobalState({stat: {hp_cur: globalState.stat.hp_cur-Number(dam)}})
-    proc_char_damage(globalState.x-10, globalState.y-90, dam)
+export function hurt_char(type, dam) {
+  var {x, y, xhp, yhp} = monsters[globalState.mob.id]
+  if (!xhp) { xhp = 0; }
+  if (!yhp) { yhp = 0; }
+
+  if (type == "m") {
+    proc_miss(globalState.x+x-xhp-20, globalState.y-(window.mob.height/2)-yhp)
+    return
   }
+  if (type == "e") {
+    proc_char_damage(globalState.x-10-20, globalState.y-90, "evade")
+    return
+  }
+  setGlobalState({hero: {hp_cur: globalState.hero.hp_cur-dam}})
+  proc_char_damage(globalState.x-10, globalState.y-90, dam)
 }
 
 function MonsterSprite({ id, ...props }) {

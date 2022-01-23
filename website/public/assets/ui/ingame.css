@@ -8,6 +8,7 @@
   position: fixed;
 }
 
+
 /* global variables */
 :root{
   /* color */
@@ -42,6 +43,17 @@ img{
   max-width: 100%;
   height: auto;
 }
+.testBtn{
+  position: absolute; 
+  left: 0; 
+  right: 0; 
+  top: 0;
+  height: 50px;
+  bottom: 0;
+  margin:auto;
+  width: 100px; /* Need a specific value to work */
+}
+
 /*-------- header ------------*/
 .header{
   /* background: var(--header-bg);
@@ -58,19 +70,41 @@ img{
 .left-head{
   display: flex;
 }
+.red-bar-con{
+  background-color: black;
+  position: relative;
+  width: 200px;
+}
 .red-bar{
  background-color: var(--red-bar);
  padding: 0 2px;
- width: 200px;
+ width: 80%;
  text-align: center;
+ height: 24px;
+}
+.red-bar-con p{
+position:absolute;
+left: 45%;
+bottom:0;
+}
+.blue-bar-con{
+  background-color: black;
+  position: relative;
+  width: 200px;
 }
 .blue-bar{
   background-color: var(--blue-bar);
   padding: 0 2px;
   margin-top: 2px;
-  width: 200px;
+  width: 50%;
   text-align: center;
+  height: 24px;
  }
+ .blue-bar-con p{
+  position:absolute;
+  left: 50%;
+  bottom:0;
+  }
 .green-skills{
   display: flex;
   margin-left: 12px;
@@ -101,7 +135,7 @@ img{
   justify-content: start;
 }
 .powers img{
-  width: 15px;
+  width: 20px;
   margin-right: 5px;
 }
 
@@ -148,6 +182,14 @@ img{
  }
 
 /* mid  right*/
+.mid-right{
+  right: 0;
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 80vh;
+}
 .objective{
   margin-top: 1rem;
   height: 300px;
@@ -254,9 +296,9 @@ background: radial-gradient(circle, rgba(165,42,42,0.23) 0%, rgba(165,42,42,0.5)
 .footer{
   position: fixed;
   bottom: 0;
-  /* background-color: cadetblue; */
   width: 100%;
-  margin-bottom: 2rem;
+  /* margin-bottom: 1rem; */
+  
 }
 .footer-div{
   display: flex;
@@ -306,6 +348,9 @@ background: radial-gradient(circle, rgba(165,42,42,0.23) 0%, rgba(165,42,42,0.5)
   align-items: center;
   position: relative;
 }
+.footer-right-img{
+  margin-right: 2rem !important;
+}
 .footer-circle-bg p{
   position: absolute;
   font-size: 12px;
@@ -336,14 +381,32 @@ background: radial-gradient(circle, rgba(165,42,42,0.23) 0%, rgba(165,42,42,0.5)
   border: 2px solid white;
   padding: 3px;
 }
-
+.footer-xp-bar{
+  background-color: goldenrod;
+  opacity: 0.7 !important;
+  width: 100%;
+  height: 10px;
+  margin-bottom: 0px;
+  padding-bottom: 0;
+}
+.footer-xp-con{
+  background-color: rgb(48, 45, 40);
+  width: 100%;
+  opacity: 0.7;
+}
 
 /* ------media query--------- */
 
 /* Landscape 940 */
 @media only screen and (max-width: 941px) 
 and (orientation: landscape){
-    .red-bar, .blue-bar{
+  .red-bar-con, .blue-bar-con {
+    height: 20px !important;
+    }
+  .red-bar, .blue-bar {
+    height: 20px !important;
+    }
+    .red-bar-con, .blue-bar-con{
       width: 150px !important;
     }
     .red-bar, .blue-bar p{
@@ -425,10 +488,12 @@ and (orientation: landscape){
 /* Landscape 760 */
  @media only screen and (max-width: 761px) 
 and (orientation: landscape){
-    
-
-    .red-bar{
-      width: 100px ;
+  .red-bar-con, .blue-bar-con {
+   
+    height: 20px;
+    }
+  .red-bar, .blue-bar {
+    height: 20px !important;
     }
     .red-bar, .blue-bar p{
       font-size: 11px;
@@ -463,6 +528,13 @@ and (orientation: landscape){
 }  
 
 @media only screen  and  (max-width: 772px) {
+  .red-bar-con, .blue-bar-con {
+    
+    height: 20px !important;
+    }
+  .red-bar, .blue-bar {
+    height: 20px !important;
+    }
   .main-header{
     padding-top: 0.5rem;
   }
@@ -559,8 +631,21 @@ and (orientation: landscape){
 }
 
  @media only screen and (max-height: 700px){
-  .red-bar, .blue-bar {
+  .red-bar-con, .blue-bar-con {
     width: 100px !important;
+    height: 20px;
+    }
+  .red-bar, .blue-bar {
+    height: 20px !important;
+    }
+    .red-bar-con p{
+      left: 40%;
+    }
+    .blue-bar-con p{
+      left: 40%;
+    }
+    .red-bar-con, .blue-bar-con p{
+      font-size: 12px;
     }
     .mid-head p{
       font-size: 12px;
@@ -583,6 +668,12 @@ and (orientation: landscape){
 } 
 /* landscape height 455 */
 @media only screen and (max-height: 500px)  {
+  .red-bar-con, .blue-bar-con {
+    height: 16px !important;
+    }
+  .red-bar, .blue-bar {
+    height: 16px !important;
+    }
   .objective{
     margin-top: 0.2rem;
     height: 130px;
@@ -607,7 +698,7 @@ and (orientation: landscape){
     margin-top: 1rem;
   }
   .footer{
-    margin-bottom: 0;
+    margin-bottom: 0px;
   }
   .col-3 img{
    width: 32px; 

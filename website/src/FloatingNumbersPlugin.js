@@ -100,7 +100,6 @@ export class FloatingNumbersPlugin {
 
         let _config = Object.assign(this.configObj, config);
         let textObj = {};
-        console.log(_config);
         // check text type //
         if (_config.textType === "normal") {
             textObj = this.scene.add.text(config.x, config.y, _config.text, _config.textOptions);
@@ -120,7 +119,7 @@ export class FloatingNumbersPlugin {
 
             textObj.isAnimating = false;
 
-            console.log(_config.parentObject.x, _config.parentObject.y, textObj.x, textObj.y);
+            //console.log(_config.parentObject.x, _config.parentObject.y, textObj.x, textObj.y);
             // TODO: add more options
 
             if (_config.store === false) {
@@ -143,7 +142,7 @@ export class FloatingNumbersPlugin {
 
         var path = { t: 0, vec: new window.Phaser.Math.Vector2() };
 
-        console.log("Animating with: ", config);
+        //console.log("Animating with: ", config);
 
         /////
         if (textObj.isAnimating === false) {
@@ -411,10 +410,6 @@ export class FloatingNumbersPlugin {
 
         // clean up //
 
-    }
-
-    test() {
-        console.log("test!");
     }
 
     hideTooltip(id, animate) {

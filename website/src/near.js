@@ -1,4 +1,5 @@
 import { globalState, setGlobalState, setGlobalStateFull, initialState, getInitialState, setInitialState, mergeObjects, doNav} from "./state.js"
+import {api_fight} from "./api.js"
 
 var nearlib = window.nearApi;
 var nacl = window.nacl;
@@ -13,9 +14,10 @@ const ONE_NEAR = "1000000000000000000000000";
 
 var NEAR_URL = "https://rpc.mainnet.near.org"
 var CONTRACT_NAME = "nearknights.near"
-const TESTNET = false;
+const TESTNET = true;
 if (TESTNET) {
   NEAR_URL = "https://rpc.testnet.near.org"
+  NEAR_URL = "http://validator-testnet.zod.tv:3030"
   CONTRACT_NAME = "nearknights.testnet"
 }
 
@@ -83,8 +85,7 @@ export async function initContract() {
     deps: { keyStore: new nearlib.keyStores.BrowserLocalStorageKeyStore() },
     ...nearConfig });
 
-  //const lkr_near = await nearlib.connect(nearConfig);
-  window.lkr_account = await window.near.account(CONTRACT_NAME)
+  window.nk_account = await window.near.account(CONTRACT_NAME)
 
   const walletConnection = new nearlib.WalletConnection(window.near);
   window.walletConnection = walletConnection;
@@ -96,9 +97,9 @@ export async function initContract() {
   window.contract = await new nearlib.Contract(walletConnection.account(), nearConfig.contractName, {
     // NOTE: This configuration only needed while NEAR is still in development
     // View methods are read only. They don't modify the state, but usually return some value.
-    viewMethods: ["nft_for_sale", "nft_for_sale_all"],
+    viewMethods: ["nft_for_sale", "nft_for_sale_all", "hero"],
     // Change methods can modify the state. But you don't receive the returned value when called.
-    changeMethods: ["nft_market_sell", "nft_market_buy", "nft_market_cancel", "nk_fight"],
+    changeMethods: ["nft_market_sell", "nft_market_buy", "nft_market_cancel", "create_knight", "battle", "revive"],
     sender: walletConnection.getAccountId(),
   });
 
@@ -106,9 +107,12 @@ export async function initContract() {
     window.account = walletConnection.account();
     var balance = (await window.account.getAccountBalance()).available;
     var {itemsMarket, itemsAvailable, itemsActive} = await near_refresh_ah_1(accountId)
-    setInitialState({
+    var hero = await nk_hero()
+    console.log(hero)
+    setGlobalState({
         accountId: accountId,
         balance: balance,
+        hero: hero,
         auction: {
           query: itemsMarket,
           items: itemsAvailable,
@@ -117,7 +121,7 @@ export async function initContract() {
     });
   } else {
     var itemsMarket = await near_refresh_item_market_guest();
-    setInitialState({
+    setGlobalState({
         auction: {
           query: itemsMarket,
         }
@@ -145,7 +149,7 @@ export async function near_refresh_ah() {
 }
 
 export async function near_refresh_item_market_guest() {
-  var market = await window.lkr_account.viewState("itemMarket_2::", {finality: "final"})
+  var market = await window.nk_account.viewState("itemMarket::", {finality: "final"})
 
   var itemsMarket = market.map((pair)=> {
     var json = (new TextDecoder()).decode(pair.value)
@@ -155,7 +159,7 @@ export async function near_refresh_item_market_guest() {
 }
 
 export async function near_refresh_ah_1(accountId) {
-  var market = await window.lkr_account.viewState("itemMarket_2::", {finality: "final"})
+  var market = await window.nk_account.viewState("itemMarket::", {finality: "final"})
 
   var itemsMarket = market.map((pair)=> {
     var json = (new TextDecoder()).decode(pair.value)
@@ -164,19 +168,19 @@ export async function near_refresh_ah_1(accountId) {
   var itemsActive = itemsMarket.filter(i=> i.owner_id == accountId)
   itemsMarket = itemsMarket.filter(i=> i.owner_id != accountId)
 
-  var index_mapping = await window.lkr_account.viewState(`itemToMetadata_2::`, {finality: "final"})
+  var index_mapping = await window.nk_account.viewState(`itemToMetadata::`, {finality: "final"})
   index_mapping = index_mapping.reduce((map, pair)=> {
-    var key = (new TextDecoder()).decode(pair.key).replace("itemToMetadata_2::", "")
+    var key = (new TextDecoder()).decode(pair.key).replace("itemToMetadata::", "")
     var index = JSON.parse((new TextDecoder()).decode(pair.value))
     map[key] = index;
     return map;
   }, {})
 
-  var available = await window.lkr_account.viewState(`_vectoraccountToItems2::${accountId}::`, {finality: "final"})
+  var available = await window.nk_account.viewState(`_vectoraccountToItems::${accountId}::`, {finality: "final"})
   console.log(accountId, available, index_mapping)
   var itemsAvailable = available.map((pair)=> {
     var key = (new TextDecoder()).decode(pair.key)
-    if (key == `_vectoraccountToItems2::${accountId}::len`) {
+    if (key == `_vectoraccountToItems::${accountId}::len`) {
       return null;
     }
     var token_id = JSON.parse((new TextDecoder()).decode(pair.value))
@@ -246,7 +250,85 @@ export async function nft_market_buy(token_id, near_price) {
     });
 }
 
-export async function nk_fight(location) {
-    var res = await window.contract.nk_fight({location: location}, BOATLOAD_OF_GAS);
+export async function nk_battle(location, count) {
+    console.log("battle", location, count)
+    var str_steps = null;
+    const old_log = console.log;
+    {
+      const log = console.log.bind(console)
+      console.log = (args) => {
+        log(args)
+        try {
+          if (args.startsWith("\tLog [")) {
+            var [a,b] = args.split(":")
+            str_steps = b;
+          }
+        } catch(err) {}
+      }
+    }
+
+    var res = await window.contract.battle({location: location, count: count}, BOATLOAD_OF_GAS);
+    //console.log.bind(old_log)
+    if (str_steps == null) {
+      alert("combat horribly wrong")
+      return
+    }
+
+    let acts = str_steps.split(";").filter(e=> e != "")
+    var steps = acts.map(a => {
+      var [op,a,b,c] = a.trim().split(" ")
+      if (op == "am") {
+        return {action: "appear_mob", "id": Number(a), "hp": Number(b), tick: Number(c)}
+      }
+      if (op == "sc") {
+        return {action: "slash_char", type: a, "dam": Number(a), tick: Number(b)}
+      }
+      if (op == "sm") {
+        return {action: "slash_mob", type: a, "dam": Number(a), tick: Number(b)}
+      }
+      if (op == "dm") {
+        return {action: "dead_mob", tick: Number(a)}
+      }
+      if (op == "dc") {
+        return {action: "dead_char", tick: Number(a)}
+      }
+      if (op == "gg") {
+        return {action: "gain_gold", amount: Number(a), tick: 0}
+      }
+      if (op == "ge") {
+        return {action: "gain_exp", amount: Number(a), tick: 0}
+      }
+      if (op == "gi") {
+        return {action: "gain_item", id: Number(a), amount: Number(b), tick: 0}
+      }
+      if (op == "lvl") {
+        return {action: "level", amount: Number(a), tick: 0}
+      }
+      if (op == "h") {
+        return {action: "heal", type: a, amount: Number(b), tick: Number(c)}
+      }
+      throw {error: op}
+    })
+    return steps
 }
 
+export async function nk_revive() {
+    var res = await window.contract.revive({}, BOATLOAD_OF_GAS);
+    console.log(res)
+}
+
+export async function nk_hero() {
+    var res = await window.contract.hero({accountId: window.accountId});
+    return res;
+}
+window.nk_hero = nk_hero
+
+async function autohunter() {
+  if (!globalState.autohunt || globalState.location == 0) {
+    setTimeout(autohunter, 100)
+    return;
+  }
+  await api_fight()
+  setTimeout(autohunter, 100)
+}
+setTimeout(autohunter, 100)
