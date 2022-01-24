@@ -1,6 +1,58 @@
 import { globalState, setGlobalState } from "./state.js"
-import { nk_battle, nk_hero, near_login } from "./near.js"
+import { nk_battle, nk_hero, near_login, nk_buy_gold } from "./near.js"
 import { hurt_mob, hurt_char, move_knight } from "./App.js"
+
+export function level_table(exp) {
+    switch (true) {
+        case exp >= 1059315: return 21
+        case exp >= 810742: return 20
+        case exp >= 616993: return 19
+        case exp >= 466542: return 18
+        case exp >= 350209: return 17
+        case exp >= 260690: return 16
+        case exp >= 192183: return 15
+        case exp >= 140089: return 14
+        case exp >= 100767: return 13
+        case exp >= 71343: return 12
+        case exp >= 49554: return 11
+        case exp >= 33619: return 10
+        case exp >= 22146: return 9
+        case exp >= 14047: return 8
+        case exp >= 8472: return 7
+        case exp >= 4767: return 6
+        case exp >= 2421: return 5
+        case exp >= 1044: return 4
+        case exp >= 333: return 3
+        case exp >= 50: return 2
+        case exp >= 0: return 1
+    }
+}
+
+export function level_table_perc(exp) {
+    switch (true) {
+        case exp >= 1059315: return 100
+        case exp >= 810742: return ((exp-810742)/(1059315-810742)) * 100
+        case exp >= 616993: return ((exp-616993)/(810742-616993)) * 100
+        case exp >= 466542: return ((exp-466542)/(616993-466542)) * 100
+        case exp >= 350209: return ((exp-350209)/(466542-350209)) * 100
+        case exp >= 260690: return ((exp-260690)/(350209-260690)) * 100
+        case exp >= 192183: return ((exp-192183)/(260690-192183)) * 100
+        case exp >= 140089: return ((exp-140089)/(192183-140089)) * 100
+        case exp >= 100767: return ((exp-100767)/(140089-100767)) * 100
+        case exp >= 71343: return ((exp-71343)/(100767-71343)) * 100
+        case exp >= 49554: return ((exp-49554)/(71343-49554)) * 100
+        case exp >= 33619: return ((exp-33619)/(49554-33619)) * 100
+        case exp >= 22146: return ((exp-22146)/(33619-22146)) * 100
+        case exp >= 14047: return ((exp-14047)/(22146-14047)) * 100
+        case exp >= 8472: return ((exp-8472)/(14047-8472)) * 100
+        case exp >= 4767: return ((exp-4767)/(8472-4767)) * 100
+        case exp >= 2421: return ((exp-2421)/(4767-2421)) * 100
+        case exp >= 1044: return ((exp-1044)/(2421-1044)) * 100
+        case exp >= 333: return ((exp-333)/(1044-333)) * 100
+        case exp >= 50: return ((exp-50)/(333-50)) * 100
+        case exp >= 0: return ((exp-0)/50) * 100
+    }
+}
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -128,54 +180,10 @@ async function fight_step(step) {
     }
 }
 
-export function level_table(exp) {
-    switch (true) {
-        case exp >= 1059315: return 21
-        case exp >= 810742: return 20
-        case exp >= 616993: return 19
-        case exp >= 466542: return 18
-        case exp >= 350209: return 17
-        case exp >= 260690: return 16
-        case exp >= 192183: return 15
-        case exp >= 140089: return 14
-        case exp >= 100767: return 13
-        case exp >= 71343: return 12
-        case exp >= 49554: return 11
-        case exp >= 33619: return 10
-        case exp >= 22146: return 9
-        case exp >= 14047: return 8
-        case exp >= 8472: return 7
-        case exp >= 4767: return 6
-        case exp >= 2421: return 5
-        case exp >= 1044: return 4
-        case exp >= 333: return 3
-        case exp >= 50: return 2
-        case exp >= 0: return 1
+export async function buy_gold(stacks) {
+    if (window.confirm("Buy 1k gold for 1 NEAR?")) {
+        let gold = await nk_buy_gold(stacks)
+        setGlobalState({hero: {gold: Number(gold)}})
     }
 }
-
-export function level_table_perc(exp) {
-    switch (true) {
-        case exp >= 1059315: return 100
-        case exp >= 810742: return ((exp-810742)/(1059315-810742)) * 100
-        case exp >= 616993: return ((exp-616993)/(810742-616993)) * 100
-        case exp >= 466542: return ((exp-466542)/(616993-466542)) * 100
-        case exp >= 350209: return ((exp-350209)/(466542-350209)) * 100
-        case exp >= 260690: return ((exp-260690)/(350209-260690)) * 100
-        case exp >= 192183: return ((exp-192183)/(260690-192183)) * 100
-        case exp >= 140089: return ((exp-140089)/(192183-140089)) * 100
-        case exp >= 100767: return ((exp-100767)/(140089-100767)) * 100
-        case exp >= 71343: return ((exp-71343)/(100767-71343)) * 100
-        case exp >= 49554: return ((exp-49554)/(71343-49554)) * 100
-        case exp >= 33619: return ((exp-33619)/(49554-33619)) * 100
-        case exp >= 22146: return ((exp-22146)/(33619-22146)) * 100
-        case exp >= 14047: return ((exp-14047)/(22146-14047)) * 100
-        case exp >= 8472: return ((exp-8472)/(14047-8472)) * 100
-        case exp >= 4767: return ((exp-4767)/(8472-4767)) * 100
-        case exp >= 2421: return ((exp-2421)/(4767-2421)) * 100
-        case exp >= 1044: return ((exp-1044)/(2421-1044)) * 100
-        case exp >= 333: return ((exp-333)/(1044-333)) * 100
-        case exp >= 50: return ((exp-50)/(333-50)) * 100
-        case exp >= 0: return ((exp-0)/50) * 100
-    }
-}
+window.buy_gold = buy_gold

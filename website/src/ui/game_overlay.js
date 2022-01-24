@@ -1,7 +1,7 @@
 import React, { useRef, useState, useLayoutEffect } from "react";
-import { globalState, setGlobalState } from "./state.js"
-import { api_fight, level_table, level_table_perc } from "./api";
-import { move_knight } from "./App";
+import { globalState, setGlobalState } from "../state.js"
+import { api_fight, level_table, level_table_perc, buy_gold } from "../api";
+import { move_knight } from "../App";
 
 export function GameOverlay() {
   const [count, setCount] = useState(0);
@@ -42,11 +42,11 @@ export function GameOverlay() {
               <div class="powers">
                 <div>
                   <img class="shield1" src="/assets/ui/shield1.png" alt=""/>
-                  <p>{ac}</p>
+                  <p>{damage}</p>
                 </div>
                 <div>
                   <img src="/assets/ui/shield2.png" alt=""/>
-                  <p>{damage}</p>
+                  <p>{ac}</p>
                 </div>
                 <div>
                   <img src="/assets/ui/star.png" alt=""/>
@@ -90,6 +90,7 @@ export function GameOverlay() {
             <div>
               <p>{gold}</p>
             </div>
+            <div> <img src="/assets/ui/close.png" class="head-plus" onClick={e=> buy_gold(1)} alt=""/> </div>
           </div>
 
           <div class="right-head">

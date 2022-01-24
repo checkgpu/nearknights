@@ -1,5 +1,6 @@
+/* global BigInt */
 import { globalState, setGlobalState, setGlobalStateFull, initialState, getInitialState, setInitialState, mergeObjects, doNav} from "./state.js"
-import {api_fight} from "./api.js"
+import { api_fight } from "./api.js"
 
 var nearlib = window.nearApi;
 var nacl = window.nacl;
@@ -17,7 +18,7 @@ var CONTRACT_NAME = "nearknights.near"
 const TESTNET = true;
 if (TESTNET) {
   NEAR_URL = "https://rpc.testnet.near.org"
-  NEAR_URL = "http://validator-testnet.zod.tv:3030"
+  //NEAR_URL = "https://validator-testnet.zod.tv:3030"
   CONTRACT_NAME = "nearknights.testnet"
 }
 
@@ -99,7 +100,7 @@ export async function initContract() {
     // View methods are read only. They don't modify the state, but usually return some value.
     viewMethods: ["nft_for_sale", "nft_for_sale_all", "hero"],
     // Change methods can modify the state. But you don't receive the returned value when called.
-    changeMethods: ["nft_market_sell", "nft_market_buy", "nft_market_cancel", "create_knight", "battle", "revive"],
+    changeMethods: ["nft_market_sell", "nft_market_buy", "nft_market_cancel", "create_knight", "battle", "revive", "buy_gold"],
     sender: walletConnection.getAccountId(),
   });
 
@@ -322,6 +323,13 @@ export async function nk_hero() {
     return res;
 }
 window.nk_hero = nk_hero
+
+export async function nk_buy_gold(count) {
+    let near = (BigInt(ONE_NEAR) * BigInt(count)).toString()
+    var res = await window.contract.buy_gold({accountId: window.accountId, stack_count: count}, BOATLOAD_OF_GAS, near);
+    return res;
+}
+window.nk_buy_gold = nk_buy_gold
 
 async function autohunter() {
   if (!globalState.autohunt || globalState.location == 0) {

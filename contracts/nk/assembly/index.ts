@@ -2,6 +2,7 @@ import { context, PersistentMap, PersistentSet, u128, ContractPromise, storage, 
 import { NFTMetadata, TokenMetadata } from "./model";
 import { Char } from "./model_game";
 import { calc_char_stats } from "./formulas/char";
+import { ONE_NEAR } from "./stdlib";
 
 import { 
     init as init_i,
@@ -51,6 +52,17 @@ export function hero(accountId: string): Char {
   }
   calc_char_stats(hero)
   return hero;
+}
+
+export function buy_gold(accountId: string, stack_count: i32): u64 {
+  let total_gold = stack_count*1_000
+  let near_units = context.attachedDeposit / ONE_NEAR
+  assert(stack_count >= 1, "must buy more than 1k gold")
+  assert(near_units >= u128.from(stack_count), "not enough NEAR attached to buy gold")
+  var hero = heroMap.getSome(accountId)
+  hero.gold += total_gold
+  heroMap.set(accountId, hero);
+  return hero.gold
 }
 
 //NEP-171
