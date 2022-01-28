@@ -15,7 +15,13 @@ export var initialState = {
         //{token_id: "8", index: 1010000, count: 1, price: "6000000000000000000000000"},
         //{token_id: "9", index: 1010000, count: 1, price: "6000000000000000000000000"},
         //{token_id: "10", index: 1010000, count: 1, price: "6000000000000000000000000"},
-      ]
+      ],
+      equipped: {},
+      equippedByIndex: {},
+    },
+    ui: {
+        inventory_open: false,
+        inventory_item_model_index: null,
     },
     remote: {
       balance: "0",

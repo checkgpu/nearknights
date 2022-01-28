@@ -1,8 +1,8 @@
 import React, { useRef, useState, useLayoutEffect, useEffect } from "react";
 import { Game, Scene, Text, useScene, Sprite } from "react-phaser-fiber";
 import { GameOverlay } from "./ui/game_overlay";
+import { load_items } from "./ui/items";
 import { FloatingNumbersPlugin } from "./game/FloatingNumbersPlugin";
-
 import { HealthBar } from "./game/HealthBar.js"
 import { initContract } from "./near.js"
 import { buildInitialState, wireUpGlobalState, globalState, setGlobalState, doNav } from "./state.js"
@@ -149,6 +149,8 @@ export default function App() {
           scene.load.image('Orc Warlock', '/assets/battler/front/Orc Warlock.png')
 
           scene.load.image('Boss Continental Turtle Rukkha', '/assets/battler/front/Boss Continental Turtle Rukkha.png')
+
+          load_items(scene)
         }}
 
         renderLoading={progress => (

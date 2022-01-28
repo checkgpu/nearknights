@@ -19,11 +19,11 @@ export function owner_items(owner_id: string): PersistentSet<u64> {
 }
 
 export function owner_items_count(owner_id: string, index: u64): u64 {
-  return storage.getPrimitive<u64>(`accountToItemsCount::${owner_id}${index}`, 0);
+  return storage.getPrimitive<u64>(`accountToItemsCount::${owner_id}::${index}`, 0);
 }
 
 function update_owner_items_count(owner_id: string, index: u64, amount: u64): void {
-  storage.set<u64>(`accountToItemsCount::${owner_id}${index}`, amount);
+  storage.set<u64>(`accountToItemsCount::${owner_id}::${index}`, amount);
 }
 
 //function is_equipped_by_index(owner_id: string, index: u64): boolean {
@@ -40,11 +40,11 @@ export function equip_item(owner_id: string, index: u64): void {
   }
   if (equippedInSlot == 0) {
     equipped_items(owner_id).add(index)
-    storage.set<u64>(`equippedBySlot::${owner_id}${item.slot}`, index)
+    storage.set<u64>(`equippedBySlot::${owner_id}::${item.slot}`, index)
   } else {
     equipped_items(owner_id).delete(equippedInSlot)
     equipped_items(owner_id).add(index)
-    storage.set<u64>(`equippedBySlot::${owner_id}${item.slot}`, index)
+    storage.set<u64>(`equippedBySlot::${owner_id}::${item.slot}`, index)
   }
 }
 
@@ -56,7 +56,7 @@ export function deequip_item(owner_id: string, index: u64): void {
   }
   assert(equippedInSlot == index, 'This item is not equipped');
   equipped_items(owner_id).delete(index)
-  storage.set<u64>(`equippedBySlot::${owner_id}${item.slot}`, 0)
+  storage.set<u64>(`equippedBySlot::${owner_id}::${item.slot}`, 0)
 }
 
 export function equipped_items(owner_id: string): PersistentSet<u64> {
@@ -64,7 +64,7 @@ export function equipped_items(owner_id: string): PersistentSet<u64> {
 }
 
 export function equipped_by_slot(owner_id: string, slot: string): u64 {
-  return storage.getPrimitive<u64>(`equippedBySlot::${owner_id}${slot}`, 0);
+  return storage.getPrimitive<u64>(`equippedBySlot::${owner_id}::${slot}`, 0);
 }
 
 export function add_item(receiver_id: string, index: u64, amount: u64): u64 {
