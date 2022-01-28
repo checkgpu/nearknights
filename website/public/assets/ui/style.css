@@ -33,7 +33,7 @@ html{
 body{
   font-family: 'Open Sans', sans-serif;
   /* height: 100% !important; */
-  background-color: var(--middle-bg);
+  /* background-color: var(--middle-bg); */
 }
 img{
   max-width: 100%;
@@ -441,9 +441,9 @@ table.customTable td img{
 /* sell modal */
 
 .modal {
-  display: none; 
+  /* display: none;  */
   position: fixed; 
-  z-index: 1; 
+  z-index: 999; 
   padding-top: 10%;
   left: 0;
   top: 0;
