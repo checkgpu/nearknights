@@ -80,9 +80,35 @@ items_map_bin = Enum.reduce(items, "", fn(item, acc)->
     acc <> "items.set(#{item.id}, #{var})\n"
 end)
 
+#These go into smart contract
 IO.puts """
 #{items_bin}
 const items = new Map<u64, Item>()
 #{items_map_bin}
 """
+
+## These go into frontend items.js loader
+item_loader_bin = Enum.reduce(items, "", fn(item, acc)->
+    acc <> "scene.load.image('#{item.texture}', '/assets/battler/items/#{item.texture}.png')\n"
+end)
+IO.puts item_loader_bin
+
+## The go into frontend items.js
+item_obj_bin = Enum.reduce(items, "", fn(item, acc)->
+    props = Enum.reduce(item, "", fn({k,v}, acc)->
+        cond do
+            is_binary(v) ->
+                acc <> "#{k}: \"#{v}\", "
+            true ->
+                acc <> "#{k}: #{v}, "
+        end
+    end) |> String.trim(", ")
+    acc <> "  #{item.id}: {#{props}},\n"
+end) |> String.trim()
+IO.puts """
+export const ITEMS = {
+  #{item_obj_bin}
+}
+"""
+
 

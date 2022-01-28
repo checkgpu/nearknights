@@ -107,7 +107,7 @@ export async function initContract() {
   if (accountId) {
     window.account = walletConnection.account();
     var balance = (await window.account.getAccountBalance()).available;
-    var {itemsMarket, itemsAvailable, itemsActive} = await near_refresh_ah_1(accountId)
+    var {itemsMarket, itemsAvailable, itemsActive, itemsEquipped, itemsEquippedByIndex} = await near_refresh_ah_1(accountId)
     var hero = await nk_hero()
     console.log(hero)
     setGlobalState({
@@ -117,7 +117,9 @@ export async function initContract() {
         auction: {
           query: itemsMarket,
           items: itemsAvailable,
-          active: itemsActive
+          active: itemsActive,
+          equipped: itemsEquipped,
+          equippedByIndex: itemsEquippedByIndex
         }
     });
   } else {
@@ -139,12 +141,14 @@ export async function near_refresh_balance() {
 
 export async function near_refresh_ah() {
   var accountId = globalState.accountId;
-  var {itemsMarket, itemsAvailable, itemsActive} = await near_refresh_ah_1(accountId)
+  var {itemsMarket, itemsAvailable, itemsActive, itemsEquipped, itemsEquippedByIndex} = await near_refresh_ah_1(accountId)
   setGlobalState({
       auction: {
         query: itemsMarket,
         items: itemsAvailable,
         active: itemsActive,
+        equipped: itemsEquipped,
+        equippedByIndex: itemsEquippedByIndex
       }
   });
 }
@@ -160,8 +164,39 @@ export async function near_refresh_item_market_guest() {
 }
 
 export async function near_refresh_ah_1(accountId) {
-  var market = await window.nk_account.viewState("itemMarket::", {finality: "final"})
+  var market = window.nk_account.viewState("itemMarket::", {finality: "final"})
+  var equipped = window.nk_account.viewState(`equippedBySlot::${accountId}`, {finality: "final"})
+  var count_mapping = window.nk_account.viewState(`accountToItemsCount::${accountId}`, {finality: "final"})
+  var available = window.nk_account.viewState(`_vectoraccountToItems::${accountId}::`, {finality: "final"})
 
+  equipped = await equipped
+  var itemsEquipped = equipped.reduce((map, pair)=> {
+    var slot = (new TextDecoder()).decode(pair.key).replace(`equippedBySlot::${accountId}`, "")
+    var token_id = JSON.parse((new TextDecoder()).decode(pair.value))
+    map[slot] = Number(token_id);
+    return map;
+  }, {})
+
+  count_mapping = await count_mapping
+  count_mapping = count_mapping.reduce((map, pair)=> {
+    var key = (new TextDecoder()).decode(pair.key).replace(`accountToItemsCount::${accountId}`, "")
+    var count = JSON.parse((new TextDecoder()).decode(pair.value))
+    map[key] = Number(count);
+    return map;
+  }, {})
+
+  available = await available
+  var itemsAvailable = available.map((pair)=> {
+    var key = (new TextDecoder()).decode(pair.key)
+    if (key == `_vectoraccountToItems::${accountId}::len`) {
+      return null;
+    }
+    var token_id = JSON.parse((new TextDecoder()).decode(pair.value))
+    return {token_id: token_id, count: count_mapping[token_id]};
+  })
+  itemsAvailable = itemsAvailable.filter(i=> i)
+
+  market = await market
   var itemsMarket = market.map((pair)=> {
     var json = (new TextDecoder()).decode(pair.value)
     return JSON.parse(json);
@@ -169,28 +204,13 @@ export async function near_refresh_ah_1(accountId) {
   var itemsActive = itemsMarket.filter(i=> i.owner_id == accountId)
   itemsMarket = itemsMarket.filter(i=> i.owner_id != accountId)
 
-  var index_mapping = await window.nk_account.viewState(`itemToMetadata::`, {finality: "final"})
-  index_mapping = index_mapping.reduce((map, pair)=> {
-    var key = (new TextDecoder()).decode(pair.key).replace("itemToMetadata::", "")
-    var index = JSON.parse((new TextDecoder()).decode(pair.value))
-    map[key] = index;
-    return map;
-  }, {})
+  let itemsEquippedByIndex = {}
+  for (const [key, value] of Object.entries(itemsEquipped)) {
+    itemsEquippedByIndex[value] = key
+  }
 
-  var available = await window.nk_account.viewState(`_vectoraccountToItems::${accountId}::`, {finality: "final"})
-  console.log(accountId, available, index_mapping)
-  var itemsAvailable = available.map((pair)=> {
-    var key = (new TextDecoder()).decode(pair.key)
-    if (key == `_vectoraccountToItems::${accountId}::len`) {
-      return null;
-    }
-    var token_id = JSON.parse((new TextDecoder()).decode(pair.value))
-    return {token_id: token_id, index: index_mapping[token_id]};
-  })
-  itemsAvailable = itemsAvailable.filter(i=> i)
-
-  console.log({itemsActive, itemsMarket, itemsAvailable})
-  return {itemsActive, itemsMarket, itemsAvailable}
+  console.log({itemsActive, itemsMarket, itemsAvailable, itemsEquipped, itemsEquippedByIndex})
+  return {itemsActive, itemsMarket, itemsAvailable, itemsEquipped, itemsEquippedByIndex}
 }
 
 export async function nft_market_sell(token_id, price) {
