@@ -117,6 +117,10 @@ export default function App() {
 
   var mob = s.mob;
 
+  return([
+    <GameOverlay />,
+  ])
+
   return ([
     <GameOverlay />,
     <Game width={3072} height={3072}>
