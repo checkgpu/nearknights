@@ -1,5 +1,5 @@
 import { globalState, setGlobalState } from "./state.js"
-import { nk_battle, nk_hero, near_login, nk_buy_gold } from "./near.js"
+import { nk_battle, nk_hero, near_login, nk_shop_buy_gold } from "./near.js"
 import { hurt_mob, hurt_char, move_knight } from "./App.js"
 
 export function level_table(exp) {
@@ -106,7 +106,7 @@ export async function api_fight_simulator() {
     window.infight = false;
 }
 
-async function fight_stepper(steps) {
+export async function fight_stepper(steps) {
     while (1) {
         var ts_m = Date.now()
         var step = steps[0];
@@ -158,8 +158,11 @@ async function fight_step(step) {
         case "gain_gold":
             setGlobalState({hero: {gold: Number(globalState.hero.gold) + step.amount}})
             return
+        case "gain_diamond":
+            setGlobalState({hero: {gold: Number(globalState.hero.gold) + step.amount}})
+            return
         case "gain_exp":
-            setGlobalState({hero: {exp: Number(globalState.hero.exp) + step.amount}})
+            setGlobalState({remote: {balance: Number(globalState.remote.balance) + step.amount}})
             return
         case "gain_item":
             setGlobalState({auction: {items: [...globalState.auction.items, {index: Number(step.id), count: Number(step.amount)}]}})
@@ -179,10 +182,10 @@ async function fight_step(step) {
     }
 }
 
-export async function buy_gold(stacks) {
+export async function shop_buy_gold(stacks) {
     if (window.confirm("Buy 1k gold for 1 NEAR?")) {
-        let gold = await nk_buy_gold(stacks)
+        let gold = await nk_shop_buy_gold(stacks)
         setGlobalState({hero: {gold: Number(gold)}})
     }
 }
-window.buy_gold = buy_gold
+window.shop_buy_gold = shop_buy_gold

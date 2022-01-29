@@ -1,4 +1,4 @@
-import { context, PersistentMap, PersistentSet, u128, storage } from "near-sdk-as"
+import { context, PersistentMap, PersistentSet, u128, storage, env } from "near-sdk-as"
 import { get_item } from "./formulas/items";
 
 export const ONE_NEAR = u128.from('1000000000000000000000000')
@@ -95,4 +95,12 @@ export function remove_item(receiver_id: string, index: u64, amount: u64): u64 {
   }
   update_owner_items_count(receiver_id, index, new_amount)
   return new_amount;
+}
+
+export function time_second(): u64 {
+  return env.block_timestamp() / 1_000_000_000
+}
+
+export function time_milli(): u64 {
+  return env.block_timestamp() / 1_000_000
 }

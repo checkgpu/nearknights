@@ -1,7 +1,6 @@
 import { context, PersistentMap, PersistentSet, u128, ContractPromise, storage, env, util, logging } from "near-sdk-as"
 import { NFTMetadata, TokenMetadata } from "./model";
 import { Char } from "./model_game";
-import { calc_char_stats } from "./formulas/char";
 import { add_item, ONE_NEAR, equip_item as equip_item_i } from "./stdlib";
 
 import { 
@@ -29,6 +28,33 @@ import {
     heroMap
 }  from './battle';
 
+import { 
+  calc_char_stats,
+  stat_add as stat_add_i,
+  stat_preview as stat_preview_i,
+} from "./formulas/char";
+
+import { gacha_pull as gacha_pull_i } from "./formulas/gacha"
+import { 
+  shop_buy as shop_buy_i,
+  shop_check_limit as shop_check_limit_i,
+  shop_buy_gold as shop_buy_gold_i,
+} from "./formulas/shop"
+
+export function fix(): void {
+}
+
+// VIEW
+export function hero(accountId: string): Char {  
+  var hero = heroMap.get(accountId)
+  if (!hero) {
+    return new Char("")
+  }
+  calc_char_stats(hero)
+  return hero;
+}
+
+// CALL
 //export function create_knight(): void {
 //  create_knight_i();
 //}
@@ -45,29 +71,15 @@ export function battle(location: i32, count: i32): void {
   battle_i(hero, location, count)
 }
 
-export function hero(accountId: string): Char {  
-  var hero = heroMap.get(accountId)
-  if (!hero) {
-    return new Char("")
-  }
-  calc_char_stats(hero)
-  return hero;
+export function stat_add(stat: i32): Char {
+  return stat_add_i(stat)
 }
 
-export function buy_gold(accountId: string, stack_count: i32): u64 {
-  let total_gold = stack_count*1_000
-  let near_units = context.attachedDeposit / ONE_NEAR
-  assert(stack_count >= 1, "must buy more than 1k gold")
-  assert(near_units >= u128.from(stack_count), "not enough NEAR attached to buy gold")
-  var hero = heroMap.getSome(accountId)
-  hero.gold += total_gold
-  heroMap.set(accountId, hero);
-  return hero.gold
+export function stat_preview(stat: i32): Char {
+  return stat_preview_i(stat)
 }
 
-export function fix(): void {
-}
-
+// INVENTORY
 export function equip_item(index: u64): Char {
   let owner_id = context.sender;
   let removed_item = equip_item_i(owner_id, index);
@@ -76,33 +88,20 @@ export function equip_item(index: u64): Char {
   return char;
 }
 
-export function add_stat(index: i32): Char {
-  var hero = heroMap.getSome(context.sender)
-  assert(hero.bonus_total - hero.bonus_spent > 0, "no bonus points to spend")
-  switch (index) {
-    case 0: hero.str += 1; break;
-    case 1: hero.dex += 1; break;
-    case 2: hero.int += 1; break;
-    case 3: hero.wis += 1; break;
-    case 4: hero.con += 1; break;
-  }
-  hero.bonus_spent += 1
-  heroMap.set(context.sender, hero);
-  calc_char_stats(hero)
-  return hero;
+export function gacha_pull(index: u64): void {
+  gacha_pull_i(index)
 }
 
-export function preview_stat(index: i32): Char {
-  var hero = heroMap.getSome(context.sender)
-  switch (index) {
-    case 0: hero.str += 1; break;
-    case 1: hero.dex += 1; break;
-    case 2: hero.int += 1; break;
-    case 3: hero.wis += 1; break;
-    case 4: hero.con += 1; break;
-  }
-  calc_char_stats(hero)
-  return hero;
+export function shop_buy_gold(accountId: string, stack_count: i32): u64 {
+  return shop_buy_gold_i(accountId, stack_count)
+}
+
+export function shop_buy(index: u64): void {
+  shop_buy_i(index)
+}
+
+export function shop_check_limit(accountId: string, index: u64): u64 {
+  return shop_check_limit_i(accountId, index)
 }
 
 //NEP-171

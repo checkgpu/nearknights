@@ -28,6 +28,7 @@ export var initialState = {
     },
     hero: {
     },
+    scene: "mainmenu",
     x: 1230,
     y: 710,
     location: 0,

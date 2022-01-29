@@ -84,6 +84,12 @@ var item_2000300 = new Item(2000300);
 item_2000300.id=2000300; 
 var item_2000400 = new Item(2000400);
 item_2000400.id=2000400; 
+var item_6000000 = new Item(6000000);
+item_6000000.id=6000000; 
+var item_6000100 = new Item(6000100);
+item_6000100.id=6000100; 
+var item_6000200 = new Item(6000200);
+item_6000200.id=6000200; 
 
 const items = new Map<u64, Item>()
 items.set(100, item_100)
@@ -128,6 +134,9 @@ items.set(2000100, item_2000100)
 items.set(2000200, item_2000200)
 items.set(2000300, item_2000300)
 items.set(2000400, item_2000400)
+items.set(6000000, item_6000000)
+items.set(6000100, item_6000100)
+items.set(6000200, item_6000200)
 
 export function get_item(index: u64): Item {
     let item = items.get(index);

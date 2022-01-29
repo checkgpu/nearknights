@@ -59,6 +59,10 @@ items = [
 %{name: "Codex: Meditation", id: 2_000_200, texture: "Book_10", rarity: "common"},
 %{name: "Spellbook: Bless Weapon", id: 2_000_300, texture: "Book_22", rarity: "uncommon"},
 %{name: "Spellbook: Iron Skin", id: 2_000_400, texture: "Book_5", rarity: "rare"},
+
+%{name: "Hero Gacha", id: 6_000_000, texture: "Blacksmith_13_leather_patch", rarity: "uncommon"},
+%{name: "Hero Gacha Premium", id: 6_000_100, texture: "Blacksmith_19_flake_patch", rarity: "rare"},
+%{name: "Hero Gacha Epic", id: 6_000_200, texture: "Blacksmith_20_rune_patch", rarity: "epic"},
 ]
 
 items_bin = Enum.reduce(items, "", fn(item, acc)->

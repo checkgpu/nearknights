@@ -116,6 +116,8 @@ export function calc_char_stats(clone: Char): void {
     }
     clone.hp_max = (clone.con-10)*20+clone.level*15
     let extra_str_dam = 0;
+    if (clone.str >= 13)
+        extra_str_dam += 1
     if (clone.str >= 18)
         extra_str_dam += 1
     if (clone.str >= 23)
@@ -124,7 +126,7 @@ export function calc_char_stats(clone: Char): void {
         extra_str_dam += 1
     if (clone.str >= 25)
         extra_str_dam += 1
-    clone.damage += 1+clone.level/10+(clone.str-12)/2
+    clone.damage += 1+clone.level_max/10+(clone.str-12)/2+extra_str_dam
     clone.hit += clone.level + clone.dex + clone.level/5
     let dex_ac_bonus = 8
     if (clone.dex >= 13)
@@ -140,7 +142,8 @@ export function calc_char_stats(clone: Char): void {
     clone.ac += clone.level/dex_ac_bonus + (clone.dex-12)/6
     clone.er += clone.level/4+(clone.dex-12)/2
     clone.mr += (clone.level/2) + wis_mr_table(clone.wis)
-    clone.carry += 100 + ((clone.level_max/5)*100) + (clone.con-12)*300
+    clone.carry += 100 + ((clone.level_max/5)*100) + (clone.con-12)*100
+    clone.hp_regen += (clone.con-12)*1
     clone.max_battles = max_battles(clone.level_max)
 }
 
@@ -175,4 +178,33 @@ export function buy_potions(gold: u64, carry: i32): i32 {
         return <i32>(max_by_gold)
     }
     return <i32>(max)
+}
+
+export function stat_add(index: i32): Char {
+  var hero = heroMap.getSome(context.sender)
+  assert(hero.bonus_total - hero.bonus_spent > 0, "no bonus points to spend")
+  switch (index) {
+    case 0: hero.str += 1; break;
+    case 1: hero.dex += 1; break;
+    case 2: hero.int += 1; break;
+    case 3: hero.wis += 1; break;
+    case 4: hero.con += 1; break;
+  }
+  hero.bonus_spent += 1
+  heroMap.set(context.sender, hero);
+  calc_char_stats(hero)
+  return hero;
+}
+
+export function stat_preview(index: i32): Char {
+  var hero = heroMap.getSome(context.sender)
+  switch (index) {
+    case 0: hero.str += 1; break;
+    case 1: hero.dex += 1; break;
+    case 2: hero.int += 1; break;
+    case 3: hero.wis += 1; break;
+    case 4: hero.con += 1; break;
+  }
+  calc_char_stats(hero)
+  return hero;
 }

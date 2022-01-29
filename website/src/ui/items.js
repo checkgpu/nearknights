@@ -41,6 +41,9 @@ export const ITEMS = {
   2000200: {id: 2000200, name: "Codex: Meditation", rarity: "common", texture: "Book_10"},
   2000300: {id: 2000300, name: "Spellbook: Bless Weapon", rarity: "uncommon", texture: "Book_22"},
   2000400: {id: 2000400, name: "Spellbook: Iron Skin", rarity: "rare", texture: "Book_5"},
+  6000000: {id: 6000000, name: "Hero Gacha", rarity: "uncommon", texture: "Blacksmith_13_leather_patch"},
+  6000100: {id: 6000100, name: "Hero Gacha Premium", rarity: "rare", texture: "Blacksmith_19_flake_patch"},
+  6000200: {id: 6000200, name: "Hero Gacha Epic", rarity: "epic", texture: "Blacksmith_20_rune_patch"},
 }
 
 export function load_items(scene) {

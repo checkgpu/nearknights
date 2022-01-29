@@ -1,5 +1,6 @@
 import React, { useRef, useState, useLayoutEffect, useEffect } from "react";
 import { Game, Scene, Text, useScene, Sprite } from "react-phaser-fiber";
+import { MainMenu } from "./ui/game_mainmenu";
 import { GameOverlay } from "./ui/game_overlay";
 import { load_items } from "./ui/items";
 import { FloatingNumbersPlugin } from "./game/FloatingNumbersPlugin";
@@ -117,6 +118,13 @@ export default function App() {
 
   var mob = s.mob;
 
+  if (globalState.scene == "mainmenu" ) {
+    return([
+      <video src="/assets/nk_intro_low.mp4" muted={true} autoPlay={true} playsInline={true} onClick={e=> e.target.muted=false} style={{objectFit: "fill", width: "100%", height: "100vh"}} />,
+      <MainMenu />,
+      <GameOverlay />,
+    ])
+  }
 
   return ([
     <GameOverlay />,

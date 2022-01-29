@@ -1,11 +1,10 @@
 import React, { useRef, useState, useLayoutEffect } from "react";
 import { globalState, setGlobalState } from "../state.js"
-import { api_fight, level_table, level_table_perc, buy_gold } from "../api";
+import { api_fight, level_table, level_table_perc, shop_buy_gold } from "../api";
 import { move_knight } from "../App";
 import { GameInventory } from "./game_inventory";
 
 export function GameOverlay() {
-  const [count, setCount] = useState(0);
   const hp_cur = globalState.hero.hp_cur;
   const hp_max = globalState.hero.hp_max;
   const hp_perc = (hp_cur / hp_max) * 100
@@ -22,14 +21,8 @@ export function GameOverlay() {
   const mr = globalState.hero.mr;
   const damage = globalState.hero.damage;
 
-  const exp_perc = level_table_perc(globalState.hero.exp);
-  const level = level_table(globalState.hero.exp);
-
-  //inventory modal
-  // onClick={() => setShowInven((s) => !s)}
-  const [showInven, setShowInven] = useState(true);
-  // item modal
-  const [showItemModal, setItemModal] = useState(true);
+  const exp_perc = level_table_perc(globalState.hero.exp) || 0;
+  const level = level_table(globalState.hero.exp) || 1;
 
   return (
     <div id="overlay">
@@ -98,7 +91,7 @@ export function GameOverlay() {
             <div>
               <p>{gold}</p>
             </div>
-            <div> <img src="/assets/ui/close.png" class="head-plus" onClick={e=> buy_gold(1)} alt=""/> </div>
+            <div> <img src="/assets/ui/close.png" class="head-plus" onClick={e=> shop_buy_gold(1)} alt=""/> </div>
           </div>
 
           <div class="right-head">
@@ -126,7 +119,7 @@ export function GameOverlay() {
       </section>
       <GameInventory />
       
-      <section class="mid-right">
+      <section class="mid-right" style={{display: globalState.scene == "mainmenu" ? "none" : "flex"}}>
         <div class="objective">
           <div class="obj-container">
             <div>

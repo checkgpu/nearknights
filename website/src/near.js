@@ -1,6 +1,6 @@
 /* global BigInt */
 import { globalState, setGlobalState, setGlobalStateFull, initialState, getInitialState, setInitialState, mergeObjects, doNav} from "./state.js"
-import { api_fight } from "./api.js"
+import { api_fight, fight_stepper } from "./api.js"
 
 var nearlib = window.nearApi;
 var nacl = window.nacl;
@@ -101,9 +101,11 @@ export async function initContract() {
     viewMethods: ["nft_for_sale", "nft_for_sale_all", "hero"],
     // Change methods can modify the state. But you don't receive the returned value when called.
     changeMethods: [
+      "fix",
       "nft_market_sell", "nft_market_buy", "nft_market_cancel", 
       "create_knight", "battle", "revive", "equip_item",
-      "buy_gold", "fix"],
+      "stat_add", "stat_preview",
+      "shop_buy_gold", "shop_buy"],
     sender: walletConnection.getAccountId(),
   });
 
@@ -289,43 +291,49 @@ export async function nk_battle(location, count) {
       alert("combat horribly wrong")
       return
     }
+    return parse_log_steps(str_steps)
+}
 
-    let acts = str_steps.split(";").filter(e=> e != "")
-    var steps = acts.map(a => {
-      var [op,a,b,c] = a.trim().split(" ")
-      if (op == "am") {
-        return {action: "appear_mob", "id": Number(a), "hp": Number(b), tick: Number(c)}
-      }
-      if (op == "sc") {
-        return {action: "slash_char", type: a, "dam": Number(a), tick: Number(b)}
-      }
-      if (op == "sm") {
-        return {action: "slash_mob", type: a, "dam": Number(a), tick: Number(b)}
-      }
-      if (op == "dm") {
-        return {action: "dead_mob", tick: Number(a)}
-      }
-      if (op == "dc") {
-        return {action: "dead_char", tick: Number(a)}
-      }
-      if (op == "gg") {
-        return {action: "gain_gold", amount: Number(a), tick: 0}
-      }
-      if (op == "ge") {
-        return {action: "gain_exp", amount: Number(a), tick: 0}
-      }
-      if (op == "gi") {
-        return {action: "gain_item", id: Number(a), amount: Number(b), tick: 0}
-      }
-      if (op == "lvl") {
-        return {action: "level", amount: Number(a), tick: 0}
-      }
-      if (op == "h") {
-        return {action: "heal", type: a, amount: Number(b), tick: Number(c)}
-      }
-      throw {error: op}
-    })
-    return steps
+function parse_log_steps(str_steps) {
+  let acts = str_steps.split(";").filter(e=> e != "")
+  var steps = acts.map(a => {
+    var [op,a,b,c] = a.trim().split(" ")
+    if (op == "am") {
+      return {action: "appear_mob", "id": Number(a), "hp": Number(b), tick: Number(c)}
+    }
+    if (op == "sc") {
+      return {action: "slash_char", type: a, "dam": Number(a), tick: Number(b)}
+    }
+    if (op == "sm") {
+      return {action: "slash_mob", type: a, "dam": Number(a), tick: Number(b)}
+    }
+    if (op == "dm") {
+      return {action: "dead_mob", tick: Number(a)}
+    }
+    if (op == "dc") {
+      return {action: "dead_char", tick: Number(a)}
+    }
+    if (op == "gg") {
+      return {action: "gain_gold", amount: Number(a), tick: 0}
+    }
+    if (op == "gd") {
+      return {action: "gain_diamond", amount: Number(a), tick: 0}
+    }
+    if (op == "ge") {
+      return {action: "gain_exp", amount: Number(a), tick: 0}
+    }
+    if (op == "gi") {
+      return {action: "gain_item", id: Number(a), amount: Number(b), tick: 0}
+    }
+    if (op == "lvl") {
+      return {action: "level", amount: Number(a), tick: 0}
+    }
+    if (op == "h") {
+      return {action: "heal", type: a, amount: Number(b), tick: Number(c)}
+    }
+    throw {error: op}
+  })
+  return steps
 }
 
 export async function nk_revive() {
@@ -339,12 +347,38 @@ export async function nk_hero() {
 }
 window.nk_hero = nk_hero
 
-export async function nk_buy_gold(count) {
+export async function nk_shop_buy_gold(count) {
     let near = (BigInt(ONE_NEAR) * BigInt(count)).toString()
-    var res = await window.contract.buy_gold({accountId: window.accountId, stack_count: count}, BOATLOAD_OF_GAS, near);
+    var res = await window.contract.shop_buy_gold({accountId: window.accountId, stack_count: count}, BOATLOAD_OF_GAS, near);
     return res;
 }
-window.nk_buy_gold = nk_buy_gold
+window.nk_shop_buy_gold = nk_shop_buy_gold
+
+export async function nk_shop_buy(index, attach_near) {
+    let near = (BigInt(ONE_NEAR) * BigInt(attach_near)).toString()
+
+    var str_steps = null;
+    const old_log = console.log;
+    {
+      const log = console.log.bind(console)
+      console.log = (args) => {
+        log(args)
+        try {
+          if (args.startsWith("\tLog [")) {
+            var [a,b] = args.split(":")
+            str_steps = b;
+          }
+        } catch(err) {}
+      }
+    }
+
+    var res = await window.contract.shop_buy({index: index}, BOATLOAD_OF_GAS, near);
+    var state_transform = parse_log_steps(str_steps)
+    console.log(state_transform)
+    await fight_stepper(state_transform)
+    return res;
+}
+window.nk_shop_buy = nk_shop_buy
 
 export async function nk_equip_item(index, slot) {
     var hero = await window.contract.equip_item({index: `${index}`});
@@ -358,6 +392,21 @@ export async function nk_equip_item(index, slot) {
     return hero;
 }
 window.nk_equip_item = nk_equip_item
+
+export async function nk_stat_add(stat) {
+    var hero = await window.contract.stat_add({stat: stat});
+    setGlobalState({hero: hero})
+    return hero;
+}
+window.nk_stat_add = nk_stat_add
+
+export async function nk_stat_preview(stat) {
+    let old_hero = globalState.hero;
+    var new_hero = await window.contract.stat_preview({stat: stat});
+    console.log(old_hero)
+    return new_hero;
+}
+window.nk_stat_preview = nk_stat_preview
 
 async function autohunter() {
   if (!globalState.autohunt || globalState.location == 0) {
