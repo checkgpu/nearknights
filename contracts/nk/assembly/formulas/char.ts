@@ -1,7 +1,7 @@
 import { context } from "near-sdk-as"
 import { Char } from "../model_game"
 import { get_item } from "./items"
-import { equipped_items } from "../stdlib"
+import { equipped_items, add_item, equip_item } from "../stdlib"
 import { heroMap } from "../battle"
 
 export function level_table(exp: u64): i32 {
@@ -147,6 +147,20 @@ export function calc_char_stats(clone: Char): void {
     clone.max_battles = max_battles(clone.level_max)
 }
 
+export function create_knight(): Char {
+    let hero = new Char(context.sender);
+    add_item(context.sender, 100, 1)
+    equip_item(context.sender, 100)
+    heroMap.set(context.sender, hero);
+    return hero;
+}
+
+export function create_knight_override(): Char {
+    var hero = new Char(context.sender);
+    heroMap.set(context.sender, hero);
+    return hero;
+}
+
 export function revive_internal(hero: Char): void {
     hero.hp_cur = (hero.con-10)*20+15
     if (hero.exp > hero.exp_max)
@@ -163,11 +177,13 @@ export function revive(): void {
     var hero = hero_o.clone()
     calc_char_stats(hero)
 
-    hero_o.hp_cur = hero.hp_max
+    hero_o.hp_cur = (hero.con-10)*20+15
     if (hero.exp > hero_o.exp_max)
         hero_o.exp_max = hero.exp
-    hero_o.red_potion = hero.carry / 8
     hero_o.exp = 0
+    let reds = buy_potions(hero.gold, hero.carry)
+    hero_o.red_potion = reds
+    hero_o.gold -= reds*38
     heroMap.set(context.sender, hero_o);
 }
 
@@ -181,8 +197,11 @@ export function buy_potions(gold: u64, carry: i32): i32 {
 }
 
 export function stat_add(index: i32): Char {
+  var hero_check = heroMap.getSome(context.sender)
+  calc_char_stats(hero_check)
+  assert((hero_check.bonus_total - hero_check.bonus_spent) > 0, "no bonus points to spend")
+
   var hero = heroMap.getSome(context.sender)
-  assert(hero.bonus_total - hero.bonus_spent > 0, "no bonus points to spend")
   switch (index) {
     case 0: hero.str += 1; break;
     case 1: hero.dex += 1; break;

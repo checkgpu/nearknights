@@ -2,7 +2,7 @@ import { context, PersistentMap, PersistentSet, u128, storage, env, util, loggin
 import { Char, Monster, Item } from "./model_game";
 import { add_item, equip_item } from "./stdlib";
 import { rng_xorshift128p_seed, rng_next_u64 } from "./rng";
-import { calc_char_stats, revive_internal, level_table, revive as revive_i } from "./formulas/char";
+import { calc_char_stats, revive_internal, level_table } from "./formulas/char";
 import { get_monster } from "./formulas/monsters";
 import { get_location_monster } from "./formulas/location";
 import { roll_one, roll_multiple, char_damage_mob, mob_damage_char, hit, evade } from "./formulas/calc";
@@ -16,20 +16,6 @@ export class State {
     this.log += line
   }
 };
-
-export function create_knight(): Char {
-    let hero = new Char(context.sender);
-    add_item(context.sender, 100, 1)
-    equip_item(context.sender, 100)
-    heroMap.set(context.sender, hero);
-    return hero;
-}
-
-export function create_knight_override(): Char {
-    var hero = new Char(context.sender);
-    heroMap.set(context.sender, hero);
-    return hero;
-}
 
 function char_hit_mob(state: State, tick: i32, char: Char, mob: Monster): void {
   let hit_res = hit(state.seed, char.hit, mob.ac)
@@ -232,8 +218,4 @@ export function battle(hero_o: Char, location: i32, count: i32): void {
   hero_o.red_potion = hero.red_potion
   hero_o.next_fight_block = hero.next_fight_block
   heroMap.set(context.sender, hero_o);
-}
-
-export function revive(): void {
-  //revive_i()
 }

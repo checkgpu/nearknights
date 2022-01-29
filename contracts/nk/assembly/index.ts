@@ -23,8 +23,6 @@ import {
 
 import { 
     battle as battle_i,
-    create_knight as create_knight_i,
-    revive as revive_i,
     heroMap
 }  from './battle';
 
@@ -32,6 +30,8 @@ import {
   calc_char_stats,
   stat_add as stat_add_i,
   stat_preview as stat_preview_i,
+  create_knight as create_knight_i,
+  revive as revive_i,
 } from "./formulas/char";
 
 import { gacha_pull as gacha_pull_i } from "./formulas/gacha"
@@ -46,28 +46,22 @@ export function fix(): void {
 
 // VIEW
 export function hero(accountId: string): Char {  
-  var hero = heroMap.get(accountId)
-  if (!hero) {
-    return new Char("")
-  }
+  var hero = heroMap.getSome(accountId)
   calc_char_stats(hero)
   return hero;
 }
 
 // CALL
-//export function create_knight(): void {
-//  create_knight_i();
-//}
+export function create_knight(): Char {
+  return create_knight_i();
+}
 
 export function revive(): void {
   revive_i();
 }
 
 export function battle(location: i32, count: i32): void {
-  var hero = heroMap.get(context.sender)
-  if (!hero) {
-    hero = create_knight_i()
-  }
+  var hero = heroMap.getSome(context.sender)
   battle_i(hero, location, count)
 }
 

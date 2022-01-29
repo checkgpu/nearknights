@@ -338,7 +338,12 @@ function parse_log_steps(str_steps) {
 
 export async function nk_revive() {
     var res = await window.contract.revive({}, BOATLOAD_OF_GAS);
-    console.log(res)
+    return res;
+}
+
+export async function nk_create_knight() {
+    var hero = await window.contract.create_knight({}, BOATLOAD_OF_GAS);
+    return hero;
 }
 
 export async function nk_hero() {
