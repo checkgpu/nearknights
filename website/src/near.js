@@ -192,7 +192,7 @@ export async function near_refresh_ah_1(accountId) {
       return null;
     }
     var token_id = JSON.parse((new TextDecoder()).decode(pair.value))
-    return {token_id: token_id, count: count_mapping[token_id]};
+    return {index: Number(token_id), count: count_mapping[token_id]};
   })
   itemsAvailable = itemsAvailable.filter(i=> i)
 

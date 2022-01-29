@@ -110,6 +110,10 @@ export function calc_char_stats(clone: Char): void {
 
     clone.level = level_table(clone.exp)
     clone.level_max = level_table(clone.exp_max)
+    clone.bonus_total = (clone.level_max / 3)
+    if (clone.level_max - 49 > 0) {
+        clone.bonus_total += (clone.level_max - 49)
+    }
     clone.hp_max = (clone.con-10)*20+clone.level*15
     let extra_str_dam = 0;
     if (clone.str >= 18)
@@ -136,7 +140,7 @@ export function calc_char_stats(clone: Char): void {
     clone.ac += clone.level/dex_ac_bonus + (clone.dex-12)/6
     clone.er += clone.level/4+(clone.dex-12)/2
     clone.mr += (clone.level/2) + wis_mr_table(clone.wis)
-    clone.carry += 100 + ((clone.level/5)*100) + (clone.con-12)*300
+    clone.carry += 100 + ((clone.level_max/5)*100) + (clone.con-12)*300
     clone.max_battles = max_battles(clone.level_max)
 }
 

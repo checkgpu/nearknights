@@ -162,8 +162,7 @@ async function fight_step(step) {
             setGlobalState({hero: {exp: Number(globalState.hero.exp) + step.amount}})
             return
         case "gain_item":
-            //step.id step.amount
-            //setGlobalState({resources: {exp: globalState.resources.exp + step.amount}})
+            setGlobalState({auction: {items: [...globalState.auction.items, {index: Number(step.id), count: Number(step.amount)}]}})
             return
 
         case "level":

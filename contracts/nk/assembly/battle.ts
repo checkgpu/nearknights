@@ -205,7 +205,7 @@ export function battle(hero_o: Char, location: i32, count: i32): void {
       hero_o.gold = hero.gold
       hero_o.exp = hero.exp
       if (hero.exp > hero_o.exp_max) {
-        hero_o.exp_max = hero.exp_max
+        hero_o.exp_max = hero.exp
       }
       hero = hero_o.clone()
       calc_char_stats(hero)
@@ -227,7 +227,7 @@ export function battle(hero_o: Char, location: i32, count: i32): void {
   hero_o.gold = hero.gold
   hero_o.exp = hero.exp
   if (hero.exp > hero_o.exp_max) {
-    hero_o.exp_max = hero.exp_max
+    hero_o.exp_max = hero.exp
   }
   hero_o.red_potion = hero.red_potion
   hero_o.next_fight_block = hero.next_fight_block

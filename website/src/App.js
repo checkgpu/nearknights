@@ -117,9 +117,6 @@ export default function App() {
 
   var mob = s.mob;
 
-  return([
-    <GameOverlay />,
-  ])
 
   return ([
     <GameOverlay />,

@@ -54,15 +54,15 @@ export function GameInventory() {
 }
 
 var singleTimeout;
-async function single_or_double(e, token_id) {
+async function single_or_double(e, index) {
   if (e.detail == 1) {
-    singleTimeout = setTimeout(()=> setGlobalState({ui: {inventory_item_model_index: token_id}}), 300)
+    singleTimeout = setTimeout(()=> setGlobalState({ui: {inventory_item_model_index: index}}), 300)
   } else {
     clearTimeout(singleTimeout)
     singleTimeout = null;
-    let item = get_item(token_id)
+    let item = get_item(index)
     if (item.slot) {
-      await nk_equip_item(token_id, item.slot)
+      await nk_equip_item(index, item.slot)
     }
   }
 }
@@ -70,18 +70,18 @@ async function single_or_double(e, token_id) {
 export function GameInventoryGrid() {
   let equipped = globalState.auction.equipped.reduce((map,i)=> {map[i.index] = i.slot; return map;}, {})
   let inventory = globalState.auction.items.map(item=> {
-    item["equipped"] = !!equipped[item.token_id]
+    item["equipped"] = !!equipped[item.index]
     return item
   })
 
   var dom = []
   for (var i = 0; i < inventory.length; i += 4) {
-    let bagItems = inventory.slice(i, i + 4).map(({token_id, equipped, count})=> {
-      let item = get_item(token_id)
+    let bagItems = inventory.slice(i, i + 4).map(({index, equipped, count})=> {
+      let item = get_item(index)
       return (
-        <div id="bagItem" key={token_id}>
+        <div id="bagItem" key={index}>
             <img id="eImg" src="/assets/ui/e.png" style={{display: equipped ? "unset" : "none"}} alt="" />
-            <img class="myBtn" src={`/assets/items/${item ? item.texture : "Apple"}.png`} alt="" onClick={(e)=> single_or_double(e, token_id)} />
+            <img class="myBtn" src={`/assets/items/${item ? item.texture : "Apple"}.png`} alt="" onClick={(e)=> single_or_double(e, index)} />
         </div>
     )})
     dom.push(

@@ -33,7 +33,8 @@ export class Char {
   int: i32 = 12; 
   con: i32 = 12; //300 * con
   wis: i32 = 12;
-  bonus: i32 = 0;
+  bonus_spent: i32 = 0;
+  bonus_total: i32 = 0;
   next_attack: i32 = 0;
   max_battles: i32 = 1;
   next_fight_block: u64 = 0;
@@ -80,7 +81,8 @@ export class Char {
     n.int = o.int;
     n.con = o.con;
     n.wis = o.wis;
-    n.bonus = o.bonus;
+    n.bonus_spent = o.bonus_spent;
+    n.bonus_total = o.bonus_total;
     n.next_attack = o.next_attack;
     n.max_battles = o.max_battles;
     n.next_fight_block = o.next_fight_block;

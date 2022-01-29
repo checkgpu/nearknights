@@ -76,6 +76,35 @@ export function equip_item(index: u64): Char {
   return char;
 }
 
+export function add_stat(index: i32): Char {
+  var hero = heroMap.getSome(context.sender)
+  assert(hero.bonus_total - hero.bonus_spent > 0, "no bonus points to spend")
+  switch (index) {
+    case 0: hero.str += 1; break;
+    case 1: hero.dex += 1; break;
+    case 2: hero.int += 1; break;
+    case 3: hero.wis += 1; break;
+    case 4: hero.con += 1; break;
+  }
+  hero.bonus_spent += 1
+  heroMap.set(context.sender, hero);
+  calc_char_stats(hero)
+  return hero;
+}
+
+export function preview_stat(index: i32): Char {
+  var hero = heroMap.getSome(context.sender)
+  switch (index) {
+    case 0: hero.str += 1; break;
+    case 1: hero.dex += 1; break;
+    case 2: hero.int += 1; break;
+    case 3: hero.wis += 1; break;
+    case 4: hero.con += 1; break;
+  }
+  calc_char_stats(hero)
+  return hero;
+}
+
 //NEP-171
 export function init(owner_id: string, metadata: NFTMetadata): void {
   init_i(owner_id, metadata)

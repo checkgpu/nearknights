@@ -19,6 +19,7 @@ export function GameOverlay() {
   const autohunt = globalState.autohunt
 
   const ac = globalState.hero.ac;
+  const mr = globalState.hero.mr;
   const damage = globalState.hero.damage;
 
   const exp_perc = level_table_perc(globalState.hero.exp);
@@ -57,7 +58,7 @@ export function GameOverlay() {
                 </div>
                 <div>
                   <img src="/assets/ui/star.png" alt=""/>
-                  <p>1</p>
+                  <p>{mr}</p>
                 </div>
               </div>
             </div>
