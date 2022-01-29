@@ -25,7 +25,7 @@ export function MainMenu() {
       </div>
     )
   }
-  if (!!globalState.accountId && !globalState.hero.account) {
+  if (!!globalState.accountId && (globalState.hero.account == "" || !globalState.hero.account)) {
     button = (
       <div class="ingame-footer-square-bg" style={{width: "100%"}}>
         <button style={{padding: "6px"}} onClick={()=> create_knight()}>Create Your Knight</button>

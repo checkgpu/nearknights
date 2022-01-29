@@ -95,6 +95,9 @@ export class Char {
 @nearBindgen
 export class Item {
   id: u64 = 0;
+  name: string = "";
+  description: string = "";
+  texture: string = "";
   slot: string = "weapon";
   rarity: string = "common";
   enchant_level: i32 = 0;

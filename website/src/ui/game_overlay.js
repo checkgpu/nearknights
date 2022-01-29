@@ -11,7 +11,8 @@ export function GameOverlay() {
   const mp_cur = globalState.hero.mp_cur;
   const mp_max = globalState.hero.mp_max;
   const mp_perc = (mp_cur / mp_max) * 100
-  const diamond = Number(window.nearApi.utils.format.formatNearAmount(`${globalState.balance||0}`)).toFixed(2)
+  const diamond = window.nearApi.utils.format.formatNearAmount(`${globalState.balance||0}`, 2)
+
   const gold = globalState.hero.gold;
   const exp = globalState.hero.exp;
   const red_potion = globalState.hero.red_potion;

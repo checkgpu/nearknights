@@ -6,8 +6,6 @@ import { add_item, ONE_NEAR, equip_item as equip_item_i } from "./stdlib";
 import { 
     init as init_i,
     nft_metadata as nft_metadata_i,
-    nft_create_metadata as nft_create_metadata_i,
-    nft_mint as nft_mint_i,
     nft_transfer as nft_transfer_i,
     nft_token_metadata as nft_token_metadata_i,
     nft_tokens_for_owner_set as nft_tokens_for_owner_set_i,
@@ -21,10 +19,10 @@ import {
     nft_market_cancel as nft_market_cancel_i,
 } from './market';
 
-import { 
+import {
     battle as battle_i,
     heroMap
-}  from './battle';
+} from './battle';
 
 import { 
   calc_char_stats,
@@ -46,7 +44,11 @@ export function fix(): void {
 
 // VIEW
 export function hero(accountId: string): Char {  
-  var hero = heroMap.getSome(accountId)
+  var hero = heroMap.get(accountId)
+  if (!hero) {
+    hero = new Char(accountId);
+    hero.account = ""
+  }
   calc_char_stats(hero)
   return hero;
 }
@@ -105,14 +107,6 @@ export function init(owner_id: string, metadata: NFTMetadata): void {
 
 export function nft_metadata(): NFTMetadata {
   return nft_metadata_i()
-}
-
-export function nft_create_metadata(index: u64, metadata: TokenMetadata): void {
-  nft_create_metadata_i(index, metadata)
-}
-
-export function nft_mint(receiver_id: string, index: u64, amount: u64): u64 {
-  return nft_mint_i(receiver_id, index, amount)
 }
 
 export function nft_transfer(receiver_id: string, token_id: u64, approval_id: u64=0, memo?: string|null) : void {

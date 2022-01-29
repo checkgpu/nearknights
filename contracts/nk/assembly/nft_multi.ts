@@ -3,8 +3,7 @@ import { context, PersistentMap, PersistentSet, u128, ContractPromise, storage, 
 //Big thanks to https://github.com/agar3s/spacewars13k-server for their AS NFT implmentation
 import { Token, NFTMetadata, TokenMetadata } from "./model";
 import { validate_admin, owner_items, itemToMetadata, add_item, remove_item } from "./stdlib";
-
-export const TokenMetadataByIndex = new PersistentMap<u64, TokenMetadata>("token_meta");
+import { get_item } from "./formulas/items"
 
 // BEGIN NFT (NEP-171)
 export function init(owner_id: string, metadata: NFTMetadata): void {
@@ -17,16 +16,6 @@ export function init(owner_id: string, metadata: NFTMetadata): void {
 
 export function nft_metadata(): NFTMetadata {
   return storage.getSome<NFTMetadata>("global_meta");
-}
-
-export function nft_create_metadata(index: u64, metadata: TokenMetadata): void {
-  assert(validate_admin(), 'You are not authorized to run this function');
-  TokenMetadataByIndex.set(index, metadata);
-}
-
-export function nft_mint(receiver_id: string, index: u64, amount: u64): u64 {
-  assert(validate_admin(), 'You are not authorized to run this function');
-  return add_item(receiver_id, index, amount)
 }
 
 export function nft_transfer(receiver_id: string, token_id: u64, approval_id: u64=0, memo?: string|null) : void {
@@ -43,7 +32,8 @@ export function nft_transfer(receiver_id: string, token_id: u64, approval_id: u6
 }
 
 export function nft_token_metadata(token_id: u64): TokenMetadata|null {
-    return TokenMetadataByIndex.get(token_id);
+  let item = get_item(token_id)
+  return new TokenMetadata(item.name, "", "", "", 1, "", "", "", "", "", "", "")
 }
 
 export function nft_tokens_for_owner_set(account_id: string): Array<u64> {

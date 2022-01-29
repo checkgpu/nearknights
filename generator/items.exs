@@ -70,7 +70,7 @@ items_bin = Enum.reduce(items, "", fn(item, acc)->
     acc = acc <> "var #{var} = new Item(#{item.id});\n"
     acc <> Enum.reduce(item, "", fn({k,v},acc)->
         cond do
-            k in [:name, :texture, :rarity] -> acc
+            k in [:rarity] -> acc
             is_binary(v) ->
                 acc <> "#{var}.#{k}=\"#{v}\"; "
             true ->
@@ -114,5 +114,3 @@ export const ITEMS = {
   #{item_obj_bin}
 }
 """
-
-
