@@ -120,8 +120,8 @@ export default function App() {
 
   if (globalState.scene == "mainmenu" ) {
     return([
-      <video src="/assets/nk_intro_low.mp4" muted={true} autoPlay={true} playsInline={true} onClick={e=> e.target.muted=false} style={{objectFit: "fill", width: "100%", height: "100vh"}} />,
-      <MainMenu />,
+      <video key="video" src="/assets/nk_intro_low.mp4" muted={true} autoPlay={true} playsInline={true} onClick={e=> e.target.muted=false} style={{objectFit: "fill", width: "100%", height: "100vh"}} />,
+      <MainMenu key="mainmenu" />,
       <GameOverlay />,
     ])
   }

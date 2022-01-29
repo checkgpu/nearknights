@@ -390,7 +390,10 @@ export async function nk_equip_item(index, slot) {
 
     let equipped = [...globalState.auction.equipped]
     .filter(e=> e.index != Number(hero.extra1))
-    equipped.push({index: index, slot: slot})
+    //we deequip here
+    if (!globalState.auction.equipped.find(e=> e.index == index)) {
+      equipped.push({index: index, slot: slot})
+    }
 
     setGlobalState({hero: hero, auction: {equipped: equipped}})
 
