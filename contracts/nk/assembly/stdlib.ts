@@ -30,21 +30,26 @@ function update_owner_items_count(owner_id: string, index: u64, amount: u64): vo
 //  return storage.get<boolean>(`equippedByIndex::${owner_id}${index}`, false);
 //}
 
-export function equip_item(owner_id: string, index: u64): void {
+export function equip_item(owner_id: string, index: u64): u64 {
   let item = get_item(index)
   let item_count = owner_items_count(owner_id, index)
   assert(item_count > 0, 'Do not have item');
   let equippedInSlot = equipped_by_slot(owner_id, item.slot)
+  //unequip
   if (equippedInSlot == index) {
-    return
+    equipped_items(owner_id).delete(index)
+    storage.delete(`equippedBySlot::${owner_id}::${item.slot}`)
+    return equippedInSlot
   }
   if (equippedInSlot == 0) {
     equipped_items(owner_id).add(index)
     storage.set<u64>(`equippedBySlot::${owner_id}::${item.slot}`, index)
+    return 0
   } else {
     equipped_items(owner_id).delete(equippedInSlot)
     equipped_items(owner_id).add(index)
     storage.set<u64>(`equippedBySlot::${owner_id}::${item.slot}`, index)
+    return equippedInSlot
   }
 }
 

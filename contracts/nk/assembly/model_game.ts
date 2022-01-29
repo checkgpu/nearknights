@@ -39,6 +39,8 @@ export class Char {
   next_fight_block: u64 = 0;
   next_potion: i32 = 0;
   next_regen_tick: i32 = 7500;
+  extra1: u64 = 0;
+  extra2: string = "";
 
   constructor(account: string) {
     this.account = account

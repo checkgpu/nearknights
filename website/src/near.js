@@ -100,14 +100,17 @@ export async function initContract() {
     // View methods are read only. They don't modify the state, but usually return some value.
     viewMethods: ["nft_for_sale", "nft_for_sale_all", "hero"],
     // Change methods can modify the state. But you don't receive the returned value when called.
-    changeMethods: ["nft_market_sell", "nft_market_buy", "nft_market_cancel", "create_knight", "battle", "revive", "buy_gold"],
+    changeMethods: [
+      "nft_market_sell", "nft_market_buy", "nft_market_cancel", 
+      "create_knight", "battle", "revive", "equip_item",
+      "buy_gold", "fix"],
     sender: walletConnection.getAccountId(),
   });
 
   if (accountId) {
     window.account = walletConnection.account();
     var balance = (await window.account.getAccountBalance()).available;
-    var {itemsMarket, itemsAvailable, itemsActive, itemsEquipped, itemsEquippedByIndex} = await near_refresh_ah_1(accountId)
+    var {itemsMarket, itemsAvailable, itemsActive, itemsEquipped} = await near_refresh_ah_1(accountId)
     var hero = await nk_hero()
     console.log(hero)
     setGlobalState({
@@ -118,8 +121,7 @@ export async function initContract() {
           query: itemsMarket,
           items: itemsAvailable,
           active: itemsActive,
-          equipped: itemsEquipped,
-          equippedByIndex: itemsEquippedByIndex
+          equipped: itemsEquipped
         }
     });
   } else {
@@ -147,8 +149,7 @@ export async function near_refresh_ah() {
         query: itemsMarket,
         items: itemsAvailable,
         active: itemsActive,
-        equipped: itemsEquipped,
-        equippedByIndex: itemsEquippedByIndex
+        equipped: itemsEquipped
       }
   });
 }
@@ -165,21 +166,20 @@ export async function near_refresh_item_market_guest() {
 
 export async function near_refresh_ah_1(accountId) {
   var market = window.nk_account.viewState("itemMarket::", {finality: "final"})
-  var equipped = window.nk_account.viewState(`equippedBySlot::${accountId}`, {finality: "final"})
-  var count_mapping = window.nk_account.viewState(`accountToItemsCount::${accountId}`, {finality: "final"})
+  var equipped = window.nk_account.viewState(`equippedBySlot::${accountId}::`, {finality: "final"})
+  var count_mapping = window.nk_account.viewState(`accountToItemsCount::${accountId}::`, {finality: "final"})
   var available = window.nk_account.viewState(`_vectoraccountToItems::${accountId}::`, {finality: "final"})
 
   equipped = await equipped
-  var itemsEquipped = equipped.reduce((map, pair)=> {
-    var slot = (new TextDecoder()).decode(pair.key).replace(`equippedBySlot::${accountId}`, "")
+  var itemsEquipped = equipped.map((pair)=> {
+    var slot = (new TextDecoder()).decode(pair.key).replace(`equippedBySlot::${accountId}::`, "")
     var token_id = JSON.parse((new TextDecoder()).decode(pair.value))
-    map[slot] = Number(token_id);
-    return map;
-  }, {})
+    return {index: Number(token_id), slot: slot};
+  })
 
   count_mapping = await count_mapping
   count_mapping = count_mapping.reduce((map, pair)=> {
-    var key = (new TextDecoder()).decode(pair.key).replace(`accountToItemsCount::${accountId}`, "")
+    var key = (new TextDecoder()).decode(pair.key).replace(`accountToItemsCount::${accountId}::`, "")
     var count = JSON.parse((new TextDecoder()).decode(pair.value))
     map[key] = Number(count);
     return map;
@@ -204,13 +204,8 @@ export async function near_refresh_ah_1(accountId) {
   var itemsActive = itemsMarket.filter(i=> i.owner_id == accountId)
   itemsMarket = itemsMarket.filter(i=> i.owner_id != accountId)
 
-  let itemsEquippedByIndex = {}
-  for (const [key, value] of Object.entries(itemsEquipped)) {
-    itemsEquippedByIndex[value] = key
-  }
-
-  console.log({itemsActive, itemsMarket, itemsAvailable, itemsEquipped, itemsEquippedByIndex})
-  return {itemsActive, itemsMarket, itemsAvailable, itemsEquipped, itemsEquippedByIndex}
+  console.log({itemsActive, itemsMarket, itemsAvailable, itemsEquipped})
+  return {itemsActive, itemsMarket, itemsAvailable, itemsEquipped}
 }
 
 export async function nft_market_sell(token_id, price) {
@@ -350,6 +345,19 @@ export async function nk_buy_gold(count) {
     return res;
 }
 window.nk_buy_gold = nk_buy_gold
+
+export async function nk_equip_item(index, slot) {
+    var hero = await window.contract.equip_item({index: `${index}`});
+
+    let equipped = [...globalState.auction.equipped]
+    .filter(e=> e.index != Number(hero.extra1))
+    equipped.push({index: index, slot: slot})
+
+    setGlobalState({hero: hero, auction: {equipped: equipped}})
+
+    return hero;
+}
+window.nk_equip_item = nk_equip_item
 
 async function autohunter() {
   if (!globalState.autohunt || globalState.location == 0) {

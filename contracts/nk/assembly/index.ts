@@ -2,7 +2,7 @@ import { context, PersistentMap, PersistentSet, u128, ContractPromise, storage, 
 import { NFTMetadata, TokenMetadata } from "./model";
 import { Char } from "./model_game";
 import { calc_char_stats } from "./formulas/char";
-import { ONE_NEAR } from "./stdlib";
+import { add_item, ONE_NEAR, equip_item as equip_item_i } from "./stdlib";
 
 import { 
     init as init_i,
@@ -45,7 +45,7 @@ export function battle(location: i32, count: i32): void {
   battle_i(hero, location, count)
 }
 
-export function hero(accountId: string): Char {
+export function hero(accountId: string): Char {  
   var hero = heroMap.get(accountId)
   if (!hero) {
     return new Char("")
@@ -63,6 +63,17 @@ export function buy_gold(accountId: string, stack_count: i32): u64 {
   hero.gold += total_gold
   heroMap.set(accountId, hero);
   return hero.gold
+}
+
+export function fix(): void {
+}
+
+export function equip_item(index: u64): Char {
+  let owner_id = context.sender;
+  let removed_item = equip_item_i(owner_id, index);
+  let char = hero(owner_id);
+  char.extra1 = removed_item;
+  return char;
 }
 
 //NEP-171

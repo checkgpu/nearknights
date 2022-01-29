@@ -1,6 +1,8 @@
 import React, { useRef, useState, useLayoutEffect } from "react";
 import { globalState, setGlobalState } from "../state.js"
 import { get_item } from "./items"
+import { nk_equip_item } from "../near.js"
+
 export function GameInventory() {
   let inventory_open = globalState.ui.inventory_open
 
@@ -51,8 +53,22 @@ export function GameInventory() {
   );
 }
 
+var singleTimeout;
+async function single_or_double(e, token_id) {
+  if (e.detail == 1) {
+    singleTimeout = setTimeout(()=> setGlobalState({ui: {inventory_item_model_index: token_id}}), 300)
+  } else {
+    clearTimeout(singleTimeout)
+    singleTimeout = null;
+    let item = get_item(token_id)
+    if (item.slot) {
+      await nk_equip_item(token_id, item.slot)
+    }
+  }
+}
+
 export function GameInventoryGrid() {
-  let equipped = globalState.auction.equippedByIndex
+  let equipped = globalState.auction.equipped.reduce((map,i)=> {map[i.index] = i.slot; return map;}, {})
   let inventory = globalState.auction.items.map(item=> {
     item["equipped"] = !!equipped[item.token_id]
     return item
@@ -65,7 +81,7 @@ export function GameInventoryGrid() {
       return (
         <div id="bagItem" key={token_id}>
             <img id="eImg" src="/assets/ui/e.png" style={{display: equipped ? "unset" : "none"}} alt="" />
-            <img class="myBtn" src={`/assets/items/${item ? item.texture : "Apple"}.png`} alt="" onClick={i=> setGlobalState({ui: {inventory_item_model_index: token_id}})} />
+            <img class="myBtn" src={`/assets/items/${item ? item.texture : "Apple"}.png`} alt="" onClick={(e)=> single_or_double(e, token_id)} />
         </div>
     )})
     dom.push(
@@ -84,7 +100,7 @@ export function GameItemModel() {
   if (!item)
     return null
   
-  let equipped = globalState.auction.equippedByIndex
+  let equipped = globalState.auction.equipped.reduce((map,i)=> {map[i.index] = i.slot; return map;}, {})
   let is_equipped = !!equipped[inventory_item_model_index]
 
   let stats = []
