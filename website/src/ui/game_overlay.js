@@ -3,6 +3,7 @@ import { globalState, setGlobalState } from "../state.js"
 import { api_fight, level_table, level_table_perc, shop_buy_gold } from "../api";
 import { move_knight } from "../App";
 import { GameInventory } from "./game_inventory";
+import { AuctionHouse } from "./game_auction_house";
 
 export function GameOverlay() {
   const hp_cur = globalState.hero.hp_cur;
@@ -24,6 +25,10 @@ export function GameOverlay() {
 
   const exp_perc = level_table_perc(globalState.hero.exp) || 0;
   const level = level_table(globalState.hero.exp) || 1;
+
+  if (globalState.ui.auction_open) {
+    return (<AuctionHouse />)
+  }
 
   return (
     <div id="overlay">
@@ -109,7 +114,7 @@ export function GameOverlay() {
               <img class="parchment" src="/assets/ui/parchment.png" alt=""/>
             </div>*/}
             <div>
-              <img src="/assets/ui/balance2.png" alt=""/>
+              <img src="/assets/ui/balance2.png" onClick={() => setGlobalState({ui: {auction_open: true}})} alt=""/>
             </div>
             {/*<div>
               <img src="/assets/ui/menu.png" alt=""/>

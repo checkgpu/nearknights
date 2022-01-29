@@ -1,6 +1,5 @@
 import React, { useRef, useState, useLayoutEffect } from "react";
 import { globalState, setGlobalState } from "../state.js"
-import { api_fight, level_table, level_table_perc, shop_buy_gold } from "../api";
 import { near_login, nk_create_knight } from "../near";
 
 export function skip_intro() {
