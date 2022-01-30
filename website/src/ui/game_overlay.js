@@ -32,9 +32,9 @@ export function GameOverlay() {
 
   return (
     <div id="overlay">
-      <section class="header">
-        <div class="main-header">
-          <div class="left-head">
+      <section class="ingame-header">
+        <div class="main-ingame-header">
+          <div class="ingame-left-head">
             <div class="exp-bars">
               <div class="red-bar-con">
                 <div class="red-bar" style={{width: `${hp_perc}%`}}>
@@ -100,7 +100,7 @@ export function GameOverlay() {
             <div> <img src="/assets/ui/close.png" class="head-plus" onClick={e=> shop_buy_gold(1)} alt=""/> </div>
           </div>
 
-          <div class="right-head">
+          <div class="ingame-right-head">
             <div>
               <img src="/assets/ui/money.png" alt=""/>
             </div>

@@ -40,11 +40,11 @@ img{
   height: auto;
 }
 /*-------- header ------------*/
-/*.header{
+.header{
   background: var(--header-bg);
   background: var(--header-Gbg);
  
-}*/
+}
 .main-header{
   display: flex;
   color: white;
@@ -404,17 +404,45 @@ table.customTable td img{
   background-color: var(--sell-header-bg);
   margin-inline: 1rem;
   padding: 10px;
+  height: 60%;
 }
 .sell-body-col{
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
-  width: 25%;
+  justify-content: flex-start;
+  /* width: 25%; */
   margin: auto;
 }
 .sell-body-col img{
   width: 100%;
   padding: 2px;
+}
+#sellItem{
+  display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 25%;
+    margin: auto;
+    background-color: #292e31;
+    margin: 3px;
+    position: relative;
+}
+.sell-item-count{
+  position: absolute;
+  bottom: 0;
+  right: 2px;
+  font-size: 1.2vw;
+  text-shadow: -1px -1px 3px black;
+  color: white;
+}
+.sell-item-levelUp{
+  position: absolute;
+  color: goldenrod;
+  top: 0;
+  right: 2px;
+  font-size: 1.2vw;
+  text-shadow: -1px -1px 3px black;
+
 }
 /* sell tab footer */
 .sell-tab .footer{
@@ -543,6 +571,14 @@ table.customTable td img{
 .bottom-modal-content{
   display: flex;
   margin-top: 10px;
+}
+.bottom-modal-content input::-webkit-outer-spin-button,
+.bottom-modal-content input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.bottom-modal-content input[type=number] {
+  -moz-appearance: textfield;
 }
 .bottom-modal-left{
   flex: 6;
