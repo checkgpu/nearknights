@@ -19,7 +19,7 @@ export var initialState = {
       equipped: [],
     },
     ui: {
-        inventory_open: false,
+        inventory_open: true,
         inventory_item_model_index: null,
         auction_open: false,
     },

@@ -228,11 +228,12 @@ top: 15px;
 }
 .bag-mid-right{
   flex: 1.1;
+  background-color: var(--sell-header-bg);
 }
 
 .right-bag-body{
   background-color: var(--sell-header-bg);
-  margin-inline: 1rem;
+  /* margin-inline: 1rem; */
   padding: 10px;
 }
 .bag-body-col{
@@ -248,6 +249,9 @@ top: 15px;
   justify-content: space-around;
   width: 25%;
   /* margin: auto; */
+  background-color: #292e31;
+  margin: 3px;
+  position: relative;
 }
 .bag-body-col div{
   position: relative;
@@ -257,9 +261,27 @@ top: 15px;
   width: 20px !important;
   display: none;
 }
+.bag-item-count{
+  position: absolute;
+  bottom: 0;
+  right: 2px;
+  font-size: 1.2vw;
+  text-shadow: -1px -1px 3px black;
+  color: white;
+}
+.bag-item-levelUp{
+  position: absolute;
+  color: goldenrod;
+  top: 0;
+  right: 2px;
+  font-size: 1.2vw;
+  text-shadow: -1px -1px 3px black;
+
+}
 .bag-body-col img{
   width: 100%;
-  padding: 2px;
+  /* padding: 2px; */
+
 }
 .bag-bottom{
   display: flex;
@@ -816,7 +838,7 @@ and (orientation: landscape){
       width: 18px;
     }
     .right-bag-body{
-      margin-inline: 0.5rem;
+      /* margin-inline: 0.5rem; */
     }
     .bottom-modal-left p{
       font-size: 12px;
@@ -921,7 +943,7 @@ and (orientation: landscape){
     width: 18px;
   }
   .right-bag-body{
-    margin-inline: 0.5rem;
+    /* margin-inline: 0.5rem; */
   }
   .bag-mid-left{
     margin-right: 0;

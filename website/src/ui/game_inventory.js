@@ -34,8 +34,16 @@ export function GameInventory() {
                 </div>
                 <div class="bag-mid-right">
                     <div class="right-bag-body">
-                        <div class="bag-body-row">
-                            <GameInventoryGrid />
+                      <div class="bag-body-row">
+                        <div className="bag-body-col">
+                          <div id="bagItem" >
+                            <img id="eImg" src="/assets/ui/e.png" alt="" />
+                            <img class="myBtn" src={`/assets/items/Apple.png`} alt="" />
+                            <p className="bag-item-count">20</p>
+                            <p className="bag-item-levelUp">+3</p>
+                          </div>
+                        </div>
+                        {/* <GameInventoryGrid /> */}
                         </div>
                     </div>
                 </div>

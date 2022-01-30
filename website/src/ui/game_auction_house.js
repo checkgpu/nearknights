@@ -365,34 +365,30 @@ export  function AuctionHouse() {
           <div class="right-sell-body">
             <div class="sell-body-row">
               <div class="sell-body-col">
-                <img class="myBtn" onClick={() => setShow((s) => !s)} src="assets/ui/active2.png" alt="" />
-                <img class="myBtn" src="assets/ui/active2.png" alt="" />
-                <img class="myBtn"  src="assets/ui/active2.png" alt="" />
-                <img class="myBtn" src="assets/ui/active2.png" alt="" /> 
-              </div>
-              <div class="sell-body-col">
-                <img class="myBtn" src="assets/ui/active2.png" alt="" />
-                <img class="myBtn" src="assets/ui/active2.png" alt="" />
-                <img class="myBtn" src="assets/ui/active2.png" alt="" />
-                <img class="myBtn" src="assets/ui/active2.png" alt="" />
-              </div>
-              <div class="sell-body-col">
-                <img class="myBtn" src="assets/ui/active2.png" alt="" />
-                <img class="myBtn" src="assets/ui/active2.png" alt="" />
-                <img class="myBtn" src="assets/ui/active2.png" alt="" />
-                <img class="myBtn" src="assets/ui/active2.png" alt="" />
-              </div>
-              <div class="sell-body-col">
-                <img class="myBtn" src="assets/ui/active2.png" alt="" />
-                <img class="myBtn" src="assets/ui/active2.png" alt="" />
-                <img class="myBtn" src="assets/ui/active2.png" alt="" />
-                <img class="myBtn" src="assets/ui/active2.png" alt="" />
-              </div>
-              <div class="sell-body-col">
-                <img class="myBtn" src="assets/ui/active2.png" alt="" />
-                <img class="myBtn" src="assets/ui/active2.png" alt="" />
-                <img class="myBtn" src="assets/ui/active2.png" alt="" />
-                <img class="myBtn" src="assets/ui/active2.png" alt="" />
+               <div id="sellItem" >
+                  <img id="eImg" src="/assets/ui/e.png" alt=""  />
+                  <img class="myBtn" src={`/assets/items/Apple.png`} onClick={() => setShow((s) => !s)} alt="" />
+                  <p className="sell-item-count">20</p>
+                  <p className="sell-item-levelUp">+3</p>
+               </div>
+               <div id="sellItem" >
+                  <img id="eImg" src="/assets/ui/e.png" alt=""  />
+                  <img class="myBtn" src={`/assets/items/Apple.png`} onClick={() => setShow((s) => !s)} alt="" />
+                  <p className="sell-item-count">20</p>
+                  <p className="sell-item-levelUp">+3</p>
+               </div>
+               <div id="sellItem" >
+                  <img id="eImg" src="/assets/ui/e.png" alt=""  />
+                  <img class="myBtn" src={`/assets/items/Apple.png`} onClick={() => setShow((s) => !s)} alt="" />
+                  <p className="sell-item-count">20</p>
+                  <p className="sell-item-levelUp">+3</p>
+               </div>
+               <div id="sellItem" >
+                  <img id="eImg" src="/assets/ui/e.png" alt=""  />
+                  <img class="myBtn" src={`/assets/items/Apple.png`} onClick={() => setShow((s) => !s)} alt="" />
+                  <p className="sell-item-count">20</p>
+                  <p className="sell-item-levelUp">+3</p>
+               </div>
               </div>
             </div>
           </div>
