@@ -1,7 +1,7 @@
 import React, { useRef, useState, useLayoutEffect } from "react";
 import { globalState, setGlobalState } from "../state.js"
 
-export default function AuctionHouse() {
+export  function AuctionHouse() {
   const [showTab, setShowTab] = useState(true);
   const [show, setShow] = useState(false);
   const [quantity, setQuantity] = useState(0);

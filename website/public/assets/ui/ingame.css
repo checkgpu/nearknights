@@ -4,7 +4,7 @@
   /* margin-right: 2em; */
 }
 
-.header{
+.ingame-header{
   position: absolute;
   width:100%;
   z-index: 999 !important;
@@ -60,12 +60,12 @@ img{
 }
 
 /*-------- header ------------*/
-.header{
+.ingame-header{
   /* background: var(--header-bg);
   background: var(--header-Gbg); */
  
 }
-.main-header{
+.main-ingame-header{
   display: flex;
   color: white;
   padding: 1rem 1rem 0 1rem;
@@ -73,7 +73,7 @@ img{
   align-items: center;
   width: 95%;
 }
-.left-head{
+.ingame-left-head{
   display: flex;
 }
 .red-bar-con{
@@ -1035,7 +1035,7 @@ and (orientation: landscape){
   .red-bar, .blue-bar {
     height: 20px !important;
     }
-  .main-header{
+  .main-ingame-header{
     padding-top: 0.5rem;
   }
   .red-bar p {

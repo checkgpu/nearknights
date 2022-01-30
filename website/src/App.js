@@ -120,7 +120,7 @@ export default function App() {
   var mob = s.mob;
 
   return([
-    <GameAuctionHouse />
+    <GameOverlay />
   ])
 
   if (globalState.scene == "mainmenu" ) {

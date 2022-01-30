@@ -21,7 +21,7 @@ export var initialState = {
     ui: {
         inventory_open: false,
         inventory_item_model_index: null,
-        auction_open: false,
+        auction_open: true,
     },
     remote: {
       balance: "0",

@@ -40,11 +40,11 @@ img{
   height: auto;
 }
 /*-------- header ------------*/
-/*.header{
+.header{
   background: var(--header-bg);
   background: var(--header-Gbg);
  
-}*/
+}
 .main-header{
   display: flex;
   color: white;

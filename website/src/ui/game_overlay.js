@@ -32,9 +32,9 @@ export function GameOverlay() {
 
   return (
     <div id="overlay">
-      <section class="header">
-        <div class="main-header">
-          <div class="left-head">
+      <section class="ingame-header">
+        <div class="main-ingame-header">
+          <div class="ingame-left-head">
             <div class="exp-bars">
               <div class="red-bar-con">
                 <div class="red-bar" style={{width: `${hp_perc}%`}}>
