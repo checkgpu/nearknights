@@ -303,16 +303,16 @@ top: 15px;
  }
 
  /* right header */
- .right-head{
+ .ingame-right-head{
    display: flex;
    justify-content: center;
    align-items: center;
  }
- .right-head img{
+ .ingame-right-head img{
    width: 45px;
    margin: 0 5px;
  }
- .right-head i {
+ .ingame-right-head i {
   color: var(--color-gry);
   margin-right: 2px;
  }
@@ -748,13 +748,13 @@ and (orientation: landscape){
     .mid-head p {
       font-size: 14px;
     }
-    .right-head i {
+    .ingame-right-head i {
       font-size: 14px;
     }
-    .right-head img{
+    .ingame-right-head img{
       width: 25px;
     }
-    .right-head p{
+    .ingame-right-head p{
       font-size: 14px;
     }
     .obj-container{
@@ -968,13 +968,13 @@ and (orientation: landscape){
     .mid-head p {
       font-size: 12px;
     }
-    .right-head i {
+    .ingame-right-head i {
       font-size: 12px;
     }    
-    .right-head img{
+    .ingame-right-head img{
       width: 16px;
     }
-    .right-head p{
+    .ingame-right-head p{
       font-size: 12px;
     }
      /* model */
@@ -1063,7 +1063,7 @@ and (orientation: landscape){
   .mid-head img{
     width: 14px;
   }
-  .right-head img{
+  .ingame-right-head img{
     width: 20px;
   }
   .obj-container{
@@ -1150,7 +1150,7 @@ and (orientation: landscape){
     .mid-head p{
       font-size: 12px;
     }
-    .right-head p {
+    .ingame-right-head p {
       font-size: 12px;
     }
     .powers img{

@@ -100,7 +100,7 @@ export function GameOverlay() {
             <div> <img src="/assets/ui/close.png" class="head-plus" onClick={e=> shop_buy_gold(1)} alt=""/> </div>
           </div>
 
-          <div class="right-head">
+          <div class="ingame-right-head">
             <div>
               <img src="/assets/ui/money.png" alt=""/>
             </div>
