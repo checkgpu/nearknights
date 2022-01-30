@@ -19,9 +19,26 @@ location_2.monsters = [
     new IndexChance(10, 100_000),
 ];
 
+var location_3 = new Location(3, 1);
+location_3.monsters = [
+    new IndexChance(5, 10_000),
+    new IndexChance(4, 25_000),
+    new IndexChance(3, 25_000),
+    new IndexChance(2, 100_000),
+];
+
+var location_4 = new Location(4, 1);
+location_4.monsters = [
+    new IndexChance(21, 10_000),
+    new IndexChance(20, 25_000),
+    new IndexChance(22, 100_000),
+];
+
 const locations = new Map<u64, Location>()
 locations.set(1, location_1)
 locations.set(2, location_2)
+locations.set(3, location_3)
+locations.set(4, location_4)
 
 export function get_location(index: u64): Location {
     let location = locations.get(index);

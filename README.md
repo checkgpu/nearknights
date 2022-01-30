@@ -29,22 +29,33 @@ str = 0; dex = 1; int = 2; wis = 3; con = 4;
 
 //Prints to console the diff in stats after adding
 await window.nk_stat_preview(0)
-console.log(old_hero)
-console.log(new_hero)
 
 //Adds the stat
 await window.nk_stat_add(0)
+
+//Reset stats (costs 1 NEAR)
+await window.nk_stat_reset()
+```
+
+```javascript
+//Gacha polymorphs add attackspeed and stats
+//Hero with Dagger equipped   attack_speed: 840
+//Hero with dagger + uncommon gacha   attack_speed: 730
+// View gachas
+await window.nk_gachas()
+
+//Equip new gacha polymorph
+await window.nk_equip_polymorph(index)
 ```
 
 ```javascript
 // Secret daily limit shop
 const SHOP = {
     1: {name: "Enchant Gear Rune", item_id: 1_000_000, limit: 3, reset_time: 23*60*60, cost: 3_000, currency: "gold"},
-    10: {name: "Hero Gacha", item_id: 6_000_000, limit: 1, reset_time: 23*60*60, cost: 3_000, currency: "gold"},
-    1000: {name: "Hero Gacha", item_id: 6_000_000, limit: 99999, reset_time: 23*60*60, cost: 1, currency: "near"},
-    1001: {name: "Hero Gacha Premium", item_id: 6_000_100, limit: 1, reset_time: 23*60*60, cost: 1, currency: "near"},
+    10: {name: "Hero Gacha", item_id: 6_000_000, limit: 2, reset_time: 23*60*60, cost: 3_000, currency: "gold"},
+    1001: {name: "Hero Gacha Premium", item_id: 6_000_100, limit: 99999, reset_time: 23*60*60, cost: 1, currency: "near"},
+    1002: {name: "Hero Gacha Epic x11", item_id: 6_000_200, limit: 10, reset_time: 23*60*60, cost: 10, currency: "near"},
 }
-
 await window.nk_shop_buy(1)
 ```
 

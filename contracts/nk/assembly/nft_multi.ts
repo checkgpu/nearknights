@@ -2,7 +2,7 @@ import { context, PersistentMap, PersistentSet, u128, ContractPromise, storage, 
 
 //Big thanks to https://github.com/agar3s/spacewars13k-server for their AS NFT implmentation
 import { Token, NFTMetadata, TokenMetadata } from "./model";
-import { validate_admin, owner_items, itemToMetadata, add_item, remove_item } from "./stdlib";
+import { validate_admin, owner_items, add_item, remove_item } from "./stdlib";
 import { get_item } from "./formulas/items"
 
 // BEGIN NFT (NEP-171)

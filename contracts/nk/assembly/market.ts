@@ -1,5 +1,5 @@
 import { context, PersistentMap, PersistentSet, u128, ContractPromise, storage, env, util, logging } from "near-sdk-as"
-import { TWO_CENT, owner_items, owner_items_count, itemToMetadata, add_item, remove_item } from "./stdlib";
+import { TWO_CENT, owner_items, owner_items_count, add_item, remove_item } from "./stdlib";
 import { AuctionItem } from "./model";
 
 const itemMarket = new PersistentMap<u64, AuctionItem>("itemMarket");

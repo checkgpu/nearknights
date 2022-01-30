@@ -89,7 +89,7 @@ item_6000000.id=6000000; item_6000000.name="Hero Gacha"; item_6000000.texture="B
 var item_6000100 = new Item(6000100);
 item_6000100.id=6000100; item_6000100.name="Hero Gacha Premium"; item_6000100.texture="Blacksmith_19_flake_patch"; 
 var item_6000200 = new Item(6000200);
-item_6000200.id=6000200; item_6000200.name="Hero Gacha Epic"; item_6000200.texture="Blacksmith_20_rune_patch"; 
+item_6000200.id=6000200; item_6000200.name="Hero Gacha Epic x11"; item_6000200.texture="Blacksmith_20_rune_patch"; 
 
 const items = new Map<u64, Item>()
 items.set(100, item_100)

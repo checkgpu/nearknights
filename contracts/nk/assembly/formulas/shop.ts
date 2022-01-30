@@ -5,9 +5,9 @@ import { heroMap }  from '../battle';
 /*
 const SHOP = {
     1: {name: "Enchant Gear Rune", item_id: 1_000_000, limit: 3, reset_time: 23*60*60, cost: 3_000, currency: "gold"},
-    10: {name: "Hero Gacha", item_id: 6_000_000, limit: 1, reset_time: 23*60*60, cost: 3_000, currency: "gold"},
-    1000: {name: "Hero Gacha", item_id: 6_000_000, limit: 99999, reset_time: 23*60*60, cost: 1, currency: "diamond"},
-    1001: {name: "Hero Gacha Premium", item_id: 6_000_100, limit: 1, reset_time: 23*60*60, cost: 1, currency: "diamond"},
+    10: {name: "Hero Gacha", item_id: 6_000_000, limit: 2, reset_time: 23*60*60, cost: 3_000, currency: "gold"},
+    1001: {name: "Hero Gacha Premium", item_id: 6_000_100, limit: 99999, reset_time: 23*60*60, cost: 1, currency: "diamond"},
+    1002: {name: "Hero Gacha Epic x11", item_id: 6_000_200, limit: 10, reset_time: 23*60*60, cost: 10, currency: "diamond"},
 }
 */
 
@@ -28,17 +28,18 @@ export class ShopItem {
 var shop_1 = new ShopItem(1);
 shop_1.name="Enchant Gear Rune"; shop_1.item_id=1_000_000; shop_1.limit=3; shop_1.reset_time=23*60*60; shop_1.cost=3_000; shop_1.currency="gold";
 var shop_10 = new ShopItem(10);
-shop_10.name="Hero Gacha"; shop_10.item_id=6_000_000; shop_10.limit=1; shop_10.reset_time=23*60*60; shop_10.cost=3_000; shop_10.currency="gold";
-var shop_1000 = new ShopItem(1000);
-shop_1000.name="Hero Gacha"; shop_1000.item_id=6_000_000; shop_1000.limit=99999; shop_1000.reset_time=23*60*60; shop_1000.cost=1; shop_1000.currency="diamond";
+shop_10.name="Hero Gacha"; shop_10.item_id=6_000_000; shop_10.limit=2; shop_10.reset_time=23*60*60; shop_10.cost=3_000; shop_10.currency="gold";
 var shop_1001 = new ShopItem(1001);
-shop_1001.name="Hero Gacha Premium"; shop_1001.item_id=6_000_100; shop_1001.limit=1; shop_1001.reset_time=23*60*60; shop_1001.cost=1; shop_1001.currency="diamond";
+shop_1001.name="Hero Gacha Premium"; shop_1001.item_id=6_000_100; shop_1001.limit=99999; shop_1001.reset_time=23*60*60; shop_1001.cost=1; shop_1001.currency="diamond";
+var shop_1002 = new ShopItem(1002);
+shop_1002.name="Hero Gacha Epic x11"; shop_1002.item_id=6_000_200; shop_1002.limit=10; shop_1002.reset_time=23*60*60; shop_1002.cost=10; shop_1002.currency="diamond";
+
 
 const SHOP = new Map<u64, ShopItem>()
 SHOP.set(1, shop_1)
 SHOP.set(10, shop_10)
-SHOP.set(1000, shop_1000)
 SHOP.set(1001, shop_1001)
+SHOP.set(1002, shop_1002)
 
 export function get_shop(index: u64): ShopItem {
     if (SHOP.has(index)) {

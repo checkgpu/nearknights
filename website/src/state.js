@@ -17,6 +17,7 @@ export var initialState = {
         //{token_id: "10", index: 1010000, count: 1, price: "6000000000000000000000000"},
       ],
       equipped: [],
+      gacha: [],
     },
     ui: {
         inventory_open: false,

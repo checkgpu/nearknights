@@ -104,7 +104,8 @@ export async function initContract() {
       "fix",
       "nft_market_sell", "nft_market_buy", "nft_market_cancel", 
       "create_knight", "battle", "revive", "equip_item",
-      "stat_add", "stat_preview",
+      "stat_add", "stat_preview", "stat_reset",
+      "gacha_pull", "equip_polymorph",
       "shop_buy_gold", "shop_buy"],
     sender: walletConnection.getAccountId(),
   });
@@ -112,7 +113,7 @@ export async function initContract() {
   if (accountId) {
     window.account = walletConnection.account();
     var balance = (await window.account.getAccountBalance()).available;
-    var {itemsMarket, itemsAvailable, itemsActive, itemsEquipped} = await near_refresh_ah_1(accountId)
+    var {itemsMarket, itemsAvailable, itemsActive, itemsEquipped, gachas} = await near_refresh_ah_1(accountId)
     var hero = await nk_hero()
     console.log(hero)
     setGlobalState({
@@ -123,7 +124,8 @@ export async function initContract() {
           query: itemsMarket,
           items: itemsAvailable,
           active: itemsActive,
-          equipped: itemsEquipped
+          equipped: itemsEquipped,
+          gacha: gachas
         }
     });
   } else {
@@ -145,13 +147,14 @@ export async function near_refresh_balance() {
 
 export async function near_refresh_ah() {
   var accountId = globalState.accountId;
-  var {itemsMarket, itemsAvailable, itemsActive, itemsEquipped, itemsEquippedByIndex} = await near_refresh_ah_1(accountId)
+  var {itemsMarket, itemsAvailable, itemsActive, itemsEquipped, gachas} = await near_refresh_ah_1(accountId)
   setGlobalState({
       auction: {
         query: itemsMarket,
         items: itemsAvailable,
         active: itemsActive,
-        equipped: itemsEquipped
+        equipped: itemsEquipped,
+        gacha: gachas
       }
   });
 }
@@ -171,6 +174,7 @@ export async function near_refresh_ah_1(accountId) {
   var equipped = window.nk_account.viewState(`equippedBySlot::${accountId}::`, {finality: "final"})
   var count_mapping = window.nk_account.viewState(`accountToItemsCount::${accountId}::`, {finality: "final"})
   var available = window.nk_account.viewState(`_vectoraccountToItems::${accountId}::`, {finality: "final"})
+  var gachas = nk_gachas(accountId)
 
   equipped = await equipped
   var itemsEquipped = equipped.map((pair)=> {
@@ -206,8 +210,9 @@ export async function near_refresh_ah_1(accountId) {
   var itemsActive = itemsMarket.filter(i=> i.owner_id == accountId)
   itemsMarket = itemsMarket.filter(i=> i.owner_id != accountId)
 
-  console.log({itemsActive, itemsMarket, itemsAvailable, itemsEquipped})
-  return {itemsActive, itemsMarket, itemsAvailable, itemsEquipped}
+  gachas = await gachas
+  console.log({itemsActive, itemsMarket, itemsAvailable, itemsEquipped, gachas})
+  return {itemsActive, itemsMarket, itemsAvailable, itemsEquipped, gachas}
 }
 
 export async function nft_market_sell(token_id, price) {
@@ -415,6 +420,63 @@ export async function nk_stat_preview(stat) {
     return new_hero;
 }
 window.nk_stat_preview = nk_stat_preview
+
+export async function nk_stat_reset() {
+    var new_hero = await window.contract.stat_reset({}, BOATLOAD_OF_GAS, ONE_NEAR);
+    return new_hero;
+}
+window.nk_stat_reset = nk_stat_reset
+
+export async function nk_equip_polymorph(index) {
+    await window.contract.equip_polymorph({index: index.toString()});
+    let hero = {...globalState.hero, polymorph: index}
+    setGlobalState({hero: hero})
+}
+window.nk_equip_polymorph = nk_equip_polymorph
+
+export async function nk_gacha_pull(index) {
+    index = Number(index)
+    var gachas_gained = await window.contract.gacha_pull({index: index.toString()});
+    console.log(gachas_gained)
+    alert(`You received gachas! ${gachas_gained}`)
+    
+    let items = [...globalState.auction.items]
+    .map(e=> {
+      if (e.index == index) {
+        e.count -= 1
+      }
+      return e
+    })
+    .filter(e=> e.count > 0)
+
+    let gacha = globalState.auction.gacha
+    gachas_gained.each(gacha_index=> {
+      let has_gacha = gacha.find(e=> e.index == gacha_index)
+      if (!has_gacha) {
+        gacha.push({index: gacha_index, count: 1})
+      } else {
+        has_gacha.count += 1
+      }
+    })
+    setGlobalState({auction: {items: items, gacha: gacha}})
+
+    return gachas_gained;
+}
+window.nk_gacha_pull = nk_gacha_pull
+
+export async function nk_gachas(accountId) {
+  if (!accountId)
+    accountId = window.accountId
+  var gachas = await window.nk_account.viewState(`accountToPolymorphCount::${accountId}::`, {finality: "final"})
+  gachas = gachas.reduce((arr, pair)=> {
+    var key = (new TextDecoder()).decode(pair.key).replace(`accountToPolymorphCount::${accountId}::`, "")
+    var count = JSON.parse((new TextDecoder()).decode(pair.value))
+    arr.push({index: Number(key), count: Number(count)})
+    return arr;
+  }, [])
+  return gachas;
+}
+window.nk_gachas = nk_gachas
 
 async function autohunter() {
   if (!globalState.autohunt || globalState.location == 0) {

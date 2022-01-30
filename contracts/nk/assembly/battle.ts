@@ -23,7 +23,7 @@ function char_hit_mob(state: State, tick: i32, char: Char, mob: Monster): void {
     state.log_line(`sm m ${tick};`)
     return
   }
-  let dam = char_damage_mob(state.seed, char.damage, char.weapon_dice, char.weapon_dice_sides, mob.dr)
+  let dam = char_damage_mob(state.seed, char, mob)
   if (dam <= 0) {
     state.log_line(`sm m ${tick};`)
     return
@@ -110,8 +110,11 @@ function resolve_combat(state: State, char: Char, mob: Monster): boolean {
 }
 
 function gain_gold(seed: Array<u64>, hero: Char, mob: Monster): i32 {
-  var rolls = (mob.level / 11) + 1
-  let gold = roll_multiple(seed, rolls, mob.level) * 6
+  var rolls = (mob.level / 30) + 1
+  if (mob.undead) {
+    rolls += 1
+  }
+  let gold = roll_multiple(seed, rolls, mob.level) * 3
   hero.gold += gold
   return gold;
 }

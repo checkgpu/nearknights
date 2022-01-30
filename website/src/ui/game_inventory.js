@@ -1,11 +1,11 @@
 import React, { useRef, useState, useLayoutEffect } from "react";
 import { globalState, setGlobalState } from "../state.js"
 import { get_item } from "./items"
-import { nk_equip_item } from "../near.js"
+import { nk_equip_item, nk_gacha_pull } from "../near.js"
 
 export function GameInventory() {
   let inventory_open = globalState.ui.inventory_open
-
+  
   return (
        <div class="inventory-bag" id="invModal" style={{ display: inventory_open ? "block" : "none" }}>
          <div className="inv-bag-rel">
@@ -63,6 +63,8 @@ async function single_or_double(e, index) {
     let item = get_item(index)
     if (item.slot) {
       await nk_equip_item(index, item.slot)
+    } else if (item.type == "gatcha_poly") {
+      await nk_gacha_pull(index)
     }
   }
 }

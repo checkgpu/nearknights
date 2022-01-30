@@ -18,6 +18,12 @@ var mob_12 = new Monster(12);
 mob_12.ac=10; mob_12.drop_table=[new IndexChance(100000, 10),new IndexChance(90100, 11),new IndexChance(80000, 900),new IndexChance(50000, 900)]; mob_12.exp=20; mob_12.hit=2; mob_12.hp=46; mob_12.id=12; mob_12.level=9; mob_12.preemptive=1; mob_12.ranged=1; 
 var mob_13 = new Monster(13);
 mob_13.ac=15; mob_13.drop_table=[new IndexChance(1000100, 1),new IndexChance(40300, 1),new IndexChance(100100, 40),new IndexChance(1000000, 290),new IndexChance(90200, 460),new IndexChance(30100, 600),new IndexChance(70000, 600)]; mob_13.exp=48; mob_13.hit=6; mob_13.hp=84; mob_13.id=13; mob_13.level=11; 
+var mob_20 = new Monster(20);
+mob_20.ac=15; mob_20.drop_table=[new IndexChance(100000, 40),new IndexChance(80100, 150),new IndexChance(400, 800)]; mob_20.exp=60; mob_20.hit=10; mob_20.hp=110; mob_20.id=20; mob_20.level=14; mob_20.undead=true; 
+var mob_21 = new Monster(21);
+mob_21.ac=19; mob_21.damage=2; mob_21.dr=1; mob_21.drop_table=[new IndexChance(40300, 1),new IndexChance(1000000, 290),new IndexChance(30100, 350),new IndexChance(90100, 460),new IndexChance(20300, 800)]; mob_21.exp=110; mob_21.hit=13; mob_21.hp=130; mob_21.id=21; mob_21.level=17; mob_21.undead=true; 
+var mob_22 = new Monster(22);
+mob_22.ac=12; mob_22.drop_table=[new IndexChance(60000, 600),new IndexChance(80000, 600)]; mob_22.exp=58; mob_22.hit=6; mob_22.hp=90; mob_22.id=22; mob_22.level=13; mob_22.undead=true; 
 
 const mobs = new Map<u64, Monster>()
 mobs.set(1, mob_1)
@@ -29,6 +35,9 @@ mobs.set(10, mob_10)
 mobs.set(11, mob_11)
 mobs.set(12, mob_12)
 mobs.set(13, mob_13)
+mobs.set(20, mob_20)
+mobs.set(21, mob_21)
+mobs.set(22, mob_22)
 
 export function get_monster(index: u64): Monster {
     let mob = mobs.get(index);

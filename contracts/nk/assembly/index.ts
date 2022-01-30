@@ -1,7 +1,7 @@
 import { context, PersistentMap, PersistentSet, u128, ContractPromise, storage, env, util, logging } from "near-sdk-as"
 import { NFTMetadata, TokenMetadata } from "./model";
 import { Char } from "./model_game";
-import { add_item, ONE_NEAR, equip_item as equip_item_i } from "./stdlib";
+import { add_item, ONE_NEAR, equip_item as equip_item_i, equip_polymorph as equip_polymorph_i } from "./stdlib";
 
 import { 
     init as init_i,
@@ -28,6 +28,7 @@ import {
   calc_char_stats,
   stat_add as stat_add_i,
   stat_preview as stat_preview_i,
+  stat_reset as stat_reset_i,
   create_knight as create_knight_i,
   revive as revive_i,
 } from "./formulas/char";
@@ -75,6 +76,11 @@ export function stat_preview(stat: i32): Char {
   return stat_preview_i(stat)
 }
 
+export function stat_reset(): Char {
+  assert(context.attachedDeposit >= u128.from(ONE_NEAR), "not enough NEAR attached to reset stats")
+  return stat_reset_i()
+}
+
 // INVENTORY
 export function equip_item(index: u64): Char {
   let owner_id = context.sender;
@@ -84,8 +90,12 @@ export function equip_item(index: u64): Char {
   return char;
 }
 
-export function gacha_pull(index: u64): void {
-  gacha_pull_i(index)
+export function equip_polymorph(index: u64): void {
+  equip_polymorph_i(context.sender, index)
+}
+
+export function gacha_pull(index: u64): Array<u64> {
+  return gacha_pull_i(context.sender, index)
 }
 
 export function shop_buy_gold(accountId: string, stack_count: i32): u64 {

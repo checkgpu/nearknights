@@ -1,6 +1,7 @@
 import { context } from "near-sdk-as"
 import { Char } from "../model_game"
 import { get_item } from "./items"
+import { get_polymorph } from "./polymorph"
 import { equipped_items, add_item, equip_item } from "../stdlib"
 import { heroMap } from "../battle"
 
@@ -100,13 +101,34 @@ function apply_gear_bonuses(hero: Char): void {
             hero.carry += item.carry
             hero.weapon_dice += item.weapon_dice
             hero.weapon_dice_sides += item.weapon_dice_sides
+            hero.undead_dice += item.undead_dice
+            hero.undead_dice_sides += item.undead_dice_sides
             hero.attack_speed -= item.attack_speed
         }
     }
 }
 
+function apply_polymorph_bonuses(hero: Char): void {
+    if (hero.polymorph == 0)
+        return;
+    let poly = get_polymorph(hero.polymorph)
+    hero.str += poly.str
+    hero.dex += poly.dex
+    hero.int += poly.int
+    hero.damage += poly.damage
+    hero.hit += poly.hit
+    hero.ac += poly.ac
+    hero.dr += poly.dr
+    hero.mr += poly.mr
+    hero.er += poly.er
+    hero.crit += poly.crit
+    hero.weapon_dice += poly.weapon_dice
+    hero.attack_speed -= poly.attack_speed
+}
+
 export function calc_char_stats(clone: Char): void {
     apply_gear_bonuses(clone)
+    apply_polymorph_bonuses(clone)
 
     clone.level = level_table(clone.exp)
     clone.level_max = level_table(clone.exp_max)
@@ -225,5 +247,17 @@ export function stat_preview(index: i32): Char {
     case 4: hero.con += 1; break;
   }
   calc_char_stats(hero)
+  return hero;
+}
+
+export function stat_reset(): Char {
+  var hero = heroMap.getSome(context.sender)
+  hero.bonus_spent = 0
+  hero.str = 12
+  hero.dex = 12
+  hero.int = 12
+  hero.wis = 12
+  hero.con = 12
+  heroMap.set(context.sender, hero);
   return hero;
 }

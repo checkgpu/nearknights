@@ -1,3 +1,4 @@
+import { Char, Monster } from "../model_game";
 import { rng_next_u64 } from "../rng";
 
 export function roll_one(seed: Array<u64>, dice_sides: i32): i32 {
@@ -12,9 +13,12 @@ export function roll_multiple(seed: Array<u64>, dice_count: i32, dice_sides: i32
   return sum;
 }
 
-export function char_damage_mob(seed: Array<u64>, extra_damage: i32, weapon_dice: i32, weapon_dice_sides: i32, dr: i32): i32 {
-    let damage = roll_multiple(seed, weapon_dice, weapon_dice_sides) + extra_damage
-    return damage-dr
+export function char_damage_mob(seed: Array<u64>, char: Char, mob: Monster): i32 {
+    let damage = roll_multiple(seed, char.weapon_dice, char.weapon_dice_sides) + char.damage
+    if (mob.undead && char.undead_dice > 0) {
+        damage += roll_multiple(seed, char.undead_dice, char.undead_dice_sides)
+    }
+    return damage-mob.dr
 }
 
 export function mob_damage_char(seed: Array<u64>, level: i32, extra_damage: i32, ac: i32, dr: i32): i32 {

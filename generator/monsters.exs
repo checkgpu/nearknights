@@ -61,6 +61,23 @@ mobs = [
     %{id: 1_000_100, chance: 1}, #Blessed encahnt
     %{id: 40_300, chance: 1}, #Death Knight Gloves
 ]},
+
+%{id: 20, name: "Werewolf", texture: "Weretiger Maxima", level: 14, hit: 10, exp: 60, ac: 15, hp: 110, undead: true, rarity: "common", drop_table: [
+    %{id: 400, chance: 800}, #Gladius
+    %{id: 80_100, chance: 150}, #Iron Pants
+    %{id: 100_000, chance: 40}, #ring of health
+]},
+%{id: 21, name: "Lycanthrope", texture: "Werewolf Rigel", level: 17, hit: 13, exp: 110, dr: 1, damage: 2, ac: 19, hp: 130, undead: true, rarity: "uncommon", drop_table: [
+    %{id: 203_00, chance: 800}, #Plate Mail
+    %{id: 90_100, chance: 460}, #Strength Amulet
+    %{id: 30_100, chance: 350}, #Shirt of Strength
+    %{id: 1_000_000, chance: 290}, #Enchant Gear Rune
+    %{id: 40_300, chance: 1}, #Death Knight Gloves
+]},
+%{id: 22, name: "Zombie", texture: "Undead Walker", level: 13, hit: 6, exp: 58, ac: 12, hp: 90, undead: true, rarity: "common", drop_table: [
+    %{id: 60_000, chance: 600}, #Iron Cap
+    %{id: 80_000, chance: 600}, #Leather Pants
+]},
 ]
 
 mobs = Enum.map(mobs, fn(mob)->

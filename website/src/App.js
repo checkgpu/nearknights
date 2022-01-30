@@ -12,10 +12,12 @@ const regions = {
   0: {name: "Village", x: 1220, y: 790, icon: "worldmap_village"},
   1: {Name: "Goblin Forest", x: 1020, y: 780, text: {x: 960, y: 830, label: "Goblin Forest"}},
   2: {name: "Orc Beach", x: 920, y: 930, text: {x: 880, y: 960, label: "Orc Beach"}},
-  3: {name: "Orc Fort", locked: true, x: 880, y: 1260, text: {x: 840, y: 1290, label: "Orc Fort"}},
-  4: {id: 5},
-  5: {id: 6},
-  6: {id: 7},
+  3: {name: "Goblin Waterworks", x: 780, y: 730, text: {x: 820, y: 730, label: "Goblin Waterworks"}},
+  4: {name: "Corrupt Woodland", locked: true, x: 1400, y: 1080, text: {x: 840, y: 1290, label: "Corrupt Woodland"}},
+  5: {name: "Orc Fort", locked: true, x: 880, y: 1260, text: {x: 840, y: 1290, label: "Orc Fort"}},
+  6: {id: 6},
+  7: {id: 7},
+  10: {name: "Shutter Island", locked: true, x: 2700, y: 1440, text: {x: 840, y: 1290, label: "Shutter Island"}},
 }
 
 const polymorphs = {
@@ -33,6 +35,11 @@ const monsters = {
   11: {texture: "Orc Axe Warrior", x: 120, y: 10},
   12: {texture: "Orc Archer", x: 120, y: 10},
   13: {texture: "Orc Warlock", x: 120, y: 10},
+
+  20: {texture: "Weretiger Maxima", x: 120, y: 10},
+  21: {texture: "Werewolf Rigel", x: 120, y: 10},
+  22: {texture: "Undead Walker", x: 120, y: 10},
+
 }
 
 const quests = {
@@ -153,6 +160,17 @@ export default function App() {
           scene.load.image('Orc Archer', '/assets/battler/front/Orc Archer.png')
           scene.load.image('Orc Warlock', '/assets/battler/front/Orc Warlock.png')
 
+          scene.load.image('Weretiger Maxima', '/assets/battler/front/Weretiger Maxima.png')
+          scene.load.image('Werewolf Rigel', '/assets/battler/front/Werewolf Rigel.png')
+          scene.load.image('Undead Walker', '/assets/battler/front/Undead Walker.png')
+
+          scene.load.image('Undead Wolf', '/assets/battler/front/Undead Wolf.png')
+          scene.load.image('Undead Jiangshi', '/assets/battler/front/Undead Jiangshi.png')
+          scene.load.image('Undead Gigaraven', '/assets/battler/front/Undead Gigaraven.png')
+          scene.load.image('Undead Claw Knight', '/assets/battler/front/Undead Claw Knight.png')
+          scene.load.image('Undead Benkei', '/assets/battler/front/Undead Benkei.png')
+          scene.load.image('Undead Skull Tree', '/assets/battler/front/Undead Skull Tree.png')
+
           scene.load.image('Boss Continental Turtle Rukkha', '/assets/battler/front/Boss Continental Turtle Rukkha.png')
 
           load_items(scene)
@@ -181,6 +199,16 @@ export default function App() {
 
         <ClickableSprite onClick={()=> move_knight(2, setKnightPoint)} texture="worldmap_field" scale={{x: 0.8, y: 0.8}} x={920} y={930} />
         <Text text="Orc Beach" x={880} y={960} />
+
+        <ClickableSprite onClick={()=> move_knight(3, setKnightPoint)} texture="worldmap_field" scale={{x: 0.8, y: 0.8}} x={820} y={730} />
+        <Text text="Goblin Waterworks" x={750} y={760} />
+
+        <ClickableSprite onClick={()=> move_knight(4, setKnightPoint)} texture="worldmap_field" scale={{x: 0.8, y: 0.8}} x={1400} y={1080} />
+        <Text text="Corrupt Woodland" x={1330} y={1110} />
+
+        <ClickableSprite onClick={()=> move_knight(10, setKnightPoint)} texture="worldmap_field" scale={{x: 0.8, y: 0.8}} x={2780} y={1440} />
+        <Text text="Shutter Island" x={2740} y={1470} />
+
 
         <Sprite texture="worldmap_question" scale={{x: 0.12, y: 0.12}} x={880} y={1260} />
         {/*<Sprite texture="worldmap_field_off" scale={{x: 0.8, y: 0.8}} x={880} y={1260} />

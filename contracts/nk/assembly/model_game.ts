@@ -13,6 +13,8 @@ export class Char {
   crit: i32 = 1_000; //
   weapon_dice: i32 = 0;
   weapon_dice_sides: i32 = 0;
+  undead_dice: i32 = 0;
+  undead_dice_sides: i32 = 0;
   ac: i32 = 0; //dex chart
   hit: i32 = 0; //
   level: i32 = 1; //
@@ -23,7 +25,7 @@ export class Char {
   potion_recovery_amount: i32 = 0;
   //carry: i32 = 3_600_000;
   carry: i32 = 100; //(100 * (level/5)) 
-  red_potion: i32 = 16;
+  red_potion: i32 = 1;
   hp_regen: i32 = 0;
   mp_regen: i32 = 0;
   mag_crit: i32 = 0;
@@ -40,6 +42,8 @@ export class Char {
   next_fight_block: u64 = 0;
   next_potion: i32 = 0;
   next_regen_tick: i32 = 7500;
+  polymorph: u64 = 0;
+  pet: u64 = 0;
   extra1: u64 = 0;
   extra2: string = "";
 
@@ -62,6 +66,8 @@ export class Char {
     n.crit = o.crit;
     n.weapon_dice = o.weapon_dice;
     n.weapon_dice_sides = o.weapon_dice_sides;
+    n.undead_dice = o.undead_dice;
+    n.undead_dice_sides = o.undead_dice_sides;
     n.ac = o.ac;
     n.hit = o.hit;
     n.level = o.level;
@@ -88,6 +94,8 @@ export class Char {
     n.next_fight_block = o.next_fight_block;
     n.next_potion = o.next_potion;
     n.next_regen_tick = o.next_regen_tick;
+    n.polymorph = o.polymorph;
+    n.pet = o.pet;
     return n
   }
 };
@@ -98,7 +106,7 @@ export class Item {
   name: string = "";
   description: string = "";
   texture: string = "";
-  slot: string = "weapon";
+  slot: string = "";
   rarity: string = "common";
   enchant_level: i32 = 0;
   damage: i32 = 0;
@@ -147,6 +155,7 @@ export class Monster {
   ac: i32 = 0;
   dr: i32 = 0;
   er: i32 = 0;
+  undead: boolean = false;
   attack_speed: i32 = 1000;
   next_attack: i32 = 0;
   preemptive: i32 = 0;
@@ -176,12 +185,60 @@ export class Monster {
     n.ac = old.ac;
     n.dr = old.dr;
     n.er = old.er;
+    n.undead = old.undead;
     n.attack_speed = old.attack_speed;
     n.next_attack = old.next_attack;
     n.preemptive = old.preemptive
     n.ranged = old.ranged
     n.drop_table = old.drop_table;
     return n;
+  }
+};
+
+export class Polymorph {
+  id: u64 = 0;
+  name: string = "";
+  texture: string = "";
+  rarity: string = "";
+  str: i32 = 0;
+  dex: i32 = 0;
+  int: i32 = 0;
+  hp_regen: i32 = 0;
+  mp_regen: i32 = 0;
+  damage: i32 = 0;
+  hit: i32 = 0;
+  crit: i32 = 0;
+  weapon_dice: i32 = 0;
+  ac: i32 = 0;
+  dr: i32 = 0;
+  er: i32 = 0;
+  mr: i32 = 0;
+  attack_speed: i32 = 1000;
+
+  constructor(id: u64) {
+    this.id = id;
+  }
+};
+
+export class Pet {
+  id: u64 = 0;
+  name: string = "";
+  texture: string = "";
+  rarity: string = "";
+  hp_regen: i32 = 0;
+  mp_regen: i32 = 0;
+  damage: i32 = 0;
+  hit: i32 = 0;
+  crit: i32 = 0;
+  weapon_dice: i32 = 0;
+  ac: i32 = 0;
+  dr: i32 = 0;
+  er: i32 = 0;
+  attack_speed: i32 = 1000;
+  exp_bonus: i32 = 0;
+
+  constructor(id: u64) {
+    this.id = id;
   }
 };
 
