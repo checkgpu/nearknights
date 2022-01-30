@@ -544,6 +544,14 @@ table.customTable td img{
   display: flex;
   margin-top: 10px;
 }
+.bottom-modal-content input::-webkit-outer-spin-button,
+.bottom-modal-content input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.bottom-modal-content input[type=number] {
+  -moz-appearance: textfield;
+}
 .bottom-modal-left{
   flex: 6;
 }
