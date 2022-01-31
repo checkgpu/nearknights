@@ -489,7 +489,7 @@ table.customTable td img{
   padding: 15px;
   border: 1px solid rgb(59, 59, 59);
   width: 80%;
-  height: 80%;
+  /*height: 80%;*/
   color: whitesmoke;
 }
 
@@ -1427,6 +1427,6 @@ and (orientation: landscape){
 }
 @media only screen and (min-width: 1200px){
   .modal-content{
-    width: 50%;
+    width: 26%;
   }
 }

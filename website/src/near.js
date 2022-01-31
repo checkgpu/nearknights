@@ -15,7 +15,7 @@ const ONE_NEAR = "1000000000000000000000000";
 
 var NEAR_URL = "https://rpc.mainnet.near.org"
 var CONTRACT_NAME = "nearknights.near"
-const TESTNET = false;
+const TESTNET = true;
 if (TESTNET) {
   NEAR_URL = "https://rpc.testnet.near.org"
   //NEAR_URL = "https://validator-testnet.zod.tv:3030"
@@ -208,67 +208,83 @@ export async function near_refresh_ah_1(accountId) {
     return JSON.parse(json);
   })
   var itemsActive = itemsMarket.filter(i=> i.owner_id == accountId)
-  itemsMarket = itemsMarket.filter(i=> i.owner_id != accountId)
+  //itemsMarket = itemsMarket.filter(i=> i.owner_id != accountId)
 
   gachas = await gachas
   console.log({itemsActive, itemsMarket, itemsAvailable, itemsEquipped, gachas})
   return {itemsActive, itemsMarket, itemsAvailable, itemsEquipped, gachas}
 }
 
-export async function nft_market_sell(token_id, price) {
-    var token_id = token_id.toString()
-    var res = await window.contract.nft_market_sell({token_id: token_id, price: price});
-    var item = globalState.auction.items.find(i=> i.token_id == token_id)
-    var itemsAvailable = globalState.auction.items.filter(i=> i.token_id != token_id)
-    var active_item = {token_id: token_id, index: item.index, price: price, count: 1}
+export async function nft_market_sell(index, price, amount) {
+    var index = index.toString()
+    var sale_id = await window.contract.nft_market_sell({index: index, price: price, amount: amount.toString()});
+    let items = globalState.auction.items
+    var item = items.find(i=> i.index == Number(index))
+    item.count -= amount
+    if (item.count <= 0) {
+      items = items.filter(i=> i.index != Number(index))
+    }
+
+    var active_item = {sale_id: sale_id, index: item.index, price: price, amount: amount}
     
     var itemsActive = globalState.auction.active.slice()
     itemsActive.push(active_item)
     
-    console.log(itemsAvailable, itemsActive)
+    console.log(items, itemsActive)
     setGlobalState({
         auction: {
-          items: itemsAvailable,
+          items: items,
           active: itemsActive,
         }
     });
 }
 
-export async function nft_market_cancel(token_id) {
-    var token_id = token_id.toString()
-    var res = await window.contract.nft_market_cancel({token_id: token_id});
-    var item = globalState.auction.active.find(i=> i.token_id == token_id)
-    var itemsActive = globalState.auction.active.filter(i=> i.token_id != token_id)
-    var available_item = {token_id: token_id, index: item.index}
+export async function nft_market_cancel(sale_id) {
+    var sale_id = sale_id.toString()
+    var res = await window.contract.nft_market_cancel({sale_id: sale_id});
+    var sale = globalState.auction.active.find(i=> i.sale_id == sale_id)
+    var itemsActive = globalState.auction.active.filter(i=> i.sale_id != sale_id)
+
+    let items = globalState.auction.items
+    var item = items.find(i=> i.index == Number(sale.index))
+    if (!item) {
+      items.push({index: Number(sale.index), count: Number(sale.amount)})
+    } else {
+      item.count += Number(sale.amount)
+    }
     
-    var itemsAvailable = globalState.auction.items.slice()
-    itemsAvailable.push(available_item)
-    
-    console.log(itemsAvailable, itemsActive)
+    console.log(itemsActive, items)
     setGlobalState({
         auction: {
-          items: itemsAvailable,
+          items: items,
           active: itemsActive,
         }
     });
 }
+window.nft_market_cancel = nft_market_cancel;
 
-export async function nft_market_buy(token_id, near_price) {
-    var token_id = token_id.toString()
-    var res = await window.contract.nft_market_buy({token_id: token_id}, BOATLOAD_OF_GAS, near_price);
+export async function nft_market_buy(sale_id, near_price) {
+    var sale_id = sale_id.toString()
+    var res = await window.contract.nft_market_buy({sale_id: sale_id}, BOATLOAD_OF_GAS, near_price);
     
-    var item = globalState.auction.query.find(i=> i.token_id == token_id)
-    var itemsMarket = globalState.auction.query.filter(i=> i.token_id != token_id)
-    var available_item = {token_id: token_id, index: item.index}
-    
-    var itemsAvailable = globalState.auction.items.slice()
-    itemsAvailable.push(available_item)
-    
-    console.log(itemsAvailable)
+    var sale = globalState.auction.query.find(i=> i.sale_id == sale_id)
+    let items = globalState.auction.items
+    var item = items.find(i=> i.index == Number(sale.index))
+    if (!item) {
+      items.push({index: Number(sale.index), count: Number(sale.amount)})
+    } else {
+      item.count += Number(sale.amount)
+    }
+
+    var active = globalState.auction.active.filter(i=> i.sale_id != sale_id)
+    var itemsMarket = globalState.auction.query.filter(i=> i.sale_id != sale_id)
+
+    console.log(items)
     setGlobalState({
         auction: {
           query: itemsMarket,
-          items: itemsAvailable,
+          items: items,
+          active: active,
         }
     });
 }
@@ -391,6 +407,7 @@ export async function nk_shop_buy(index, attach_near) {
 window.nk_shop_buy = nk_shop_buy
 
 export async function nk_equip_item(index, slot) {
+    console.log(index, slot)
     var hero = await window.contract.equip_item({index: `${index}`});
 
     let equipped = [...globalState.auction.equipped]

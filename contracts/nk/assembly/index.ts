@@ -132,8 +132,8 @@ export function nft_tokens_for_owner_set(account_id: string): Array<u64> {
 }
 
 //MARKET MULTIFUNGIBLE
-export function nft_market_sell(index: u64, price: u128, amount: u64): void {
-  nft_market_sell_i(index, price, amount)
+export function nft_market_sell(index: u64, price: u128, amount: u64): u64 {
+  return nft_market_sell_i(index, price, amount)
 }
 
 export function nft_market_buy(sale_id: u64): void {

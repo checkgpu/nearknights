@@ -73,5 +73,5 @@ and ReactJS for the UX and interfaces. We found it to be a very
 productive combination.
 
 ## Contributors
-UX / UI - https://github.com/kasim393
-Integration - https://github.com/vans163
+UX / UI - https://github.com/kasim393  
+Integration - https://github.com/vans163  

@@ -4,10 +4,11 @@ import { AuctionItem } from "./model";
 
 const itemMarket = new PersistentMap<u64, AuctionItem>("itemMarket");
 
-export function nft_market_sell(index: u64, price: u128, amount: u64): void {
+export function nft_market_sell(index: u64, price: u128, amount: u64): u64 {
     const count = owner_items_count(context.sender, index)
     assert(count > 0, "nft does not exist under this user")
     assert(price >= TWO_CENT, "minimum listing price 0.02 NEAR")
+    assert(amount == 1, "only 1 item at a time currently allowed to be sold")
 
     remove_item(context.sender, index, amount)
 
@@ -23,6 +24,7 @@ export function nft_market_sell(index: u64, price: u128, amount: u64): void {
       block_listed: context.blockIndex
     };
     itemMarket.set(next_sale_id, auction_item)
+    return next_sale_id
 }
 
 export function nft_market_buy(sale_id: u64): void {
@@ -34,9 +36,9 @@ export function nft_market_buy(sale_id: u64): void {
         const overpay_refund = context.attachedDeposit - aucitem.price
         _nft_market_buy_refund(context.sender, overpay_refund)
     }
-    //10% commission
+    //5% commission
     var calc_commision = u128.mul(aucitem.price, u128.from(100))
-    calc_commision = u128.div(calc_commision, u128.from(10))
+    calc_commision = u128.div(calc_commision, u128.from(20))
     calc_commision = u128.div(calc_commision, u128.from(100))
     let str1 = `${context.sender} bought auction ${sale_id} with item ${aucitem.index} (${aucitem.amount}) from`
     logging.log(`${str1} ${aucitem.owner_id} for ${aucitem.price} commission was ${calc_commision}`)

@@ -97,7 +97,7 @@ export function GameOverlay() {
             <div>
               <p>{gold}</p>
             </div>
-            <div> <img src="/assets/ui/close.png" class="head-plus" onClick={e=> shop_buy_gold(1)} alt=""/> </div>
+            <div><img src="/assets/ui/close.png" class="head-plus" onClick={e=> shop_buy_gold(1)} alt="" /></div>
           </div>
 
           <div class="ingame-right-head">
@@ -173,10 +173,10 @@ export function GameOverlay() {
         </div>
         <div class="controls">
           <div class="col-3">
-            <img class="radar" src="/assets/ui/radar.png" alt=""/>
+            {/*<img class="radar" src="/assets/ui/radar.png" alt=""/>*/}
             <img class="circle" src="/assets/ui/circle.png" style={!autohunt ? {background: "transparent"} : {}} onClick={e=> setGlobalState({autohunt: !autohunt})} alt=""/>
             <p class="circle-text" style={{cursor: "default"}} onClick={e=> setGlobalState({autohunt: !autohunt})}>AUTO HUNT</p>
-            <img class="hand" src="/assets/ui/hand.png" alt=""/>
+            {/*<img class="hand" src="/assets/ui/hand.png" alt=""/>*/}
           </div>
           <div class="move-control">
             <img class="hexa" src="/assets/ui/hexagram.png" onClick={e=> api_fight()} alt=""/>

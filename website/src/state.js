@@ -3,9 +3,9 @@ export var initialState = {
     auction: {
       tab: "buy",
       query: [
-        //{token_id: "3", index: 1010000, owner_id: "lkr.testnet", price: "1000000000000000000000000", count: 1},
-        //{token_id: "4", index: 1010000, owner_id: "lkr.testnet", price: "6000000000000000000000000", count: 1},
-        //{token_id: "5", index: 1010000, owner_id: "lkr.testnet", price: "1000000000000000000000000", count: 1},
+        /*{sale_id: "3", index: 100, owner_id: "lkr.testnet", price: "1000000000000000000000000", count: 1},
+        {sale_id: "4", index: 200, owner_id: "lkr.testnet", price: "6000000000000000000000000", count: 1},
+        {sale_id: "5", index: 300, owner_id: "lkr.testnet", price: "1000000000000000000000000", count: 1},*/
       ],
       items: [
         //{token_id: "6", index: 1010000, count: 1},
@@ -23,6 +23,7 @@ export var initialState = {
         inventory_open: false,
         inventory_item_model_index: null,
         auction_open: false,
+        auction_item_model_index: null,
     },
     remote: {
       balance: "0",

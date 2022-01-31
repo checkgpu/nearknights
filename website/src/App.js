@@ -2,7 +2,6 @@ import React, { useRef, useState, useLayoutEffect, useEffect } from "react";
 import { Game, Scene, Text, useScene, Sprite } from "react-phaser-fiber";
 import { MainMenu } from "./ui/game_mainmenu";
 import { GameOverlay } from "./ui/game_overlay";
-import {GameAuctionHouse} from './ui/game_auction_house'
 import { load_items } from "./ui/items";
 import { FloatingNumbersPlugin } from "./game/FloatingNumbersPlugin";
 import { HealthBar } from "./game/HealthBar.js"
@@ -40,7 +39,6 @@ const monsters = {
   20: {texture: "Weretiger Maxima", x: 120, y: 10},
   21: {texture: "Werewolf Rigel", x: 120, y: 10},
   22: {texture: "Undead Walker", x: 120, y: 10},
-
 }
 
 const quests = {
@@ -126,9 +124,9 @@ export default function App() {
 
   var mob = s.mob;
 
-  return([
+  /*return([
     <GameOverlay />
-  ])
+  ])*/
 
   if (globalState.scene == "mainmenu" ) {
     return([
@@ -137,7 +135,6 @@ export default function App() {
       <GameOverlay />,
     ])
   }
-
 
   return ([
     <GameOverlay />,

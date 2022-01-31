@@ -52,3 +52,51 @@ export function load_items(scene) {
 export function get_item(index) {
     return ITEMS[index]
 }
+
+export function get_item_stats(index) {
+  let item = get_item(index)
+  let stats = []
+  if (item.weapon_dice) {
+    stats.push(`${item.weapon_dice}d${item.weapon_dice_sides}`)
+  }
+  if (item.undead_dice) {
+    stats.push(`Undead Dice ${item.undead_dice}d${item.undead_dice_sides}`)
+  }
+  if (item.damage) {
+    stats.push(`Damage +${item.damage}`)
+  }
+  if (item.hit) {
+    stats.push(`Hit +${item.hit}`)
+  }
+  if (item.mr) {
+    stats.push(`Magic Resistance +${item.mr}`)
+  }
+  if (item.ac) {
+    stats.push(`AC +${item.ac}`)
+  }
+  if (item.er) {
+    stats.push(`Evasion +${item.er}`)
+  }
+  if (item.dr) {
+    stats.push(`Damage Reduction +${item.dr}`)
+  }
+  if (item.attack_speed) {
+    stats.push(`Attack Speed ${item.attack_speed > 0 ? "+" : ""}${item.attack_speed}`)
+  }
+  if (item.str) {
+    stats.push(`Strength +${item.str}`)
+  }
+  if (item.dex) {
+    stats.push(`Dexterity +${item.dex}`)
+  }
+  if (item.int) {
+    stats.push(`Intelligence +${item.int}`)
+  }
+  if (item.hp_regen) {
+    stats.push(`Health Regen +${item.hp_regen}`)
+  }
+  if (item.mp_regen) {
+    stats.push(`Mana Regen +${item.mp_regen}`)
+  }
+  return stats;
+}
