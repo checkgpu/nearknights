@@ -35,16 +35,8 @@ export function GameInventory() {
                 <div class="bag-mid-right">
                     <div class="right-bag-body">
                       <div class="bag-body-row">
-                        <div className="bag-body-col">
-                          <div id="bagItem" >
-                            <img id="eImg" src="/assets/ui/e.png" alt="" />
-                            <img class="myBtn" src={`/assets/items/Apple.png`} alt="" />
-                            <p className="bag-item-count">20</p>
-                            <p className="bag-item-levelUp">+3</p>
-                          </div>
-                        </div>
-                        {/* <GameInventoryGrid /> */}
-                        </div>
+                        <GameInventoryGrid />
+                      </div>
                     </div>
                 </div>
             </div>
@@ -88,10 +80,15 @@ export function GameInventoryGrid() {
   for (var i = 0; i < inventory.length; i += 4) {
     let bagItems = inventory.slice(i, i + 4).map(({index, equipped, count})=> {
       let item = get_item(index)
+      if (!item)
+        return
+      let enchant_level = item.enchant_level
       return (
         <div id="bagItem" key={index}>
             <img id="eImg" src="/assets/ui/e.png" style={{display: equipped ? "unset" : "none"}} alt="" />
             <img class="myBtn" src={`/assets/items/${item ? item.texture : "Apple"}.png`} alt="" onClick={(e)=> single_or_double(e, index)} />
+            <p className="bag-item-count">{count}</p>
+            <p className="bag-item-levelUp">{enchant_level > 0 ? `+#{enchant_level}` : ""}</p>
         </div>
     )})
     dom.push(
