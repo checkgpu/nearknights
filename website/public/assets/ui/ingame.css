@@ -258,8 +258,9 @@ top: 15px;
 }
 #eImg{
   position: absolute;
-  width: 20px !important;
+  width: 1.2vw !important;
   display: none;
+  left: 0;
 }
 .bag-item-count{
   position: absolute;
