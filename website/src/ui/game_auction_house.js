@@ -13,6 +13,8 @@ export  function AuctionHouse() {
   const [counter, setCounter] = useState(1);
   const incrementCounter = () => setCounter(counter + 1);
   let decrementCounter = () => setCounter(counter - 1);
+  const [sellItem, setSellItem] = useState(false);
+  const [showCancel, setShowCancel] = useState(false);
 
   const hp_cur = globalState.hero.hp_cur;
   const hp_max = globalState.hero.hp_max;
@@ -189,19 +191,110 @@ export  function AuctionHouse() {
     {/* <!-- -------------  Sell tab start ------------------- --> */}
     <section class="sell-tab" id="Sell" style={{ display: !showTab ? "block" : "none" }} >
       <div class="sell-container">
-        <div class="left-sell">
-          <div class="left-sell-header">
-            <ul >
-              <li>Item</li>
-              <li>Reforge Options(s)</li>
-              <li>Price</li>
-              <li>Status</li>
-            </ul>
-          </div>
-          <div class="left-sell-body">  
-              <img src="assets/ui/balance.png" alt="" />
-              <p>No items are on sale. Select an item to sell from your Bag.</p>
-          </div>
+      <div class="left-sell">
+        {sellItem ? (
+          <>
+            <div class="left-sell-header">
+              <ul >
+                <li>Item</li>
+                <li>Reforge Options(s)</li>
+                <li>Price</li>
+                <li>Status</li>
+              </ul>
+            </div>
+            <div class="left-sell-body">  
+                <img src="assets/ui/balance.png" alt="" />
+                <p>No items are on sale. Select an item to sell from your Bag.</p>
+
+            </div>
+          </>
+          ):(
+            <>
+              <div class="items">
+                <table class="customTable">
+                  <thead>
+                    <tr>
+                      <th colspan="2">Item</th>
+                      <th>Reforge Option(s)</th>
+                      <th>Price</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="td-fav"> <img src="assets/items/Sword_03.png" alt="" /></td>
+                      <td>
+                        <p class="td-title">Elven Bow</p>
+                        <span class="td-detail">Weapon Damage +17 / Accuracy +4 / Extra Damage +2</span>
+                      </td>
+                      <td>-</td>
+                      <td class="table-price">
+                        <div>
+                        <img src="assets/ui/near_icon_wht.png" alt="" /> 
+                        <p>22</p>
+                        </div>
+                        <div><span>0.4 per unit</span></div>
+                      </td>
+                      <td class="merch-list">
+                        <p>Unsold</p>
+                        <button onClick={() => setShowCancel((s) => !s)}>Cancel Sale</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="td-fav"> <img src="assets/items/Enchantment_47_rune_stoune.png" alt="" /></td>
+                      <td>
+                        <p class="td-title">Steel</p>
+                        <span class="td-detail"></span>
+                      </td>
+                      <td className="reforge">-</td>
+                      <td class="table-price">
+                        <div>
+                        <img src="assets/ui/near_icon_wht.png" alt="" /> 
+                        <p>22</p>
+                        </div>
+                        <div>
+                         <span>0.4 per unit</span>
+                        </div>
+                      </td>
+                      <td class="merch-list">
+                        <p>Unsold</p>
+                        <button onClick={() => setShowCancel((s) => !s)}>Cancel Sale</button>
+                       </td>
+                    </tr>
+                
+                  </tbody>
+                </table>
+              </div>
+              {/* <!-- cancel Modal --> */}
+              <div id="cancelModal" class="cancel-modal" style={{ display: showCancel ? "block" : "none" }}>
+                  {/* <!-- Modal content --> */}
+                  <div class="modal-content">
+                    <div class="top-modal-content">
+                      <div>
+                        <p>Cancel Sale</p>
+                      </div>
+                     
+                    </div>
+                    <div class="mid-modal-content">
+                     <div>
+                       <img src="assets/items/Sword_03.png" alt="" />
+                       <p>Elven Bow</p>
+                       <p>Cancel the sale?</p>
+                     </div>
+                    </div>
+                    <div class="bottom-modal-bottom">
+                      <div>
+                      <p>The registration fee will not be refunded</p>
+                      </div>
+                      <div>
+                      <button class="close" onClick={() => setShowCancel((s) => !s)}>Cancel</button>
+                      <button>Confirm</button>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+            </>
+          )}
         </div>
         <div class="right-sell">
           <div id="sellRightMenu" class="right-sell-head">

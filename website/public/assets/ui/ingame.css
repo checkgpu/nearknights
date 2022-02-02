@@ -258,8 +258,9 @@ top: 15px;
 }
 #eImg{
   position: absolute;
-  width: 20px !important;
+  width: 1.4vw !important;
   display: none;
+  left: 0;
 }
 .bag-item-count{
   position: absolute;
@@ -640,7 +641,7 @@ width: 20px !important;
 .mid-item-modal-content{
   display: flex;
   flex-direction: column;
-  height: 75%;
+  height: 70%;
 }
 .mid-item-modal-top{
   flex: 6;

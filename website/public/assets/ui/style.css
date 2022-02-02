@@ -254,12 +254,11 @@ height: 100%;
   height: calc(100vh - 100px);
 }
 table.customTable {
-  background-color: #FFFFFF;
+  /* background-color: #FFFFFF; */
   border-collapse: collapse;
   color: #000000;
   border: none;
   width: 100%;
-  height: 100%;
 }
 
 table.customTable td, table.customTable th {
@@ -291,9 +290,28 @@ table.customTable td img{
 .table-price{
   display: flex;
   align-items: center;
+  height: 17vh;
+  width: 100%;
+  color: whitesmoke;
+}
+.left-sell .table-price{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   height: 100%;
   width: 100%;
   color: whitesmoke;
+}
+.left-sell .table-price div{
+  display: flex;
+  align-items: center;
+}
+.table-price span{
+  font-size: 14px;
+  color: #888686;
+}
+.reforge{
+  width: 10%;
 }
 .table-price img{
   padding: 13px;
@@ -306,8 +324,29 @@ table.customTable td img{
   color: var(--color-gry);
   font-size: 12px;
 }
+.left-sell .table-price{
+  /* height: 18vh; */
+}
 .merch-list{
   text-align: center;
+}
+.left-sell .merch-list button{
+  background: rgb(95,109,122);
+  background: linear-gradient(
+180deg, rgba(95,109,122,1) 41%, rgba(58,68,76,1) 100%);
+  border: none;
+  padding: 0.2rem 0.3rem;
+  color: white;
+  font-size: 14px;
+}
+.merch-list button{
+  background: rgb(95,109,122);
+  background: linear-gradient(
+180deg, rgba(95,109,122,1) 41%, rgba(58,68,76,1) 100%);
+  border: none;
+  padding: 0.2rem 0.4rem;
+  color: white;
+  font-size: 14px;
 }
 .td-fav{
   text-align: center;
@@ -344,6 +383,12 @@ table.customTable td img{
 }
 .left-sell{
   flex: 8;
+}
+.left-sell .items{
+  margin-left: 0;
+}
+.left-sell .table-price img{
+  margin-right: 0;
 }
 .left-sell-header{
   display: flex;
@@ -493,7 +538,47 @@ table.customTable td img{
   color: whitesmoke;
 }
 
-
+.cancel-modal{
+  position: fixed; 
+  z-index: 999; 
+  padding-top: 10%;
+  left: 0;
+  top: 0;
+  width: 100%; 
+  height: 100%; 
+  overflow: auto; 
+  background-color: rgb(0,0,0); 
+  background-color: rgba(0,0,0,0.7); 
+}
+.cancel-modal .modal-content{
+  max-width: 40%;
+  height: fit-content;
+}
+.cancel-modal .mid-modal-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.cancel-modal .mid-modal-content div{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.cancel-modal .mid-modal-content img{
+  width: 10vw;
+}
+.cancel-modal .bottom-modal-bottom{
+  display: flex;
+  flex-direction: column;
+}
+.cancel-modal .bottom-modal-bottom div{
+ margin: 0.2rem 0;
+}
+.cancel-modal .bottom-modal-bottom p{
+  color: crimson;
+  font-size: 1.4vw;
+}
 /* modal inside content */
 .top-modal-content {
   display: flex;
@@ -711,9 +796,9 @@ color: whitesmoke;
 /* Landscape 940 */
 @media only screen and (max-width: 941px) 
 and (orientation: landscape){
-    .red-bar, .blue-bar{
+    /* .red-bar, .blue-bar{
       width: 150px !important;
-    }
+    } */
     .red-bar, .blue-bar p{
       font-size: 12px;
     }
@@ -785,6 +870,26 @@ and (orientation: landscape){
     .bottom-modal-bottom button{
       font-size: 12px;
     }
+     /* left-sell table */
+     .left-sell table.customTable th{
+      font-size: 14px;
+    }
+    .left-sell .table-price p{
+      font-size: 14px;
+    }
+    .left-sell .merch-list p{
+      font-size: 14px;
+    }
+    .left-sell .merch-list button{
+      padding: 0.2rem 0.5rem;
+      font-size: 12px;
+    }
+    .left-sell .table-price img{
+      width: 30px;
+    }
+    .left-sell .table-price span{
+      font-size: 12px;
+    }
 
 }
 /* Landscape 812 */
@@ -817,7 +922,7 @@ and (orientation: landscape){
       font-size: 14px !important;
     }
     table.customTable td img{
-      width: 35px;
+      /* width: 35px; */
     }
     .td-detail{
       font-size: 11px;
@@ -885,9 +990,9 @@ and (orientation: landscape){
 and (orientation: landscape){
     
     /* header */
-    .red-bar, .blue-bar{
+    /* .red-bar, .blue-bar{
       width: 100px !important;
-    }
+    } */
     .red-bar, .blue-bar p{
       font-size: 11px;
     }
@@ -951,7 +1056,7 @@ and (orientation: landscape){
       font-size: 12px !important;
     }
     table.customTable td img{
-      width: 30px;
+      /* width: 30px; */
     }
     .td-detail{
       font-size: 10px;
@@ -991,14 +1096,26 @@ and (orientation: landscape){
     .sell-tab .footer img{
       width: 18px;
     }
-
+    .left-sell .merch-list p{
+      font-size: 12px;
+    }
+    .left-sell .merch-list button{
+      font-size: 10px;
+      padding: 0.2rem ;
+    }
+    .left-sell .table-price span{
+      font-size: 10px;
+    }
+    .left-sell .table-price p{
+      font-size: 10px;
+    }
     
    
 }
 @media only screen and (max-height: 800px){
-  .red-bar, .blue-bar {
+  /* .red-bar, .blue-bar {
     width: 100px !important;
-    }
+    } */
     .mid-head p{
       font-size: 12px;
     }
@@ -1122,6 +1239,9 @@ and (orientation: landscape){
     padding: 3px 12px;
     font-size: 10px;
   }
+  .cancel-modal .modal-content{
+    height: fit-content !important;
+  }
 }
 
 /* landscape width 721  */
@@ -1198,10 +1318,12 @@ and (orientation: landscape){
   margin: 0 0 -5px 0;
 }
 table.customTable td img{
-  width: 25px;
+  /* width: 25px; */
 }
 .table-price img{
   padding: 7.5px;
+  width: 30px !important
+  ;
 }
 }
 /* landscape height 455 */
@@ -1278,7 +1400,7 @@ table.customTable td img{
   margin: 0 0 -5px 0;
 }
 table.customTable td img{
-  width: 25px;
+  /* width: 25px; */
 }
 .table-price img{
   padding: 7.5px;
