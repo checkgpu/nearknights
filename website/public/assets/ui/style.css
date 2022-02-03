@@ -380,6 +380,7 @@ table.customTable td img{
 /* sell tab */
 .sell-container{
   display: flex;
+  height: 100vh;
 }
 .left-sell{
   flex: 8;
