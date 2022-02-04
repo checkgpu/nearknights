@@ -192,12 +192,12 @@ export  function AuctionHouse() {
     <section class="sell-tab" id="Sell" style={{ display: !showTab ? "block" : "none" }} >
       <div class="sell-container">
       <div class="left-sell">
-        {sellItem ? (
+        {globalState.auction.active.length == 0 ? (
           <>
             <div class="left-sell-header">
               <ul >
                 <li>Item</li>
-                <li>Reforge Options(s)</li>
+                <li>Options(s)</li>
                 <li>Price</li>
                 <li>Status</li>
               </ul>
@@ -214,53 +214,14 @@ export  function AuctionHouse() {
                 <table class="customTable">
                   <thead>
                     <tr>
-                      <th colspan="2">Item</th>
-                      <th>Reforge Option(s)</th>
+                      <th colSpan={2}>Item</th>
+                      <th>Option(s)</th>
                       <th>Price</th>
                       <th>Status</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td class="td-fav"> <img src="assets/items/Sword_03.png" alt="" /></td>
-                      <td>
-                        <p class="td-title">Elven Bow</p>
-                        <span class="td-detail">Weapon Damage +17 / Accuracy +4 / Extra Damage +2</span>
-                      </td>
-                      <td>-</td>
-                      <td class="table-price">
-                        <div>
-                        <img src="assets/ui/near_icon_wht.png" alt="" /> 
-                        <p>22</p>
-                        </div>
-                        <div><span>0.4 per unit</span></div>
-                      </td>
-                      <td class="merch-list">
-                        <p>Unsold</p>
-                        <button onClick={() => setShowCancel((s) => !s)}>Cancel Sale</button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td class="td-fav"> <img src="assets/items/Enchantment_47_rune_stoune.png" alt="" /></td>
-                      <td>
-                        <p class="td-title">Steel</p>
-                        <span class="td-detail"></span>
-                      </td>
-                      <td className="reforge">-</td>
-                      <td class="table-price">
-                        <div>
-                        <img src="assets/ui/near_icon_wht.png" alt="" /> 
-                        <p>22</p>
-                        </div>
-                        <div>
-                         <span>0.4 per unit</span>
-                        </div>
-                      </td>
-                      <td class="merch-list">
-                        <p>Unsold</p>
-                        <button onClick={() => setShowCancel((s) => !s)}>Cancel Sale</button>
-                       </td>
-                    </tr>
+                    <ForSaleGrid />
                 
                   </tbody>
                 </table>
@@ -331,6 +292,33 @@ export  function AuctionHouse() {
 
     </div>
   );
+}
+
+function ForSaleGrid() {
+  return globalState.auction.active.map(e=> {
+    const item = get_item(e.index)
+    const price = window.nearApi.utils.format.formatNearAmount(e.price, 2)
+    const detail = get_item_stats(e.index).join(" / ")
+    return (
+      <tr key={e.sale_id}>
+        <td><img src={`/assets/items/${item ? item.texture : "Apple"}.png`} alt="" /></td>
+        <td>
+          <p class="td-title">{item.name}</p>
+          <span class="td-detail">{detail}</span>
+        </td>
+        <td>-</td>
+        <td class="table-price">
+          <img src="assets/ui/near_icon_wht.png" alt="" />
+          <p>{price}</p>
+          {/*<div><span>0.4 per unit</span></div>*/}
+        </td>
+        <td class="merch-list">
+          {/*<p>Unsold</p>*/}
+          <button onClick={()=> nft_market_cancel(e.sale_id)}>Cancel</button>
+        </td>
+      </tr>
+    )
+  })
 }
 
 function SellItemModal() {
@@ -469,7 +457,10 @@ function SellItemModal() {
         </div>
         <div class="bottom-modal-bottom">
           <button class="close" onClick={()=> setGlobalState({ui: {auction_item_model_index: null}})}>Cancel</button>
-          <button onClick={()=> nft_market_sell(auction_item_model_index, window.nearApi.utils.format.parseNearAmount(price.toString()), quantity)}>Confirm</button>
+          <button onClick={async ()=> {
+            await nft_market_sell(auction_item_model_index, window.nearApi.utils.format.parseNearAmount(price.toString()), quantity)
+            setGlobalState({ui: {auction_item_model_index: null}})
+          }}>Confirm</button>
         </div>
       </div>
   </div>

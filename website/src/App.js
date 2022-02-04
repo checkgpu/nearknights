@@ -125,11 +125,6 @@ export default function App() {
 
   var mob = s.mob;
 
-//  return([
-   
-//      <AuctionHouse />
-//    ])
-
   if (globalState.scene == "mainmenu" ) {
     return([
       <video key="video" src="/assets/nk_intro_low.mp4" muted={true} autoPlay={true} playsInline={true} onClick={e=> e.target.muted=false} style={{objectFit: "fill", width: "100%", height: "100vh"}} />,
@@ -139,88 +134,92 @@ export default function App() {
     ])
   }
 
+//  return([
+//      <GameOverlay />
+//    ])
+
   return ([
     <GameOverlay />,
-    // <Game width={3072} height={3072}>
-    //   <Scene 
-    //     sceneKey="main"
-    //     onPreload={scene => {
-    //       window.scene = scene;
-    //       window.FloatingNumbersPlugin = new FloatingNumbersPlugin(scene)
-    //       scene.load.image('worldmap', '/assets/nc/map_hi_iso.png')
-    //       scene.load.image('worldmap_village', '/assets/nc/Com_Icn_Map_VillageOn.png')
-    //       scene.load.image('worldmap_field', '/assets/nc/Com_Icn_Map_FieldOn.png')
-    //       scene.load.image('worldmap_field_off', '/assets/nc/Com_Icn_Map_FieldOff.png')
-    //       scene.load.image('worldmap_question', '/assets/qmark2.png')
+     <Game width={3072} height={3072}>
+       <Scene 
+         sceneKey="main"
+         onPreload={scene => {
+           window.scene = scene;
+           window.FloatingNumbersPlugin = new FloatingNumbersPlugin(scene)
+           scene.load.image('worldmap', '/assets/nc/map_hi_iso.png')
+           scene.load.image('worldmap_village', '/assets/nc/Com_Icn_Map_VillageOn.png')
+           scene.load.image('worldmap_field', '/assets/nc/Com_Icn_Map_FieldOn.png')
+           scene.load.image('worldmap_field_off', '/assets/nc/Com_Icn_Map_FieldOff.png')
+           scene.load.image('worldmap_question', '/assets/qmark2.png')
 
-    //       scene.load.image('Elf_Knight_Sword', '/assets/battler/side/Elf_Knight_Sword.png')
-    //       scene.load.image('Goblin Grunt', '/assets/battler/front/Goblin Grunt.png')
-    //       scene.load.image('Goblin Raider', '/assets/battler/front/Goblin Raider.png')
-    //       scene.load.image('Goblin Archer', '/assets/battler/front/Goblin Archer.png')
-    //       scene.load.image('Kobolds Spear Kobold', '/assets/battler/front/Kobolds Spear Kobold.png')
-    //       scene.load.image('Goblin Elite', '/assets/battler/front/Goblin Elite.png')
-    //       scene.load.image('Goblin Mage', '/assets/battler/front/Goblin Mage.png')
+           scene.load.image('Elf_Knight_Sword', '/assets/battler/side/Elf_Knight_Sword.png')
+           scene.load.image('Goblin Grunt', '/assets/battler/front/Goblin Grunt.png')
+           scene.load.image('Goblin Raider', '/assets/battler/front/Goblin Raider.png')
+           scene.load.image('Goblin Archer', '/assets/battler/front/Goblin Archer.png')
+           scene.load.image('Kobolds Spear Kobold', '/assets/battler/front/Kobolds Spear Kobold.png')
+           scene.load.image('Goblin Elite', '/assets/battler/front/Goblin Elite.png')
+           scene.load.image('Goblin Mage', '/assets/battler/front/Goblin Mage.png')
 
-    //       scene.load.image('Orc Sword Warrior', '/assets/battler/front/Orc Sword Warrior.png')
-    //       scene.load.image('Orc Axe Warrior', '/assets/battler/front/Orc Axe Warrior.png')
-    //       scene.load.image('Orc Archer', '/assets/battler/front/Orc Archer.png')
-    //       scene.load.image('Orc Warlock', '/assets/battler/front/Orc Warlock.png')
+           scene.load.image('Orc Sword Warrior', '/assets/battler/front/Orc Sword Warrior.png')
+           scene.load.image('Orc Axe Warrior', '/assets/battler/front/Orc Axe Warrior.png')
+           scene.load.image('Orc Archer', '/assets/battler/front/Orc Archer.png')
+           scene.load.image('Orc Warlock', '/assets/battler/front/Orc Warlock.png')
 
-    //       scene.load.image('Weretiger Maxima', '/assets/battler/front/Weretiger Maxima.png')
-    //       scene.load.image('Werewolf Rigel', '/assets/battler/front/Werewolf Rigel.png')
-    //       scene.load.image('Undead Walker', '/assets/battler/front/Undead Walker.png')
+           scene.load.image('Weretiger Maxima', '/assets/battler/front/Weretiger Maxima.png')
+           scene.load.image('Werewolf Rigel', '/assets/battler/front/Werewolf Rigel.png')
+           scene.load.image('Undead Walker', '/assets/battler/front/Undead Walker.png')
 
-    //       scene.load.image('Undead Wolf', '/assets/battler/front/Undead Wolf.png')
-    //       scene.load.image('Undead Jiangshi', '/assets/battler/front/Undead Jiangshi.png')
-    //       scene.load.image('Undead Gigaraven', '/assets/battler/front/Undead Gigaraven.png')
-    //       scene.load.image('Undead Claw Knight', '/assets/battler/front/Undead Claw Knight.png')
-    //       scene.load.image('Undead Benkei', '/assets/battler/front/Undead Benkei.png')
-    //       scene.load.image('Undead Skull Tree', '/assets/battler/front/Undead Skull Tree.png')
+           scene.load.image('Undead Wolf', '/assets/battler/front/Undead Wolf.png')
+           scene.load.image('Undead Jiangshi', '/assets/battler/front/Undead Jiangshi.png')
+           scene.load.image('Undead Gigaraven', '/assets/battler/front/Undead Gigaraven.png')
+           scene.load.image('Undead Claw Knight', '/assets/battler/front/Undead Claw Knight.png')
+           scene.load.image('Undead Benkei', '/assets/battler/front/Undead Benkei.png')
+           scene.load.image('Undead Skull Tree', '/assets/battler/front/Undead Skull Tree.png')
 
-    //       scene.load.image('Boss Continental Turtle Rukkha', '/assets/battler/front/Boss Continental Turtle Rukkha.png')
+           scene.load.image('Boss Continental Turtle Rukkha', '/assets/battler/front/Boss Continental Turtle Rukkha.png')
 
-    //       load_items(scene)
-    //     }}
+           load_items(scene)
+         }}
 
-    //     renderLoading={progress => (
-    //       <Text
-    //         x={100}
-    //         y={100}
-    //         text={`Loading NEAR Knights.. ${progress}%`}
-    //         style={{ color: 'white' }}
-    //       />
-    //     )}
-    //     onWheel={e => console.log(e)}
-    //   >
+         renderLoading={progress => (
+           <Text
+             x={100}
+             y={100}
+             text={`Loading NEAR Knights.. ${progress}%`}
+             style={{ color: 'white' }}
+           />
+         )}
+         onWheel={e => console.log(e)}
+       >
 
-    //     <Sprite texture="worldmap" x={1280} y={720} />
+         <Sprite texture="worldmap" x={1280} y={720} />
 
-    //     <Sprite texture="Elf_Knight_Sword" scale={{x: 0.48, y: 0.48}} x={kx} y={ky} />
-    //     {mob ? <MonsterSprite id={mob.id} scale={{x: 0.48, y: 0.48}} x={kx} y={ky} /> : null}
+         <Sprite texture="Elf_Knight_Sword" scale={{x: 0.48, y: 0.48}} x={kx} y={ky} />
+         {mob ? <MonsterSprite id={mob.id} scale={{x: 0.48, y: 0.48}} x={kx} y={ky} /> : null}
 
-    //     <ClickableSprite onClick={()=> move_knight(0, setKnightPoint)} texture="worldmap_village" scale={{x: 0.8, y: 0.8}} x={1220} y={790} />
+         <ClickableSprite onClick={()=> move_knight(0, setKnightPoint)} texture="worldmap_village" scale={{x: 0.8, y: 0.8}} x={1220} y={790} />
 
-    //     <ClickableSprite onClick={()=> move_knight(1, setKnightPoint)} texture="worldmap_field" scale={{x: 0.8, y: 0.8}} x={1020} y={780} />
-    //     <Text text="Goblin Forest" x={960} y={820} />
+         <ClickableSprite onClick={()=> move_knight(1, setKnightPoint)} texture="worldmap_field" scale={{x: 0.8, y: 0.8}} x={1020} y={780} />
+         <Text text="Goblin Forest" x={960} y={820} />
 
-    //     <ClickableSprite onClick={()=> move_knight(2, setKnightPoint)} texture="worldmap_field" scale={{x: 0.8, y: 0.8}} x={920} y={930} />
-    //     <Text text="Orc Beach" x={880} y={960} />
+         <ClickableSprite onClick={()=> move_knight(2, setKnightPoint)} texture="worldmap_field" scale={{x: 0.8, y: 0.8}} x={920} y={930} />
+         <Text text="Orc Beach" x={880} y={960} />
 
-    //     <ClickableSprite onClick={()=> move_knight(3, setKnightPoint)} texture="worldmap_field" scale={{x: 0.8, y: 0.8}} x={820} y={730} />
-    //     <Text text="Goblin Waterworks" x={750} y={760} />
+         <ClickableSprite onClick={()=> move_knight(3, setKnightPoint)} texture="worldmap_field" scale={{x: 0.8, y: 0.8}} x={820} y={730} />
+         <Text text="Goblin Waterworks" x={750} y={760} />
 
-    //     <ClickableSprite onClick={()=> move_knight(4, setKnightPoint)} texture="worldmap_field" scale={{x: 0.8, y: 0.8}} x={1400} y={1080} />
-    //     <Text text="Corrupt Woodland" x={1330} y={1110} />
+         <ClickableSprite onClick={()=> move_knight(4, setKnightPoint)} texture="worldmap_field" scale={{x: 0.8, y: 0.8}} x={1400} y={1080} />
+         <Text text="Corrupt Woodland" x={1330} y={1110} />
 
-    //     <ClickableSprite onClick={()=> move_knight(10, setKnightPoint)} texture="worldmap_field" scale={{x: 0.8, y: 0.8}} x={2780} y={1440} />
-    //     <Text text="Shutter Island" x={2740} y={1470} />
+         <ClickableSprite onClick={()=> move_knight(10, setKnightPoint)} texture="worldmap_field" scale={{x: 0.8, y: 0.8}} x={2780} y={1440} />
+         <Text text="Shutter Island" x={2740} y={1470} />
 
 
-    //     <Sprite texture="worldmap_question" scale={{x: 0.12, y: 0.12}} x={880} y={1260} />
-    //     {/*<Sprite texture="worldmap_field_off" scale={{x: 0.8, y: 0.8}} x={880} y={1260} />
-    //     <Text text="Orc Fort" x={840} y={1290} />*/}
-    //   </Scene>
-    // </Game>
+         <Sprite texture="worldmap_question" scale={{x: 0.12, y: 0.12}} x={880} y={1260} />
+         {/*<Sprite texture="worldmap_field_off" scale={{x: 0.8, y: 0.8}} x={880} y={1260} />
+         <Text text="Orc Fort" x={840} y={1290} />*/}
+       </Scene>
+     </Game>
   ]);
 }
 

@@ -15,7 +15,7 @@ const ONE_NEAR = "1000000000000000000000000";
 
 var NEAR_URL = "https://rpc.mainnet.near.org"
 var CONTRACT_NAME = "nearknights.near"
-const TESTNET = true;
+const TESTNET = false;
 if (TESTNET) {
   NEAR_URL = "https://rpc.testnet.near.org"
   //NEAR_URL = "https://validator-testnet.zod.tv:3030"
