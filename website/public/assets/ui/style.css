@@ -290,7 +290,6 @@ table.customTable td img{
 .table-price{
   display: flex;
   align-items: center;
-  height: 17vh;
   width: 100%;
   color: whitesmoke;
 }
@@ -1323,8 +1322,8 @@ table.customTable td img{
 }
 .table-price img{
   padding: 7.5px;
-  width: 30px !important
-  ;
+  width: 30px !important;
+  margin: 1rem;
 }
 }
 /* landscape height 455 */
