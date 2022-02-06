@@ -12,21 +12,23 @@ export async function create_knight() {
 }
 
 export function MainMenu() {
+
+
   let button = (
-    <div class="ingame-footer-square-bg" style={{width: "100%"}}>
-      <button className="near-button" onClick={()=> skip_intro()}>Skip Intro</button>
-    </div>
+       <div style={{width: "100%", marginInline:"10px"}}>
+        <button className="near-button" onClick={()=> skip_intro()}>Skip Intro</button>
+      </div>
   )
   if (!globalState.accountId) {
     button = (
-      <div class="ingame-footer-square-bg" style={{width: "100%"}}>
+      <div style={{width: "100%", marginInline:"10px"}}>
         <button className="near-button" onClick={()=> near_login()}>Login with NEAR</button>
       </div>
     )
   }
   if (!!globalState.accountId && (globalState.hero.account == "" || !globalState.hero.account)) {
     button = (
-      <div class="ingame-footer-square-bg" style={{width: "100%"}}>
+      <div style={{width: "100%", marginInline:"10px"}}>
         <button className="near-button" onClick={()=> create_knight()}>Create Your Knight</button>
       </div>
     )
@@ -36,16 +38,6 @@ export function MainMenu() {
     <div id="overlay">
       <section class="ingame-footer" style={{bottom: "10%"}}>
         <div class="ingame-footer-div">
-        {/* loading start*/}
-        <div className="loading-menu">
-          <div class="lds-ring">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-          </div>
-        </div>
-        {/* loading end */}
           <div class="left-ingame-footer" style={{visibility: "hidden"}}>
             <div>
               <p>{0}</p>
