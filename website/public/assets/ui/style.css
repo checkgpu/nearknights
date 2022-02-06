@@ -39,6 +39,53 @@ img{
   max-width: 100%;
   height: auto;
 }
+button{
+  outline: none !important;
+}
+/* loading */
+.ingame-footer-div{
+  position: relative;
+}
+.loading-menu{
+  position: absolute;
+  right: 0;
+}
+.lds-ring {
+  /* display: inline-block; */
+  position: relative;
+  width: 80px;
+  height: 80px;
+  float: right;
+}
+.lds-ring div {
+  box-sizing: border-box;
+  display: block;
+  position: absolute;
+  width: 48px;
+  height: 48px;
+  margin: 8px;
+  border: 8px solid #fff;
+  border-radius: 50%;
+  animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  border-color: #fff transparent transparent transparent;
+}
+.lds-ring div:nth-child(1) {
+  animation-delay: -0.45s;
+}
+.lds-ring div:nth-child(2) {
+  animation-delay: -0.3s;
+}
+.lds-ring div:nth-child(3) {
+  animation-delay: -0.15s;
+}
+@keyframes lds-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
 /*-------- header ------------*/
 .header{
   background: var(--header-bg);
@@ -791,6 +838,23 @@ color: whitesmoke;
 180deg, rgba(212,104,9,1) 41%, rgba(207,93,7,1) 100%);
   color: whitesmoke;
 }
+/* login screen button style */
+.near-button{
+     border-radius: 9999px;
+    border: none;
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    line-height: 1.5;
+    text-align: center;
+    text-decoration: none;
+    overflow-wrap: break-word;
+    box-sizing: border-box;
+    color: #fff;
+    background-color: #32373c;
+    cursor: pointer;
+    outline: none;
+}
+
 /* ------media query--------- */
 
 /* Landscape 940 */
@@ -1109,7 +1173,10 @@ and (orientation: landscape){
     .left-sell .table-price p{
       font-size: 10px;
     }
-    
+    .lds-ring div {
+      height: 32px;
+      width: 32px;
+    }
    
 }
 @media only screen and (max-height: 800px){
