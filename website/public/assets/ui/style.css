@@ -814,7 +814,9 @@ color: whitesmoke;
     cursor: pointer;
     outline: none;
 }
-
+.disable{
+  cursor: not-allowed;
+}
 /* ------media query--------- */
 
 /* Landscape 940 */

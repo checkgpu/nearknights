@@ -14,6 +14,7 @@ export async function create_knight() {
 export function MainMenu() {
 
 
+
   let button = (
        <div style={{width: "100%", marginInline:"10px"}}>
         <button className="near-button" onClick={()=> skip_intro()}>Skip Intro</button>
@@ -23,6 +24,9 @@ export function MainMenu() {
     button = (
       <div style={{width: "100%", marginInline:"10px"}}>
         <button className="near-button" onClick={()=> near_login()}>Login with NEAR</button>
+        <button class="near-button disable" disabled >
+          <i class="fa fa-spinner fa-spin"></i> Loading
+        </button>
       </div>
     )
   }
