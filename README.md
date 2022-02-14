@@ -1,5 +1,7 @@
 # NEAR Knights
 
+![image](https://user-images.githubusercontent.com/3028982/153926541-c8a9df50-b145-464f-879d-68f6ad8f9973.png)
+
 A NEAR Progressive Battler RPG with NFTs.  
   
 https://nearknights.com/
