@@ -146,6 +146,7 @@ export default function App() {
            window.scene = scene;
            window.FloatingNumbersPlugin = new FloatingNumbersPlugin(scene)
            scene.load.image('worldmap', '/assets/nc/map_hi_iso.png')
+
            scene.load.image('worldmap_village', '/assets/nc/Com_Icn_Map_VillageOn.png')
            scene.load.image('worldmap_field', '/assets/nc/Com_Icn_Map_FieldOn.png')
            scene.load.image('worldmap_field_off', '/assets/nc/Com_Icn_Map_FieldOff.png')
