@@ -178,7 +178,7 @@ export function GameOverlay() {
             <p class="circle-text" style={{cursor: "default"}} onClick={e=> setGlobalState({autohunt: !autohunt})}>AUTO HUNT</p>
             {/*<img class="hand" src="/assets/ui/hand.png" alt=""/>*/}
           </div>
-          <div class="move-control">
+          <div class="move-control" style={{visibility: globalState.load.fight ? "hidden" : "initial"}}>
             <img class="hexa" src="/assets/ui/hexagram.png" onClick={e=> api_fight()} alt=""/>
           </div>
         </div>

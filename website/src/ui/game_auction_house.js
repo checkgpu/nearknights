@@ -314,7 +314,17 @@ function ForSaleGrid() {
         </td>
         <td class="merch-list">
           {/*<p>Unsold</p>*/}
-          <button onClick={()=> nft_market_cancel(e.sale_id)}>Cancel</button>
+          {globalState.load.cancel[e.sale_id] ? 
+              <div className="loading"></div>
+            : <button onClick={async ()=> {
+              var obj = {load: {cancel: {}}}
+              obj["load"]["cancel"][e.sale_id] = true
+              setGlobalState(obj)
+              await nft_market_cancel(e.sale_id)
+              obj["load"]["cancel"][e.sale_id] = false
+              setGlobalState(obj)
+            }}>Cancel</button>
+          }
         </td>
       </tr>
     )
@@ -457,10 +467,15 @@ function SellItemModal() {
         </div>
         <div class="bottom-modal-bottom">
           <button class="close" onClick={()=> setGlobalState({ui: {auction_item_model_index: null}})}>Cancel</button>
-          <button onClick={async ()=> {
-            await nft_market_sell(auction_item_model_index, window.nearApi.utils.format.parseNearAmount(price.toString()), quantity)
-            setGlobalState({ui: {auction_item_model_index: null}})
-          }}>Confirm</button>
+          {globalState.load.sell ? 
+             <div className="loading"></div>
+            :
+              <button onClick={async ()=> {
+                setGlobalState({load: {sell: true}})
+                await nft_market_sell(auction_item_model_index, window.nearApi.utils.format.parseNearAmount(price.toString()), quantity)
+                setGlobalState({load: {sell: false}, ui: {auction_item_model_index: null}})
+              }}>Confirm</button>
+          }
         </div>
       </div>
   </div>
@@ -516,7 +531,18 @@ function AuctionListed() {
           <p>{price}</p>
         </td>
         <td class="merch-list">
-          {BigInt(globalState.balance) >= BigInt(e.price) ? <button onClick={()=> nft_market_buy(e.sale_id, e.price)}>Buy</button> : null}
+          {BigInt(globalState.balance) >= BigInt(e.price) ? 
+            (globalState.load.buy ? 
+               <div className="loading"></div>
+              :
+                <button onClick={async ()=> {
+                  setGlobalState({load: {buy: true}})
+                  await nft_market_buy(e.sale_id, e.price)
+                  setGlobalState({load: {buy: false}})
+                }}>Buy</button>
+            )
+            : null
+          }
         </td>
       </tr>
     )

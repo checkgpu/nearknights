@@ -69,11 +69,13 @@ export async function api_fight() {
     if (window.infight || location == 0)
         return
     window.infight = true;
+    setGlobalState({load: {fight: true}})
     var steps = await nk_battle(location, count)
     var ts_m = Date.now()
     steps = steps.map(step=> {return {...step, tick: step.tick + ts_m}})
     await fight_stepper(steps);
     window.infight = false;
+    setGlobalState({load: {fight: false}})
 }
 
 export async function api_fight_simulator() {
@@ -141,8 +143,7 @@ async function fight_step(step) {
             if (window.health_bar)
                 window.health_bar.remove()
             window.health_bar = null;
-            move_knight(0, window.setKnightPoint, true)
-            setGlobalState({mob: null, hero: hero, autohunt: false})
+            setGlobalState({mob: null, hero: hero})
             return;
         case "update_stat":
             setGlobalState({stat: step.stat})

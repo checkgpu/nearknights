@@ -29,6 +29,12 @@ export var initialState = {
       balance: "0",
       orders: [],
     },
+    load: {
+        cancel: {},
+        fight: false,
+        sell: false,
+        buy: false,
+    },
     hero: {
     },
     scene: "mainmenu",
